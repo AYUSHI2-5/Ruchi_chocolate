@@ -87,7 +87,7 @@ class ContactPageTest extends TestCase
         $response->assertSee('rc-faq-bottom-decor');
 
         // Floating WhatsApp Button
-        $response->assertSee('rc-whatsapp-float');
+        $response->assertDontSee('rc-whatsapp-float');
     }
 
     /**

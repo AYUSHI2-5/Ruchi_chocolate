@@ -23,7 +23,7 @@ class ResponsiveLayoutTest extends TestCase
         $response->assertSee('class="rc-slide-inner"', false);
         $response->assertSee('class="rc-features-container"', false);
         $response->assertSee('class="category-circles__container"', false);
-        $response->assertSee('class="rc-whatsapp-float"', false);
+        $response->assertDontSee('class="rc-whatsapp-float"', false);
     }
 
     /**

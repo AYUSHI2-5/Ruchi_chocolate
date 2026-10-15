@@ -109,10 +109,6 @@ class NewArrivalsController extends Controller
             }
         }
 
-        if ($comingSoonFestivalSlug !== null) {
-            $products = [];
-        }
-
         if (! empty($selectedOccasionsLower) && $comingSoonFestivalSlug === null) {
             $products = array_values(array_filter($products, function ($item) use ($selectedOccasionsLower) {
                 if (in_array('occasions', $selectedOccasionsLower)) {
@@ -139,12 +135,14 @@ class NewArrivalsController extends Controller
             }));
         }
 
-        // Active subcategory resolution
-        $activeSubcategory = null;
         if ($comingSoonFestivalSlug !== null) {
-            $activeSubcategory = $comingSoonFestivalSlug;
-        } elseif ($selectedCategory) {
-            $activeSubcategory = strtolower($selectedCategory);
+            $products = [];
+        }
+
+        $categoryFilterSlug = is_string($selectedCategory) ? strtolower(trim($selectedCategory)) : '';
+        $activeSubcategory = null;
+        if ($categoryFilterSlug !== '') {
+            $activeSubcategory = $categoryFilterSlug;
         } elseif (! empty($selectedOccasionsLower)) {
             $activeSubcategory = $selectedOccasionsLower[0];
         }

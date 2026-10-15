@@ -750,14 +750,14 @@ class AiAssistantService
             default => 'Explain what type of chocolate or hampers you want. Submit your description in the box on this page or here in chat, then tap Send on WhatsApp and I will open WhatsApp with your message ready to send.',
         };
 
-        return [
+            return [
             'message' => $message,
             'speech_text' => $speechText,
             'avatar_gesture' => 'pointing',
             'section_target' => $this->customisedGiftsFormSectionTarget(),
-            'action' => 'whatsapp',
+                'action' => 'whatsapp',
             'action_url' => $this->customisedGiftWhatsAppUrl(''),
-            'action_label' => 'Enquire on WhatsApp',
+                'action_label' => 'Enquire on WhatsApp',
             'quick_replies' => ['Browse Products 🍫', 'Contact Us 📞'],
         ];
     }
@@ -774,7 +774,7 @@ class AiAssistantService
                 ."I've added your description to the **Share Your Customisation Details** box.\n\n"
                 .'Tap **Send on WhatsApp** below — your enquiry will open in WhatsApp so you can send it directly to our team.',
             'speech_text' => 'I have added your description to the customisation box. Tap Send on WhatsApp to send it directly to our team.',
-            'avatar_gesture' => 'pointing',
+                'avatar_gesture' => 'pointing',
             'section_target' => $this->customisedGiftsFormSectionTarget(),
             'action' => 'prefill_customisation_form',
             'action_url' => $this->customisedGiftWhatsAppUrl($details),
@@ -947,7 +947,7 @@ class AiAssistantService
      */
     protected function normalizeContactFormFields(array $rawFields): array
     {
-        return [
+            return [
             'name' => trim((string) ($rawFields['name'] ?? '')),
             'email' => trim((string) ($rawFields['email'] ?? '')),
             'phone' => trim((string) ($rawFields['phone'] ?? '')),
@@ -1128,7 +1128,7 @@ class AiAssistantService
                 ."• **Message:** {$clientFields['message']}\n\n"
                 .'Please review the form on this page and tap **Send Message** when you are ready.',
             'speech_text' => 'I have filled in the contact form with your details. Please review it and tap Send Message when you are ready.',
-            'avatar_gesture' => 'pointing',
+                    'avatar_gesture' => 'pointing',
             'section_target' => $this->contactFormSectionTarget(),
             'action' => 'prefill_contact_form',
             'contact_form' => [

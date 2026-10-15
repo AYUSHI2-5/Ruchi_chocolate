@@ -181,7 +181,7 @@
                             @else
                                 {{-- Gifting: Simple Clickable Category Row (No Dropdown Arrow, No Dropdown List) --}}
                                 @php
-                                    $isGiftingActive = ($activeSubcategory === $sec['slug'] || $selectedCategory === $sec['slug']);
+                                    $isGiftingActive = $activeSubcategory === $sec['slug'];
                                     $giftingUrl = $isGiftingActive
                                         ? route('new-arrivals', array_merge(request()->except(['category', 'occasion']), ['page' => 1]))
                                         : route('new-arrivals', array_merge(request()->except(['category', 'occasion']), ['category' => $sec['slug'], 'page' => 1]));
@@ -240,7 +240,7 @@
                 <!-- Product Toolbar: Count + Sort Dropdown + Grid/List Controls -->
                 <div class="na-toolbar">
                     <div class="na-toolbar__count">
-                        <strong id="naToolbarCountNumber">{{ $totalItemsCount ?? 34 }}</strong> Items
+                        <strong id="naToolbarCountNumber">{{ $filteredCount ?? $totalItemsCount ?? 34 }}</strong> Items
                     </div>
                     <div class="na-toolbar__controls">
                         <div class="na-sort-wrap">

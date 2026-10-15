@@ -69,7 +69,7 @@ class NewArrivalsPageTest extends TestCase
         $response = $this->get('/new-arrivals');
 
         $response->assertStatus(200);
-        $response->assertSee('34', false);
+        $response->assertSee('47', false);
         $response->assertSee('Items', false);
         $response->assertSee('Sort by:', false);
         $response->assertSee('Featured', false);
@@ -126,6 +126,18 @@ class NewArrivalsPageTest extends TestCase
         $responsePage4->assertSee('na-page-link--next na-page-link--disabled', false);
     }
 
+    public function test_products_page_has_no_category_selected_by_default(): void
+    {
+        $response = $this->get('/new-arrivals');
+
+        $response->assertStatus(200);
+        $response->assertSee('P001 Small Heart Tin Box', false);
+        $response->assertDontSee('Diwali collection — Coming Soon', false);
+        $response->assertDontSee('na-subcategory-link active', false);
+        $response->assertDontSee('na-category-direct-link active', false);
+        $response->assertDontSee('id="naClearFiltersBtn"', false);
+    }
+
     public function test_category_filter_works(): void
     {
         $response = $this->get('/new-arrivals?category=gift-hampers');
@@ -164,11 +176,41 @@ class NewArrivalsPageTest extends TestCase
 
     public function test_subcategory_filtering_works_accurately(): void
     {
-        // Festivals - Diwali
+        // Festivals - Diwali (shows products tagged for Diwali)
         $responseDiwali = $this->get('/new-arrivals?category=diwali');
         $responseDiwali->assertStatus(200);
-        $responseDiwali->assertSee('P003 Rectangle Tin Box', false);
-        $responseDiwali->assertSee('P005 Big Square Tin Box', false);
+        $responseDiwali->assertDontSee('Diwali collection — Coming Soon', false);
+        $responseDiwali->assertSee('na-subcategory-link active', false);
+        $responseDiwali->assertSee('data-subcategory="diwali"', false);
+        $responseDiwali->assertSee('Golden Metal Box', false);
+        $responseDiwali->assertSee('12 Cavity Paper Box', false);
+        $responseDiwali->assertSee('Black Leather Box', false);
+        $responseDiwali->assertSee('Jute Bag with 3 Jar', false);
+        $responseDiwali->assertSee('4+2 Cavity Paper Box', false);
+        $responseDiwali->assertSee('Jute Bag with 2 Jar', false);
+        $responseDiwali->assertSee('24 Cavity Paper Box', false);
+        $responseDiwali->assertSee('24 Cavity Wooden Box', false);
+        $responseDiwali->assertSee('12 Cavity Wooden Box', false);
+        $responseDiwali->assertSee('Chocolate Chhab', false);
+        $responseDiwali->assertSee('15 Cavity Box', false);
+        $responseDiwali->assertSee('12 Cavity Paper Box — Kunafa', false);
+        $responseDiwali->assertSee('Polka Bag', false);
+        $responseDiwali->assertSee('₹255.00', false);
+        $responseDiwali->assertSee('₹390.00', false);
+        $responseDiwali->assertSee('₹140.00', false);
+        $responseDiwali->assertSee('₹540.00', false);
+        $responseDiwali->assertSee('₹315.00', false);
+        $responseDiwali->assertSee('₹1,500.00', false);
+        $responseDiwali->assertSee('₹770.00', false);
+        $responseDiwali->assertSee('₹215.00', false);
+        $responseDiwali->assertSee('₹325.00', false);
+        $responseDiwali->assertSee('₹345.00', false);
+        $responseDiwali->assertSee('₹680.00', false);
+        $responseDiwali->assertSee('₹1,090.00', false);
+        $responseDiwali->assertDontSee('images/custom-gifts/', false);
+        $responseDiwali->assertDontSee('Photo Chocolate Cake', false);
+        $responseDiwali->assertDontSee('P001 Small Heart Tin Box', false);
+        $responseDiwali->assertSee('<strong id="naToolbarCountNumber">13</strong> Items', false);
 
         // Festivals - Uttarayan (coming soon)
         $responseUttarayan = $this->get('/new-arrivals?category=uttarayan');
@@ -180,6 +222,7 @@ class NewArrivalsPageTest extends TestCase
         $responseHoli = $this->get('/new-arrivals?category=holi');
         $responseHoli->assertStatus(200);
         $responseHoli->assertSee('Holi collection — Coming Soon', false);
+        $responseHoli->assertDontSee('P001 Small Heart Tin Box', false);
 
         // Occasions - Ring Ceremony
         $responseRing = $this->get('/new-arrivals?category=ring-ceremony');
@@ -215,11 +258,15 @@ class NewArrivalsPageTest extends TestCase
         $responseWedding->assertSee('P002 Big Heart Tin Box', false);
         $responseWedding->assertSee('P005 Big Square Tin Box', false);
 
-        // Diwali filter
+        // Diwali occasion filter
         $responseDiwali = $this->get('/new-arrivals?occasion=diwali');
         $responseDiwali->assertStatus(200);
-        $responseDiwali->assertSee('P003 Rectangle Tin Box', false);
-        $responseDiwali->assertSee('P005 Big Square Tin Box', false);
+        $responseDiwali->assertDontSee('Diwali collection — Coming Soon', false);
+        $responseDiwali->assertSee('Golden Metal Box', false);
+        $responseDiwali->assertSee('₹770.00', false);
+        $responseDiwali->assertDontSee('images/custom-gifts/', false);
+        $responseDiwali->assertDontSee('P001 Small Heart Tin Box', false);
+        $responseDiwali->assertSee('<strong id="naToolbarCountNumber">13</strong> Items', false);
     }
 
     public function test_multiple_occasions_filter_matches_any_selected_occasion(): void

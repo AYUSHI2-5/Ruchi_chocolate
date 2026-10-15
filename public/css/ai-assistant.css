@@ -3,21 +3,6 @@
    Palette: Warm Cream (#FFFDFB), Blush Pink (#FAECE6), Dark Chocolate (#240A00), Gold (#D4AF37)
    ========================================================================== */
 
-/* Coordinated WhatsApp Floating Button: Prevents overlap with Ruchi AI */
-.rc-whatsapp-float {
-    bottom: 112px !important;
-    right: 28px !important;
-    z-index: 9995 !important;
-    transition: transform 0.25s ease, bottom 0.25s ease !important;
-}
-
-@media screen and (max-width: 768px) {
-    .rc-whatsapp-float {
-        bottom: 96px !important;
-        right: 20px !important;
-    }
-}
-
 /* Root Assistant Container */
 .rc-ai-root {
     position: relative;

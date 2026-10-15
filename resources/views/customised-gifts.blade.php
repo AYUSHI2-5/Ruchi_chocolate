@@ -86,7 +86,7 @@
                 <div class="rc-custom-hero-media-wrap">
                     <img 
                         src="{{ asset('images/custom-gifts/hero-hamper.jpg') }}" 
-                        alt="Ruchi Chocolates bespoke open gift hamper with assorted chocolates and pink satin ribbon" 
+                        alt="Customised festive gift hamper with dry fruits, branded chocolates and decorative florals" 
                         class="rc-custom-hero-media-img"
                         loading="eager"
                     >
@@ -117,98 +117,98 @@
             <div class="rc-custom-gallery-wrapper">
                 <div class="rc-custom-gallery-track" id="custom-gallery-track">
 
-                    <!-- Photo 1: Personalised Birthday Chocolate Box -->
+                    <!-- Photo 1: Photo chocolate tier cake -->
                     <article class="rc-custom-gallery-card">
                         <div class="rc-custom-card-media">
                             <img 
                                 src="{{ asset('images/custom-gifts/gallery-birthday-box.jpg') }}" 
-                                alt="Personalised birthday chocolate box with customised message and artisan truffles" 
+                                alt="Three-tier customised chocolate cake with personal photos and assorted branded bars" 
                                 class="rc-custom-card-img"
                                 loading="lazy"
                             >
                             <div class="rc-custom-card-overlay">
-                                <button type="button" class="rc-custom-card-btn" onclick="populateEnquiry('Personalised Birthday Chocolate Box')">Enquire This</button>
+                                <button type="button" class="rc-custom-card-btn" onclick="populateEnquiry('Photo Chocolate Tier Cake')">Enquire This</button>
                             </div>
                         </div>
                         <div class="rc-custom-card-info">
-                            <h3 class="rc-custom-card-title">Personalised Birthday Box</h3>
-                            <p class="rc-custom-card-desc">Custom names, wishes &amp; handcrafted assorted flavours</p>
+                            <h3 class="rc-custom-card-title">Photo Chocolate Cake</h3>
+                            <p class="rc-custom-card-desc">Tiered chocolate arrangement with your photos &amp; favourite bars</p>
                         </div>
                     </article>
 
-                    <!-- Photo 2: Heart-shaped Chocolate Gift Box -->
+                    <!-- Photo 2: Dry fruit floral arrangement -->
                     <article class="rc-custom-gallery-card">
                         <div class="rc-custom-card-media">
                             <img 
                                 src="{{ asset('images/custom-gifts/gallery-heart-box.jpg') }}" 
-                                alt="Romantic heart-shaped chocolate gift box with red rose embellishment and wrapped chocolates" 
+                                alt="Festive dry fruit bouquet with cashews, almonds and floral base on golden backdrop" 
                                 class="rc-custom-card-img"
                                 loading="lazy"
                             >
                             <div class="rc-custom-card-overlay">
-                                <button type="button" class="rc-custom-card-btn" onclick="populateEnquiry('Heart-shaped Chocolate Gift Box')">Enquire This</button>
+                                <button type="button" class="rc-custom-card-btn" onclick="populateEnquiry('Dry Fruit Floral Arrangement')">Enquire This</button>
                             </div>
                         </div>
                         <div class="rc-custom-card-info">
-                            <h3 class="rc-custom-card-title">Heart Chocolate Box</h3>
-                            <p class="rc-custom-card-desc">Romantic rose floral accents &amp; rich assorted truffles</p>
+                            <h3 class="rc-custom-card-title">Dry Fruit Floral Hamper</h3>
+                            <p class="rc-custom-card-desc">Premium nuts on sticks with carnations &amp; festive styling</p>
                         </div>
                     </article>
 
-                    <!-- Photo 3: Chocolate Bouquet with Pink Wrapping -->
+                    <!-- Photo 3: Chocolate truffle fan bouquet -->
                     <article class="rc-custom-gallery-card">
                         <div class="rc-custom-card-media">
                             <img 
                                 src="{{ asset('images/custom-gifts/gallery-pink-bouquet.jpg') }}" 
-                                alt="Handcrafted luxury chocolate bouquet with pastel pink wrapping and roses" 
+                                alt="Handcrafted chocolate truffle fan bouquet with floral base and festive elephant toppers" 
                                 class="rc-custom-card-img"
                                 loading="lazy"
                             >
                             <div class="rc-custom-card-overlay">
-                                <button type="button" class="rc-custom-card-btn" onclick="populateEnquiry('Chocolate Bouquet with Pink Wrapping')">Enquire This</button>
+                                <button type="button" class="rc-custom-card-btn" onclick="populateEnquiry('Chocolate Truffle Fan Bouquet')">Enquire This</button>
                             </div>
                         </div>
                         <div class="rc-custom-card-info">
-                            <h3 class="rc-custom-card-title">Pink Chocolate Bouquet</h3>
-                            <p class="rc-custom-card-desc">Elegant blush-pink wrapping, satin bow &amp; sweet roses</p>
+                            <h3 class="rc-custom-card-title">Truffle Fan Bouquet</h3>
+                            <p class="rc-custom-card-desc">Assorted wrapped truffles, florals &amp; celebratory accents</p>
                         </div>
                     </article>
 
-                    <!-- Photo 4: Premium Customised Chocolate Hamper -->
+                    <!-- Photo 4: Wicker basket gift hamper -->
                     <article class="rc-custom-gallery-card">
                         <div class="rc-custom-card-media">
                             <img 
                                 src="{{ asset('images/custom-gifts/gallery-custom-hamper.jpg') }}" 
-                                alt="Curated premium chocolate gift hamper with gold ribbon and Ruchi signature chocolates" 
+                                alt="Customised wicker basket hamper with dry fruits, chocolates and blue floral décor" 
                                 class="rc-custom-card-img"
                                 loading="lazy"
                             >
                             <div class="rc-custom-card-overlay">
-                                <button type="button" class="rc-custom-card-btn" onclick="populateEnquiry('Premium Customised Chocolate Hamper')">Enquire This</button>
+                                <button type="button" class="rc-custom-card-btn" onclick="populateEnquiry('Wicker Basket Gift Hamper')">Enquire This</button>
                             </div>
                         </div>
                         <div class="rc-custom-card-info">
-                            <h3 class="rc-custom-card-title">Luxury Gift Hamper</h3>
-                            <p class="rc-custom-card-desc">Grand gift box with gold ribbon, truffles &amp; bars</p>
+                            <h3 class="rc-custom-card-title">Wicker Basket Hamper</h3>
+                            <p class="rc-custom-card-desc">Dry fruits, branded chocolates &amp; themed décor in one basket</p>
                         </div>
                     </article>
 
-                    <!-- Photo 5: Personalised Chocolate Box with Decorative Lettering -->
+                    <!-- Photo 5: Personalised candy pouches -->
                     <article class="rc-custom-gallery-card">
                         <div class="rc-custom-card-media">
                             <img 
                                 src="{{ asset('images/custom-gifts/gallery-lettering-box.jpg') }}" 
-                                alt="Bespoke personalised chocolate box with decorative edible golden lettering" 
+                                alt="Personalised printed candy pouches with monogram, wreath and event date" 
                                 class="rc-custom-card-img"
                                 loading="lazy"
                             >
                             <div class="rc-custom-card-overlay">
-                                <button type="button" class="rc-custom-card-btn" onclick="populateEnquiry('Personalised Lettering Chocolate Box')">Enquire This</button>
+                                <button type="button" class="rc-custom-card-btn" onclick="populateEnquiry('Personalised Candy Pouches')">Enquire This</button>
                             </div>
                         </div>
                         <div class="rc-custom-card-info">
-                            <h3 class="rc-custom-card-title">Lettering Chocolate Box</h3>
-                            <p class="rc-custom-card-desc">Edible gold letters spelling names or celebratory wishes</p>
+                            <h3 class="rc-custom-card-title">Personalised Candy Pouches</h3>
+                            <p class="rc-custom-card-desc">Custom monogram, dates &amp; artwork on every wrapper</p>
                         </div>
                     </article>
 

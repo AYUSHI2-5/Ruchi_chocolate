@@ -31,7 +31,7 @@ class TrustStripTest extends TestCase
         $response->assertSee('24/7 Support');
 
         // Floating WhatsApp button
-        $response->assertSee('rc-whatsapp-float');
+        $response->assertDontSee('rc-whatsapp-float');
         $response->assertSee(config('ruchi.whatsapp_url'), false);
 
         // Section 1 Header integrity
