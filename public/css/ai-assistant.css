@@ -1,0 +1,2412 @@
+/* ==========================================================================
+   Ruchi Chocolates — AI Voice & Text Assistant Styling
+   Palette: Warm Cream (#FFFDFB), Blush Pink (#FAECE6), Dark Chocolate (#240A00), Gold (#D4AF37)
+   ========================================================================== */
+
+/* Coordinated WhatsApp Floating Button: Prevents overlap with Ruchi AI */
+.rc-whatsapp-float {
+    bottom: 112px !important;
+    right: 28px !important;
+    z-index: 9995 !important;
+    transition: transform 0.25s ease, bottom 0.25s ease !important;
+}
+
+@media screen and (max-width: 768px) {
+    .rc-whatsapp-float {
+        bottom: 96px !important;
+        right: 20px !important;
+    }
+}
+
+/* Root Assistant Container */
+.rc-ai-root {
+    position: relative;
+    z-index: 100050;
+    font-family: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.rc-ai-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(36, 10, 0, 0.45);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s;
+    z-index: 100049;
+    pointer-events: none;
+}
+
+.rc-ai-backdrop.is-visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+body.rc-ai-panel-open {
+    overflow: hidden;
+}
+
+/* ==========================================================================
+   1. Floating Trigger Button with Animated Avatar
+   ========================================================================== */
+.rc-ai-trigger-wrap {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 100051;
+    pointer-events: none;
+}
+
+.rc-ai-trigger-cluster {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    pointer-events: auto;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.25s ease;
+}
+
+.rc-ai-trigger-cluster:hover {
+    transform: translateY(-2px);
+}
+
+.rc-ai-trigger-cluster:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.rc-ai-trigger-cluster.is-speaking .rc-ai-character-figure {
+    filter: drop-shadow(0 8px 22px rgba(36, 10, 0, 0.32)) drop-shadow(0 0 12px rgba(212, 175, 55, 0.35));
+}
+
+.rc-ai-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Full-body chef trigger avatar */
+.rc-ai-character-figure {
+    position: relative;
+    height: 168px;
+    width: 112px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: hidden;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
+    filter: drop-shadow(0 6px 18px rgba(36, 10, 0, 0.25));
+    user-select: none;
+}
+
+.rc-ai-trigger-cluster:hover .rc-ai-character-figure {
+    transform: translateY(-3px) scale(1.02);
+    filter: drop-shadow(0 10px 24px rgba(36, 10, 0, 0.35)) drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
+}
+
+.rc-ai-character-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain !important;
+    object-position: bottom center;
+    display: block;
+    background: transparent !important;
+    border: none !important;
+}
+
+.rc-ai-avatar-btn {
+    position: relative;
+    width: 66px;
+    height: 66px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    -webkit-tap-highlight-color: transparent;
+    pointer-events: auto;
+    flex-shrink: 0;
+}
+
+.rc-ai-avatar-btn:hover {
+    transform: scale(1.08) translateY(-2px);
+}
+
+.rc-ai-avatar-btn:active {
+    transform: scale(0.96);
+}
+
+/* Animated Pulsing Halo Rings */
+.rc-ai-halo-ring {
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 2px solid rgba(212, 175, 55, 0.45);
+    pointer-events: none;
+    animation: rcAiPulseRing 3.2s ease-out infinite;
+}
+
+.rc-ai-halo-ring--2 {
+    inset: -12px;
+    border-color: rgba(229, 164, 152, 0.3);
+    animation-delay: 1.6s;
+}
+
+@keyframes rcAiPulseRing {
+    0% {
+        transform: scale(0.85);
+        opacity: 0.8;
+    }
+    50% {
+        opacity: 0.35;
+    }
+    100% {
+        transform: scale(1.35);
+        opacity: 0;
+    }
+}
+
+/* Avatar Face Container with Idle Bobbing */
+.rc-ai-avatar-face {
+    position: relative;
+    width: 66px;
+    height: 66px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2.5px solid #d4af37;
+    box-shadow: 0 6px 22px rgba(36, 10, 0, 0.35), inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+    background: linear-gradient(135deg, #240a00 0%, #3e1a0f 100%);
+    animation: rcAiAvatarIdle 4.5s ease-in-out infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rc-ai-btn-emblem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #d4af37;
+    transition: transform 0.3s ease;
+}
+
+.rc-ai-avatar-btn:hover .rc-ai-btn-emblem {
+    transform: scale(1.12);
+}
+
+@keyframes rcAiAvatarIdle {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-3px);
+    }
+}
+
+.rc-ai-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 15%;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.rc-ai-avatar-btn:hover .rc-ai-avatar-img {
+    transform: scale(1.06);
+}
+
+/* Subtle Natural Eyelid Blink Overlay */
+.rc-ai-blink-overlay {
+    position: absolute;
+    top: 28%;
+    left: 26%;
+    right: 26%;
+    height: 12%;
+    background: transparent;
+    pointer-events: none;
+    border-radius: 50%;
+    animation: rcAiBlink 6s infinite;
+}
+
+@keyframes rcAiBlink {
+    0%, 46%, 50%, 100% {
+        box-shadow: none;
+        background: transparent;
+    }
+    48% {
+        background: rgba(100, 52, 40, 0.65);
+    }
+}
+
+/* Active Voice Wave Bars on Avatar */
+.rc-ai-speaking-bars {
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    align-items: flex-end;
+    gap: 2.5px;
+    height: 14px;
+    background: rgba(36, 10, 0, 0.85);
+    padding: 2px 6px;
+    border-radius: 8px;
+    border: 1px solid rgba(212, 175, 55, 0.6);
+}
+
+.rc-ai-speaking-bars.is-active {
+    display: flex;
+}
+
+.rc-ai-speaking-bars span {
+    width: 2.5px;
+    background: #d4af37;
+    border-radius: 2px;
+    animation: rcAiWaveBar 0.8s ease-in-out infinite alternate;
+}
+
+.rc-ai-speaking-bars span:nth-child(1) { height: 4px; animation-delay: 0.1s; }
+.rc-ai-speaking-bars span:nth-child(2) { height: 11px; animation-delay: 0.3s; }
+.rc-ai-speaking-bars span:nth-child(3) { height: 8px; animation-delay: 0.2s; }
+.rc-ai-speaking-bars span:nth-child(4) { height: 12px; animation-delay: 0.4s; }
+
+@keyframes rcAiWaveBar {
+    0% { height: 3px; }
+    100% { height: 13px; }
+}
+
+/* Online status on chef avatar */
+.rc-ai-character-figure .rc-ai-status-dot {
+    position: absolute;
+    bottom: 6px;
+    right: 4px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: #22c55e;
+    border: 2px solid #ffffff;
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
+    z-index: 4;
+}
+
+.rc-ai-character-figure .rc-ai-speaking-bars {
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 4;
+}
+
+/* Floating "Ask Ruchi AI" pill */
+.rc-ai-trigger-label {
+    position: static;
+    background: linear-gradient(135deg, #240a00 0%, #3d1b11 100%);
+    color: #ffffff;
+    font-size: 0.84rem;
+    font-weight: 600;
+    padding: 7px 14px;
+    border-radius: 20px;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 4px 18px rgba(36, 10, 0, 0.28);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    letter-spacing: 0.01em;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.rc-ai-sparkle-icon {
+    color: #f3c068;
+    flex-shrink: 0;
+    animation: rcAiSpinSlow 4s linear infinite;
+}
+
+@keyframes rcAiSpinSlow {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Hide floating trigger when chat panel is open */
+.rc-ai-root:has(.rc-ai-panel.is-open) .rc-ai-trigger-wrap,
+.rc-ai-panel.is-open ~ .rc-ai-trigger-wrap {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.92) translateY(12px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* Responsive Floating Avatar Adjustments */
+@media screen and (max-width: 768px) {
+    .rc-ai-trigger-wrap {
+        bottom: 16px;
+        right: 16px;
+    }
+    .rc-ai-character-figure {
+        height: 132px;
+        width: 88px;
+    }
+    .rc-ai-trigger-label {
+        font-size: 0.78rem;
+        padding: 5px 11px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .rc-ai-trigger-wrap {
+        bottom: 12px;
+        right: 12px;
+    }
+    .rc-ai-character-figure {
+        height: 112px;
+        width: 74px;
+    }
+    .rc-ai-trigger-label {
+        display: none;
+    }
+}
+
+/* ==========================================================================
+   2. Floating AI Chat Panel Interface
+   ========================================================================== */
+.rc-ai-panel {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 410px;
+    max-width: calc(100vw - 32px);
+    height: 620px;
+    max-height: calc(100vh - 48px);
+    background-color: #fffdfb;
+    border-radius: 26px;
+    border: 1px solid rgba(225, 195, 185, 0.85);
+    box-shadow: 0 16px 52px rgba(36, 10, 0, 0.28), 0 2px 10px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 100052;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.92) translateY(24px);
+    background-color: #fffdfb;
+    isolation: isolate;
+    transform-origin: bottom right;
+    transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, visibility 0.25s;
+}
+
+.rc-ai-panel.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1) translateY(0);
+}
+
+/* Panel Header */
+.rc-ai-panel-header {
+    background: linear-gradient(135deg, #240a00 0%, #36170d 60%, #4a2118 100%);
+    color: #ffffff;
+    padding: 12px 14px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px 8px;
+    border-bottom: 2px solid #d4af37;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.rc-ai-header-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    flex: 1 1 200px;
+}
+
+.rc-ai-header-avatar-wrap {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid #d4af37;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #240a00;
+}
+
+.rc-ai-header-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 15%;
+}
+
+.rc-ai-header-avatar--chef {
+    object-position: center center;
+}
+
+.rc-ai-header-status-dot {
+    position: absolute;
+    bottom: 1px;
+    right: 1px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background-color: #22c55e;
+    border: 1.5px solid #240a00;
+}
+
+.rc-ai-header-info {
+    min-width: 0;
+}
+
+.rc-ai-header-title-row {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.rc-ai-header-title {
+    font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+    font-size: 1.12rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+    line-height: 1.15;
+    letter-spacing: 0.01em;
+}
+
+.rc-ai-badge {
+    background: rgba(212, 175, 55, 0.22);
+    border: 1px solid rgba(212, 175, 55, 0.6);
+    color: #fce8bd;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 10px;
+    letter-spacing: 0.04em;
+}
+
+.rc-ai-header-sub {
+    font-size: 0.74rem;
+    color: #e5ccbe;
+    margin: 2px 0 0 0;
+    line-height: 1.25;
+    white-space: normal;
+}
+
+.rc-ai-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    margin-left: auto;
+}
+
+/* Language Selector Dropdown */
+.rc-ai-lang-select-wrap {
+    position: relative;
+}
+
+.rc-ai-lang-select {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 14px;
+    padding: 4px 6px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    max-width: 108px;
+    cursor: pointer;
+    outline: none;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.rc-ai-lang-select:hover,
+.rc-ai-lang-select:focus {
+    background: rgba(255, 255, 255, 0.22);
+    border-color: #d4af37;
+}
+
+.rc-ai-lang-select option {
+    background-color: #240a00;
+    color: #ffffff;
+}
+
+/* Header Icon Buttons */
+.rc-ai-icon-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.rc-ai-icon-btn:hover {
+    background: rgba(255, 255, 255, 0.24);
+    transform: scale(1.08);
+}
+
+.rc-ai-icon-btn:active {
+    transform: scale(0.92);
+}
+
+.rc-ai-icon-btn.is-active {
+    color: #f7d287;
+    background: rgba(212, 175, 55, 0.22);
+}
+
+.rc-ai-close-btn:hover {
+    background: rgba(239, 68, 68, 0.35);
+}
+
+/* Voice Recognition Listening Banner */
+.rc-ai-voice-banner {
+    background: linear-gradient(135deg, #faeae6 0%, #fef3ef 100%);
+    border-bottom: 1px solid rgba(225, 185, 175, 0.6);
+    padding: 9px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    color: #4a2118;
+    animation: rcAiSlideDown 0.25s ease;
+}
+
+@keyframes rcAiSlideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.rc-ai-voice-banner-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+}
+
+.rc-ai-voice-pulsing-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ef4444;
+    animation: rcAiMicPulse 1.2s infinite;
+}
+
+@keyframes rcAiMicPulse {
+    0%, 100% { transform: scale(0.9); opacity: 1; }
+    50% { transform: scale(1.35); opacity: 0.6; }
+}
+
+.rc-ai-voice-cancel-btn {
+    background: none;
+    border: none;
+    color: #8c3a2c;
+    font-size: 0.77rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 2px 6px;
+}
+
+/* ==========================================================================
+   Chat Messages Scrollable Body
+   ========================================================================== */
+.rc-ai-messages-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 14px 16px 16px;
+    background-color: #fdfaf7;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    scroll-behavior: smooth;
+}
+
+.rc-ai-messages-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.rc-ai-messages-body::-webkit-scrollbar-thumb {
+    background-color: #dfcac2;
+    border-radius: 10px;
+}
+
+/* Individual Message Layout */
+.rc-ai-message {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    max-width: 90%;
+    animation: rcAiMsgFadeIn 0.25s ease-out;
+}
+
+@keyframes rcAiMsgFadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.rc-ai-message--assistant {
+    align-self: flex-start;
+}
+
+.rc-ai-message--user {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+.rc-ai-msg-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    border: 1.5px solid #d4af37;
+    background: #240a00;
+    margin-top: 2px;
+}
+
+.rc-ai-msg-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.rc-ai-msg-content {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.rc-ai-bubble {
+    padding: 11px 15px;
+    border-radius: 18px;
+    font-size: 0.89rem;
+    line-height: 1.58;
+    position: relative;
+    word-break: break-word;
+}
+
+/* Assistant Message Bubble */
+.rc-ai-message--assistant .rc-ai-bubble {
+    background-color: #ffffff;
+    color: #3b1e15;
+    border: 1px solid rgba(225, 200, 190, 0.75);
+    border-top-left-radius: 4px;
+    box-shadow: 0 2px 10px rgba(36, 10, 0, 0.04);
+}
+
+/* User Message Bubble */
+.rc-ai-message--user .rc-ai-bubble {
+    background: linear-gradient(135deg, #240a00 0%, #3a1a10 100%);
+    color: #ffffff;
+    border-top-right-radius: 4px;
+    box-shadow: 0 3px 12px rgba(36, 10, 0, 0.18);
+}
+
+.rc-ai-msg-time {
+    font-size: 0.68rem;
+    color: #9c837a;
+    margin-top: 4px;
+    padding: 0 4px;
+}
+
+.rc-ai-message--user .rc-ai-msg-time {
+    text-align: right;
+}
+
+/* Welcome Bubble Card */
+.rc-ai-bubble--welcome {
+    background: linear-gradient(135deg, #fff7f2 0%, #ffffff 100%) !important;
+    border: 1.5px solid #f0caa0 !important;
+    padding: 14px 16px !important;
+}
+
+.rc-ai-welcome-header {
+    margin-bottom: 8px;
+}
+
+.rc-ai-welcome-badge {
+    background-color: #f7ebe1;
+    color: #5c2419;
+    font-size: 0.73rem;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 12px;
+    display: inline-block;
+}
+
+.rc-ai-welcome-text {
+    font-size: 0.94rem;
+    color: #2b1408;
+    margin: 0 0 6px 0;
+    line-height: 1.45;
+}
+
+.rc-ai-welcome-sub {
+    font-size: 0.83rem;
+    color: #6d4b41;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Voice Replay Button inside Assistant Message */
+.rc-ai-replay-btn {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    color: #8c3a2c;
+    font-size: 0.74rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 2px 6px;
+    margin-top: 4px;
+    border-radius: 6px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.rc-ai-replay-btn:hover {
+    background: #faeae6;
+    color: #4a1910;
+}
+
+/* Quick Action Suggestion Chips */
+.rc-ai-quick-actions-wrap {
+    margin-top: 4px;
+    padding: 0 4px;
+}
+
+.rc-ai-quick-title {
+    display: block;
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: #8c6f66;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 8px;
+}
+
+.rc-ai-chips-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.rc-ai-chip {
+    background-color: #ffffff;
+    border: 1px solid rgba(214, 175, 165, 0.7);
+    color: #3b1b11;
+    font-size: 0.79rem;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 16px;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.rc-ai-chip:hover {
+    background-color: #3d1b11;
+    color: #ffffff;
+    border-color: #3d1b11;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(61, 27, 17, 0.2);
+}
+
+/* Mini Product Cards in AI Responses */
+.rc-ai-products-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 9px;
+    margin-top: 10px;
+}
+
+.rc-ai-product-card {
+    background: #ffffff;
+    border: 1px solid rgba(225, 195, 185, 0.75);
+    border-radius: 14px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 8px rgba(36, 10, 0, 0.04);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.rc-ai-product-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(36, 10, 0, 0.1);
+}
+
+.rc-ai-pcard-media {
+    position: relative;
+    width: 100%;
+    padding-top: 80%;
+    background: #f7ede8;
+    overflow: hidden;
+}
+
+.rc-ai-pcard-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.rc-ai-pcard-body {
+    padding: 8px 10px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.rc-ai-pcard-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #2b1408;
+    margin: 0 0 4px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.3;
+}
+
+.rc-ai-pcard-price {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #8c3a2c;
+    margin-top: auto;
+}
+
+.rc-ai-pcard-btn {
+    margin-top: 6px;
+    background-color: #240a00;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.73rem;
+    font-weight: 600;
+    padding: 5px 8px;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.2s ease;
+}
+
+.rc-ai-pcard-btn:hover {
+    background-color: #4a2118;
+}
+
+/* Action Button in Bubble */
+.rc-ai-action-btn-wrap {
+    margin-top: 10px;
+}
+
+.rc-ai-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, #240a00 0%, #3e1b10 100%);
+    color: #ffffff;
+    font-size: 0.81rem;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 20px;
+    text-decoration: none;
+    box-shadow: 0 3px 10px rgba(36, 10, 0, 0.2);
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.rc-ai-action-btn:hover {
+    background: #4a2118;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.rc-ai-action-btn--whatsapp {
+    background: linear-gradient(135deg, #0b6652 0%, #087f66 100%);
+}
+
+.rc-ai-action-btn--whatsapp:hover {
+    background: #065042;
+}
+
+/* Typing Indicator Animation */
+.rc-ai-typing-indicator {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    align-self: flex-start;
+}
+
+.rc-ai-typing-bubble {
+    background-color: #ffffff;
+    border: 1px solid rgba(225, 200, 190, 0.75);
+    border-radius: 16px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.rc-ai-typing-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #8c3a2c;
+    animation: rcAiDotBounce 1.4s infinite ease-in-out both;
+}
+
+.rc-ai-typing-dot:nth-child(1) { animation-delay: -0.32s; }
+.rc-ai-typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes rcAiDotBounce {
+    0%, 80%, 100% { transform: scale(0); opacity: 0.4; }
+    40% { transform: scale(1); opacity: 1; }
+}
+
+/* ==========================================================================
+   Chat Input Form Footer
+   ========================================================================== */
+.rc-ai-panel-footer {
+    padding: 12px 14px 10px;
+    background-color: #ffffff;
+    border-top: 1px solid rgba(225, 200, 190, 0.65);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.rc-ai-notice-bar {
+    font-size: 0.74rem;
+    color: #b91c1c;
+    background-color: #fef2f2;
+    padding: 4px 8px;
+    border-radius: 8px;
+    border: 1px solid #fecaca;
+}
+
+.rc-ai-input-form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.rc-ai-input-wrap {
+    flex: 1;
+    position: relative;
+}
+
+.rc-ai-text-input {
+    width: 100%;
+    background-color: #fdfaf7;
+    border: 1.5px solid rgba(215, 185, 175, 0.7);
+    border-radius: 22px;
+    padding: 10px 14px;
+    font-size: 0.88rem;
+    color: #2b1408;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    box-sizing: border-box;
+}
+
+.rc-ai-text-input:focus {
+    background-color: #ffffff;
+    border-color: #3d1b11;
+    box-shadow: 0 0 0 3px rgba(61, 27, 17, 0.1);
+}
+
+.rc-ai-mic-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(212, 175, 55, 0.6);
+    background-color: #fbeee8;
+    color: #4a2118;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.25s ease;
+    outline: none;
+}
+
+.rc-ai-mic-btn .rc-ai-mic-icon {
+    pointer-events: none;
+}
+
+.rc-ai-mic-btn:hover {
+    background-color: #fae0d5;
+    color: #240a00;
+    transform: scale(1.06);
+}
+
+.rc-ai-mic-btn.is-listening {
+    background-color: #ef4444;
+    color: #ffffff;
+    border-color: #ef4444;
+    animation: rcAiMicActiveGlow 1.2s infinite;
+}
+
+.rc-ai-mic-btn.is-processing {
+    background-color: #d97706;
+    color: #ffffff;
+    border-color: #d97706;
+    animation: rcAiMicProcessingGlow 1s infinite;
+}
+
+@keyframes rcAiMicActiveGlow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); }
+    50% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+}
+
+@keyframes rcAiMicProcessingGlow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.6); }
+    50% { box-shadow: 0 0 0 8px rgba(217, 119, 6, 0); }
+}
+
+.rc-ai-send-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, #240a00 0%, #3e1b10 100%);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.2s ease, transform 0.2s ease;
+    outline: none;
+}
+
+.rc-ai-send-btn:hover {
+    background: #4a2118;
+    transform: scale(1.06);
+}
+
+.rc-ai-send-btn:active {
+    transform: scale(0.94);
+}
+
+.rc-ai-footer-hint {
+    text-align: center;
+    font-size: 0.69rem;
+    color: #9c837a;
+    letter-spacing: 0.01em;
+}
+
+/* ==========================================================================
+   Responsive Breakpoints
+   ========================================================================== */
+@media screen and (max-width: 480px) {
+    .rc-ai-trigger-wrap {
+        bottom: 18px;
+        right: 18px;
+    }
+
+    .rc-ai-avatar-btn {
+        width: 60px;
+        height: 60px;
+    }
+
+    .rc-ai-avatar-face {
+        width: 60px;
+        height: 60px;
+    }
+
+    .rc-ai-trigger-label {
+        display: none;
+    }
+
+    .rc-ai-panel {
+        bottom: 12px;
+        right: 12px;
+        width: calc(100vw - 24px);
+        height: calc(100vh - 24px);
+        max-height: calc(100vh - 24px);
+        border-radius: 20px;
+    }
+
+    .rc-ai-products-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==========================================================================
+   Voice Replies & Audio Lip-Sync Enhancements
+   ========================================================================== */
+
+/* Lip-sync animated mouth on floating avatar */
+.rc-ai-avatar-mouth {
+    position: absolute;
+    bottom: 27%;
+    left: 48%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 3px;
+    background: #8b3a2b;
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.rc-ai-avatar-face.is-speaking .rc-ai-avatar-mouth,
+.is-speaking .rc-ai-avatar-mouth {
+    opacity: 0.9;
+    animation: rcAiLipSync 0.25s ease-in-out infinite alternate;
+}
+
+@keyframes rcAiLipSync {
+    0% {
+        height: 2px;
+        width: 10px;
+        border-radius: 4px;
+    }
+    50% {
+        height: 7px;
+        width: 14px;
+        border-radius: 50% 50% 60% 60%;
+        background: #5c1e13;
+    }
+    100% {
+        height: 3px;
+        width: 12px;
+        border-radius: 5px;
+    }
+}
+
+/* Lip-sync animated mouth on header avatar */
+.rc-ai-header-avatar-mouth {
+    position: absolute;
+    bottom: 27%;
+    left: 48%;
+    transform: translateX(-50%);
+    width: 9px;
+    height: 2px;
+    background: #8b3a2b;
+    border-radius: 3px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.rc-ai-header-avatar-wrap.is-speaking .rc-ai-header-avatar-mouth,
+.is-speaking .rc-ai-header-avatar-mouth {
+    opacity: 0.9;
+    animation: rcAiLipSyncHeader 0.25s ease-in-out infinite alternate;
+}
+
+@keyframes rcAiLipSyncHeader {
+    0% {
+        height: 2px;
+        width: 8px;
+    }
+    50% {
+        height: 5px;
+        width: 11px;
+        border-radius: 50% 50% 60% 60%;
+        background: #5c1e13;
+    }
+    100% {
+        height: 2.5px;
+        width: 9px;
+    }
+}
+
+/* Speaking subtle pulse on avatar faces */
+.rc-ai-avatar-face.is-speaking {
+    border-color: #f3c068;
+    box-shadow: 0 0 16px rgba(212, 175, 55, 0.7);
+    animation: rcAiAvatarSpeaking 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes rcAiAvatarSpeaking {
+    0% { transform: translateY(0) scale(1); }
+    100% { transform: translateY(-2px) scale(1.03); }
+}
+
+.rc-ai-header-avatar-wrap.is-speaking {
+    border-color: #f3c068;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.8);
+}
+
+/* Autoplay Unlock Prompt Banner */
+.rc-ai-autoplay-prompt {
+    background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 100%);
+    border-bottom: 1px solid #fde68a;
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 0.76rem;
+    color: #92400e;
+    animation: rcAiFadeIn 0.3s ease;
+}
+
+.rc-ai-autoplay-text {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+}
+
+.rc-ai-enable-audio-btn {
+    background: #240a00;
+    color: #ffffff;
+    border: 1px solid #d4af37;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.rc-ai-enable-audio-btn:hover {
+    background: #4a2118;
+    transform: scale(1.03);
+}
+
+/* Active Voice Playback & Control Bar */
+.rc-ai-speech-control-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background: linear-gradient(135deg, #240a00 0%, #3a190f 100%);
+    color: #ffffff;
+    padding: 8px 14px;
+    border-radius: 14px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(212, 175, 55, 0.45);
+    box-shadow: 0 4px 14px rgba(36, 10, 0, 0.18);
+    animation: rcAiSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.rc-ai-speech-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+.rc-ai-live-waveform {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 2.5px;
+    height: 14px;
+}
+
+.rc-ai-live-waveform span {
+    width: 2.5px;
+    background: #d4af37;
+    border-radius: 2px;
+    animation: rcAiLiveWave 0.75s ease-in-out infinite alternate;
+}
+
+.rc-ai-live-waveform span:nth-child(1) { height: 4px; animation-delay: 0.1s; }
+.rc-ai-live-waveform span:nth-child(2) { height: 12px; animation-delay: 0.25s; }
+.rc-ai-live-waveform span:nth-child(3) { height: 8px; animation-delay: 0.4s; }
+.rc-ai-live-waveform span:nth-child(4) { height: 14px; animation-delay: 0.15s; }
+.rc-ai-live-waveform span:nth-child(5) { height: 6px; animation-delay: 0.35s; }
+
+.rc-ai-speech-control-bar.is-paused .rc-ai-live-waveform span {
+    animation-play-state: paused;
+    opacity: 0.5;
+}
+
+@keyframes rcAiLiveWave {
+    0% { height: 3px; }
+    100% { height: 14px; }
+}
+
+.rc-ai-speech-status-text {
+    font-size: 0.74rem;
+    font-weight: 500;
+    color: #fce8bd;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.rc-ai-speech-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.rc-ai-speech-action-btn {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.rc-ai-speech-action-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.rc-ai-speech-action-btn--stop {
+    background: rgba(220, 38, 38, 0.25);
+    border-color: rgba(239, 68, 68, 0.5);
+    color: #fca5a5;
+}
+
+.rc-ai-speech-action-btn--stop:hover {
+    background: rgba(220, 38, 38, 0.4);
+    color: #ffffff;
+}
+
+.rc-ai-speech-action-btn--mute {
+    background: rgba(245, 158, 11, 0.2);
+    border-color: rgba(245, 158, 11, 0.4);
+    color: #fde68a;
+}
+
+.rc-ai-speech-action-btn--mute:hover {
+    background: rgba(245, 158, 11, 0.35);
+}
+
+/* ==========================================================================
+   Voice-Controlled Navigation & State Styling
+   ========================================================================== */
+.rc-ai-nav-banner {
+    background: linear-gradient(135deg, #240a00 0%, #3e1b12 100%);
+    border-bottom: 2px solid #d4af37;
+    color: #ffffff;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    animation: rcAiSlideDown 0.25s ease;
+    z-index: 5;
+}
+
+@keyframes rcAiSlideDown {
+    from {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.rc-ai-nav-banner-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.rc-ai-nav-spinner {
+    width: 18px;
+    height: 18px;
+    border: 2.5px solid rgba(212, 175, 55, 0.35);
+    border-top-color: #d4af37;
+    border-radius: 50%;
+    animation: rcAiSpinSlow 0.8s linear infinite;
+    flex-shrink: 0;
+}
+
+.rc-ai-nav-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.rc-ai-nav-status {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #fce8bd;
+    letter-spacing: 0.01em;
+}
+
+.rc-ai-nav-fallback-link {
+    font-size: 0.72rem;
+    color: #e5a498;
+    text-decoration: underline;
+}
+
+.rc-ai-nav-fallback-link:hover {
+    color: #ffffff;
+}
+
+/* Dynamic State Badges & Subtitle Styles */
+.rc-ai-badge.is-listening {
+    background: rgba(220, 38, 38, 0.28);
+    border-color: #ef4444;
+    color: #fecaca;
+}
+
+.rc-ai-badge.is-thinking {
+    background: rgba(212, 175, 55, 0.3);
+    border-color: #f3c068;
+    color: #fef08a;
+}
+
+.rc-ai-badge.is-speaking {
+    background: rgba(34, 197, 94, 0.28);
+    border-color: #22c55e;
+    color: #bbf7d0;
+}
+
+.rc-ai-badge.is-navigating {
+    background: rgba(59, 130, 246, 0.28);
+    border-color: #3b82f6;
+    color: #bfdbfe;
+}
+
+/* =========================================================================
+   9. Animated SVG Avatar Character Rig & Gestures Engine
+   ========================================================================= */
+.rc-ai-character-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    overflow: visible;
+}
+
+.rc-ai-character-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    transform-origin: center 85%;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Subdue raster fallback photo when SVG character is active */
+.rc-ai-avatar-face .rc-ai-avatar-img--fallback,
+.rc-ai-header-avatar-wrap .rc-ai-header-avatar--fallback {
+    opacity: 0.08 !important;
+}
+
+/* 9A. Natural Breathing & Eyelid Blinking */
+@keyframes rcRigIdleBreathe {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-2px) scale(1.02); }
+}
+
+@keyframes rcRigBlink {
+    0%, 94%, 98%, 100% { transform: scaleY(0); }
+    96% { transform: scaleY(1); }
+}
+
+.rc-ai-character-container[data-character-state="idle"] .rc-ai-character-svg {
+    animation: rcRigIdleBreathe 4s ease-in-out infinite;
+}
+
+.rc-rig-eyelid {
+    transform-origin: center 70px;
+    animation: rcRigBlink 4.2s ease-in-out infinite;
+}
+
+/* 9B. Articulated Gesture States */
+.rc-arm-pose,
+.rc-arm-left-explain,
+.rc-fx-listen,
+.rc-fx-think,
+.rc-fx-walk,
+.rc-fx-point {
+    transition: opacity 0.25s ease, transform 0.3s ease;
+}
+
+/* Gesture: Welcoming / Wave */
+.rc-ai-character-container[data-character-state="welcoming"] .rc-arm-pose--idle { opacity: 0; }
+.rc-ai-character-container[data-character-state="welcoming"] .rc-arm-pose--wave {
+    opacity: 1;
+    transform-origin: 102px 124px;
+    animation: rcRigWaveArm 1.2s ease-in-out infinite alternate;
+}
+.rc-ai-character-container[data-character-state="welcoming"] .rc-ai-character-svg {
+    transform: rotate(-2deg);
+}
+
+@keyframes rcRigWaveArm {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(-14deg); }
+}
+
+/* Gesture: Listening (Hand to ear + listening waves) */
+.rc-ai-character-container[data-character-state="listening"] .rc-arm-pose--idle { opacity: 0; }
+.rc-ai-character-container[data-character-state="listening"] .rc-arm-pose--listen { opacity: 1; }
+.rc-ai-character-container[data-character-state="listening"] .rc-fx-listen {
+    opacity: 1;
+    animation: rcRigFxListenWaves 1.3s ease-in-out infinite;
+}
+.rc-ai-character-container[data-character-state="listening"] .rc-ai-character-svg {
+    transform: rotate(3deg) translateY(1px);
+}
+.rc-ai-character-container[data-character-state="listening"] .rc-rig-brow--right {
+    transform: translateY(-2px);
+}
+
+@keyframes rcRigFxListenWaves {
+    0% { opacity: 0.3; transform: scale(0.9); }
+    50% { opacity: 1; transform: scale(1.08); }
+    100% { opacity: 0.3; transform: scale(0.9); }
+}
+
+/* Gesture: Thinking (Hand on chin + sparkles) */
+.rc-ai-character-container[data-character-state="thinking"] .rc-arm-pose--idle { opacity: 0; }
+.rc-ai-character-container[data-character-state="thinking"] .rc-arm-pose--think { opacity: 1; }
+.rc-ai-character-container[data-character-state="thinking"] .rc-fx-think {
+    opacity: 1;
+    animation: rcRigFxThinkSparkle 1.6s ease-in-out infinite;
+}
+.rc-ai-character-container[data-character-state="thinking"] .rc-ai-character-svg {
+    transform: rotate(-3deg) translateY(-2px);
+}
+.rc-ai-character-container[data-character-state="thinking"] .rc-rig-brow--left {
+    transform: translateY(-2px) rotate(-3deg);
+}
+
+@keyframes rcRigFxThinkSparkle {
+    0%, 100% { opacity: 0.4; transform: translateY(0) scale(0.9); }
+    50% { opacity: 1; transform: translateY(-3px) scale(1.1); }
+}
+
+/* Gesture: Walking / Navigating (Rhythmic gait + travel dust) */
+.rc-ai-character-container[data-character-state="walking"] .rc-ai-character-svg {
+    animation: rcRigWalkGait 0.7s ease-in-out infinite alternate;
+}
+.rc-ai-character-container[data-character-state="walking"] .rc-fx-walk {
+    opacity: 1;
+    animation: rcRigFxWalkSparkles 0.7s ease-in-out infinite alternate;
+}
+
+@keyframes rcRigWalkGait {
+    0% { transform: translateY(0) rotate(-2deg); }
+    100% { transform: translateY(-4px) rotate(2deg); }
+}
+
+@keyframes rcRigFxWalkSparkles {
+    0% { opacity: 0.3; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1.2); }
+}
+
+/* Gesture: Pointing (Right / Content element) */
+.rc-ai-character-container[data-character-state="pointing"] .rc-arm-pose--idle,
+.rc-ai-character-container[data-character-state="pointing-right"] .rc-arm-pose--idle { opacity: 0; }
+.rc-ai-character-container[data-character-state="pointing"] .rc-arm-pose--point-right,
+.rc-ai-character-container[data-character-state="pointing-right"] .rc-arm-pose--point-right {
+    opacity: 1;
+    animation: rcRigPointPulse 1.4s ease-in-out infinite alternate;
+}
+.rc-ai-character-container[data-character-state="pointing"] .rc-fx-point,
+.rc-ai-character-container[data-character-state="pointing-right"] .rc-fx-point {
+    opacity: 1;
+}
+.rc-ai-character-container[data-character-state="pointing"] .rc-ai-character-svg {
+    transform: rotate(2deg) translateX(2px);
+}
+
+@keyframes rcRigPointPulse {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(3px); }
+}
+
+/* Gesture: Explaining / Speaking (Both arms gesturing expressively) */
+.rc-ai-character-container[data-character-state="speaking"] .rc-arm-pose--idle,
+.rc-ai-character-container[data-character-state="explaining"] .rc-arm-pose--idle { opacity: 0; }
+.rc-ai-character-container[data-character-state="speaking"] .rc-arm-left-rest,
+.rc-ai-character-container[data-character-state="explaining"] .rc-arm-left-rest { opacity: 0; }
+
+.rc-ai-character-container[data-character-state="speaking"] .rc-arm-pose--explain,
+.rc-ai-character-container[data-character-state="explaining"] .rc-arm-pose--explain,
+.rc-ai-character-container[data-character-state="speaking"] .rc-arm-left-explain,
+.rc-ai-character-container[data-character-state="explaining"] .rc-arm-left-explain {
+    opacity: 1;
+    animation: rcRigExplainGesticulate 1.8s ease-in-out infinite alternate;
+}
+
+@keyframes rcRigExplainGesticulate {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-3px); }
+}
+
+/* 9C. Morphing Viseme Lip-Sync Engine */
+.rc-viseme {
+    transition: opacity 0.08s ease;
+}
+
+.rc-ai-character-container.is-viseme-rest .rc-viseme--rest { opacity: 1 !important; }
+.rc-ai-character-container.is-viseme-rest .rc-viseme--open,
+.rc-ai-character-container.is-viseme-rest .rc-viseme--round,
+.rc-ai-character-container.is-viseme-rest .rc-viseme--wide { opacity: 0 !important; }
+
+.rc-ai-character-container.is-viseme-open .rc-viseme--rest { opacity: 0 !important; }
+.rc-ai-character-container.is-viseme-open .rc-viseme--open { opacity: 1 !important; }
+.rc-ai-character-container.is-viseme-open .rc-viseme--round,
+.rc-ai-character-container.is-viseme-open .rc-viseme--wide { opacity: 0 !important; }
+
+.rc-ai-character-container.is-viseme-round .rc-viseme--rest { opacity: 0 !important; }
+.rc-ai-character-container.is-viseme-round .rc-viseme--round { opacity: 1 !important; }
+.rc-ai-character-container.is-viseme-round .rc-viseme--open,
+.rc-ai-character-container.is-viseme-round .rc-viseme--wide { opacity: 0 !important; }
+
+.rc-ai-character-container.is-viseme-wide .rc-viseme--rest { opacity: 0 !important; }
+.rc-ai-character-container.is-viseme-wide .rc-viseme--wide { opacity: 1 !important; }
+.rc-ai-character-container.is-viseme-wide .rc-viseme--open,
+.rc-ai-character-container.is-viseme-wide .rc-viseme--round { opacity: 0 !important; }
+
+/* Dynamic Viseme Cycling Fallback when speaking */
+.rc-ai-character-container[data-character-state="speaking"]:not(.is-viseme-open):not(.is-viseme-round):not(.is-viseme-wide) .rc-viseme--rest {
+    animation: rcRigMouthSpeak 0.35s ease-in-out infinite alternate;
+}
+
+@keyframes rcRigMouthSpeak {
+    0% { transform: scaleY(0.7); }
+    100% { transform: scaleY(1.4); }
+}
+
+/* =========================================================================
+   10. Interactive Page Section Highlighting & Spotlight Cues
+   ========================================================================= */
+.rc-ai-highlighted-section {
+    outline: 3px solid #d4af37 !important;
+    outline-offset: 6px !important;
+    box-shadow: 0 0 26px rgba(212, 175, 55, 0.48), 0 12px 36px rgba(62, 28, 18, 0.12) !important;
+    border-radius: 12px !important;
+    transition: outline 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease !important;
+    position: relative !important;
+    z-index: 30 !important;
+    animation: rcAiHighlightPulse 2.4s ease-in-out infinite alternate !important;
+}
+
+@keyframes rcAiHighlightPulse {
+    0% {
+        outline-color: rgba(212, 175, 55, 0.6);
+        box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+    }
+    100% {
+        outline-color: #d4af37;
+        box-shadow: 0 0 35px rgba(212, 175, 55, 0.65), 0 12px 42px rgba(62, 28, 18, 0.18);
+    }
+}
+
+/* Floating Pointer Cue Pin */
+.rc-ai-section-pointer-cue {
+    position: absolute;
+    top: -16px;
+    left: 20px;
+    background: linear-gradient(135deg, #240a00 0%, #3e1a0f 100%);
+    color: #fce8bd;
+    border: 1.5px solid #d4af37;
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    z-index: 40;
+    pointer-events: none;
+    animation: rcAiCueBounce 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes rcAiCueBounce {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-4px); }
+}
+
+/* =========================================================================
+   11. Virtual Tour Guide Beacon Dock (Section Guide)
+   ========================================================================= */
+.rc-ai-tour-beacon {
+    position: fixed;
+    bottom: 96px;
+    left: 24px;
+    max-width: 400px;
+    width: calc(100vw - 48px);
+    background: linear-gradient(145deg, #ffffff 0%, #fffdfa 100%);
+    border: 1.5px solid #d4af37;
+    border-radius: 22px;
+    box-shadow: 0 16px 48px rgba(62, 28, 18, 0.18), 0 4px 16px rgba(212, 175, 55, 0.2);
+    padding: 14px 16px;
+    z-index: 1040;
+    animation: rcAiBeaconFlyIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+@keyframes rcAiBeaconFlyIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.96);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.rc-ai-beacon-inner {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.rc-ai-beacon-avatar-col {
+    flex-shrink: 0;
+    width: 82px;
+    height: 94px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rc-ai-beacon-character-wrap {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: radial-gradient(circle, #fdf6ec 0%, #faede1 100%);
+    border-radius: 18px;
+    border: 1.5px solid #e7cdb8;
+    overflow: visible;
+}
+
+.rc-ai-beacon-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.rc-ai-beacon-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.rc-ai-beacon-badge {
+    background: #fdf5e8;
+    color: #92400e;
+    border: 1px solid #f2cf8d;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    letter-spacing: 0.02em;
+}
+
+.rc-ai-beacon-close-btn {
+    background: none;
+    border: none;
+    color: #78716c;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.rc-ai-beacon-close-btn:hover {
+    background: #f5f5f4;
+    color: #1c1917;
+}
+
+.rc-ai-beacon-title {
+    margin: 0 0 4px 0;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #240a00;
+    line-height: 1.25;
+}
+
+.rc-ai-beacon-text {
+    margin: 0 0 10px 0;
+    font-size: 0.78rem;
+    color: #573e35;
+    line-height: 1.45;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.rc-ai-beacon-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.rc-ai-beacon-wave {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 14px;
+    margin-right: 4px;
+}
+
+.rc-ai-beacon-wave span {
+    width: 3px;
+    height: 4px;
+    background: #d4af37;
+    border-radius: 2px;
+    animation: rcAiWaveBounce 0.9s ease-in-out infinite alternate;
+}
+
+.rc-ai-beacon-wave span:nth-child(2) { animation-delay: 0.15s; }
+.rc-ai-beacon-wave span:nth-child(3) { animation-delay: 0.3s; }
+.rc-ai-beacon-wave span:nth-child(4) { animation-delay: 0.45s; }
+
+.rc-ai-beacon-btn {
+    background: #faf4ef;
+    border: 1px solid #dcb4a8;
+    color: #3e1a0f;
+    padding: 4px 9px;
+    border-radius: 12px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.rc-ai-beacon-btn:hover {
+    background: #3e1a0f;
+    color: #ffffff;
+    border-color: #3e1a0f;
+    transform: translateY(-1px);
+}
+
+.rc-ai-beacon-btn--replay {
+    background: #240a00;
+    color: #ffffff;
+    border-color: #d4af37;
+}
+
+.rc-ai-beacon-btn--replay:hover {
+    background: #4a2118;
+}
+
+/* =========================================================================
+   11B. Articulated Ruchi Chef Character Rig & State Animations
+   ========================================================================= */
+
+/* Base container sizing */
+.rc-chef-rig {
+    position: relative;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.rc-chef-rig-body-wrap {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-origin: bottom center;
+}
+
+.rc-chef-rig-base-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain !important;
+    object-position: bottom center;
+    display: block;
+    background: transparent !important;
+}
+
+/* Articulated Arm Layer (Exact arm segment from supplied PNG) */
+.rc-chef-rig-arm-wrap {
+    position: absolute;
+    left: 5.57%;
+    top: 18.55%;
+    width: 34.75%;
+    height: 20.51%;
+    transform-origin: 83% 62%; /* Shoulder / elbow pivot connection */
+    pointer-events: none;
+    z-index: 2;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.rc-chef-rig-arm-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+/* Blink overlays disabled — drawn eyes on PNG; CSS lids were misaligned and oversized */
+.rc-chef-rig-eyes-wrap {
+    display: none;
+}
+
+.rc-chef-rig-eyelid {
+    display: none;
+}
+
+/* Ambient Particle FX (Sparkles, Waves, Dust) */
+.rc-chef-fx-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 4;
+}
+
+.rc-chef-fx-sparkle {
+    position: absolute;
+    font-size: 15px;
+    display: none;
+    pointer-events: none;
+}
+
+.rc-chef-fx-sparkle--1 {
+    top: 15%;
+    left: 2%;
+    animation: rcChefSparkleFloat 2.2s ease-in-out infinite;
+}
+
+.rc-chef-fx-sparkle--2 {
+    top: 25%;
+    left: 12%;
+    animation: rcChefSparkleFloat 2.2s ease-in-out infinite 0.7s;
+}
+
+@keyframes rcChefSparkleFloat {
+    0%, 100% { transform: scale(0.6) translateY(0); opacity: 0; }
+    50% { transform: scale(1.15) translateY(-8px); opacity: 0.9; }
+}
+
+.rc-chef-fx-wave {
+    position: absolute;
+    top: 12%;
+    right: 28%;
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(212, 175, 55, 0.7);
+    border-radius: 50%;
+    display: none;
+}
+
+.rc-chef-fx-wave--1 { animation: rcChefAcousticWave 1.6s ease-out infinite; }
+.rc-chef-fx-wave--2 { animation: rcChefAcousticWave 1.6s ease-out infinite 0.6s; }
+
+@keyframes rcChefAcousticWave {
+    0% { transform: scale(0.4); opacity: 0.8; }
+    100% { transform: scale(2.4); opacity: 0; }
+}
+
+.rc-chef-pointer-sparkle {
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    font-size: 14px;
+    display: none;
+}
+
+.rc-chef-walking-dust {
+    position: absolute;
+    bottom: 2px;
+    left: 45%;
+    width: 20px;
+    height: 6px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(212, 175, 55, 0.5) 0%, transparent 70%);
+    display: none;
+}
+
+/* ==========================================================================
+   Character Animation States (Applied via [data-rig-state])
+   ========================================================================== */
+
+/* 1. IDLE STATE: gentle float + breath (single transform animation) */
+[data-rig-state="idle"] .rc-chef-rig-body-wrap {
+    animation: rcChefIdleMotion 4.8s ease-in-out infinite;
+}
+
+[data-rig-state="idle"] .rc-chef-rig-arm-wrap {
+    animation: rcChefIdleArm 4.8s ease-in-out infinite;
+}
+
+[data-rig-state="idle"] .rc-chef-rig--trigger .rc-chef-rig-arm-wrap {
+    animation: none;
+}
+
+@keyframes rcChefIdleMotion {
+    0%, 100% {
+        transform: scale(1) translateY(0);
+    }
+    50% {
+        transform: scale(1.004, 1.006) translateY(-2px);
+    }
+}
+
+@keyframes rcChefIdleArm {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(-3deg) translateY(-1px); }
+}
+
+/* Floating trigger uses the full PNG only — overlay arm breaks on hover/idle */
+.rc-chef-rig--trigger .rc-chef-rig-arm-wrap {
+    display: none !important;
+}
+
+/* 2. WELCOMING STATE: Welcoming arm wave, warm head nod & sparkle FX */
+[data-rig-state="welcoming"] .rc-chef-rig-body-wrap {
+    animation: rcChefWelcomeBody 2.6s ease-in-out infinite;
+}
+
+[data-rig-state="welcoming"] .rc-chef-rig-arm-wrap {
+    animation: rcChefArmWave 1.8s ease-in-out infinite;
+}
+
+[data-rig-state="welcoming"] .rc-chef-fx-sparkle {
+    display: block;
+}
+
+@keyframes rcChefWelcomeBody {
+    0%, 100% { transform: rotate(0deg) translateY(0); }
+    25% { transform: rotate(1.5deg) translateY(-2px); }
+    75% { transform: rotate(-1deg) translateY(-1px); }
+}
+
+@keyframes rcChefArmWave {
+    0% { transform: rotate(0deg); }
+    15% { transform: rotate(-14deg) translateY(-3px); }
+    35% { transform: rotate(12deg) translateY(1px); }
+    55% { transform: rotate(-10deg) translateY(-2px); }
+    75% { transform: rotate(8deg); }
+    100% { transform: rotate(0deg); }
+}
+
+/* 3. LISTENING & THINKING STATE: Attentive lean, hand cupped, acoustic wave pulse */
+[data-rig-state="listening"] .rc-chef-rig-body-wrap,
+[data-rig-state="thinking"] .rc-chef-rig-body-wrap {
+    animation: rcChefListenBody 2s ease-in-out infinite alternate;
+}
+
+[data-rig-state="listening"] .rc-chef-rig-arm-wrap,
+[data-rig-state="thinking"] .rc-chef-rig-arm-wrap {
+    animation: rcChefListenArm 2s ease-in-out infinite alternate;
+}
+
+[data-rig-state="listening"] .rc-chef-fx-wave {
+    display: block;
+}
+
+@keyframes rcChefListenBody {
+    0% { transform: rotate(-2deg) translateY(0) scale(1.01); }
+    100% { transform: rotate(-3.5deg) translateY(-2px) scale(1.02); }
+}
+
+@keyframes rcChefListenArm {
+    0% { transform: rotate(16deg) translateY(-8px); }
+    100% { transform: rotate(22deg) translateY(-12px); }
+}
+
+/* 4. SPEAKING STATE: Vocal cadence gestures, voice waves */
+[data-rig-state="speaking"] .rc-chef-rig-body-wrap {
+    animation: rcChefSpeakingBody 1.4s ease-in-out infinite;
+}
+
+[data-rig-state="speaking"] .rc-chef-rig-arm-wrap {
+    animation: rcChefSpeakingArm 1.4s ease-in-out infinite;
+}
+
+@keyframes rcChefSpeakingBody {
+    0%, 100% { transform: translateY(0) scale(1); }
+    25% { transform: translateY(-2px) scale(1.01); }
+    50% { transform: translateY(1px) scale(0.995); }
+    75% { transform: translateY(-3px) scale(1.015); }
+}
+
+@keyframes rcChefSpeakingArm {
+    0%, 100% { transform: rotate(0deg); }
+    30% { transform: rotate(-8deg) translateY(-3px); }
+    60% { transform: rotate(6deg) translateY(1px); }
+    85% { transform: rotate(-5deg); }
+}
+
+/* 5. WALKING STATE: Stepping cadence, hip sway, stride particles */
+[data-rig-state="walking"] .rc-chef-rig-body-wrap {
+    animation: rcChefWalkStride 0.75s ease-in-out infinite alternate;
+}
+
+[data-rig-state="walking"] .rc-chef-rig-arm-wrap {
+    animation: rcChefWalkArm 0.75s ease-in-out infinite alternate;
+}
+
+[data-rig-state="walking"] .rc-chef-walking-dust {
+    display: block;
+    animation: rcChefWalkDust 0.75s ease-out infinite;
+}
+
+@keyframes rcChefWalkStride {
+    0% { transform: rotate(-3deg) translateY(2px) scaleY(0.985); }
+    50% { transform: rotate(0deg) translateY(-6px) scaleY(1.015); }
+    100% { transform: rotate(3deg) translateY(2px) scaleY(0.985); }
+}
+
+@keyframes rcChefWalkArm {
+    0% { transform: rotate(-10deg) translateY(-2px); }
+    100% { transform: rotate(14deg) translateY(2px); }
+}
+
+@keyframes rcChefWalkDust {
+    0% { transform: scale(0.5); opacity: 0.8; }
+    100% { transform: scale(1.8); opacity: 0; }
+}
+
+/* 6. POINTING STATE: Articulated arm extended outward, laser sparkle cue */
+[data-rig-state="pointing"] .rc-chef-rig-body-wrap {
+    transform: rotate(-1.5deg) translateY(-2px);
+    transition: transform 0.4s ease;
+}
+
+[data-rig-state="pointing"] .rc-chef-rig-arm-wrap {
+    transform: rotate(-18deg) translateY(-8px) scale(1.04);
+}
+
+[data-rig-state="pointing"] .rc-chef-pointer-sparkle {
+    display: block;
+    animation: rcChefPointerPulse 1s ease-in-out infinite;
+}
+
+@keyframes rcChefPointerPulse {
+    0%, 100% { transform: scale(0.9); opacity: 0.7; }
+    50% { transform: scale(1.3); opacity: 1; filter: drop-shadow(0 0 6px #ffd700); }
+}
+
+/* ==========================================================================
+   Enlarged Avatar Guide Stage inside AI Panel
+   ========================================================================= */
+.rc-ai-guide-stage {
+    background: linear-gradient(180deg, #2A1108 0%, #1F0A03 100%);
+    border-bottom: 2px solid rgba(212, 175, 55, 0.4);
+    padding: 10px 14px 12px;
+    display: grid;
+    grid-template-columns: 118px minmax(0, 1fr);
+    grid-template-areas:
+        "avatar speech";
+    align-items: center;
+    column-gap: 12px;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+    transition: all 0.35s ease;
+}
+
+.rc-ai-stage-backdrop {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.rc-ai-stage-spotlight {
+    position: absolute;
+    top: 50%;
+    left: 59px;
+    transform: translate(-50%, -50%);
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.24) 0%, rgba(212, 175, 55, 0.04) 55%, transparent 75%);
+    filter: blur(12px);
+    animation: rcAiSpotlightPulse 4s ease-in-out infinite alternate;
+}
+
+@keyframes rcAiSpotlightPulse {
+    0% { opacity: 0.6; transform: translate(-50%, -50%) scale(0.95); }
+    100% { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
+}
+
+/* Enlarged Avatar Stage Sizing */
+.rc-ai-stage-character-container {
+    grid-area: avatar;
+    width: 100%;
+    height: 142px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+    filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.45));
+}
+
+.rc-chef-rig--enlarged {
+    width: 100%;
+    height: 100%;
+}
+
+.rc-chef-rig--enlarged .rc-chef-rig-arm-wrap,
+.rc-chef-rig--enlarged .rc-chef-fx-layer {
+    display: none !important;
+}
+
+/* Stage speech bubble (beside avatar) */
+.rc-ai-stage-balloon {
+    grid-area: speech;
+    background: rgba(255, 253, 251, 0.96);
+    border: 1px solid rgba(212, 175, 55, 0.5);
+    border-radius: 14px;
+    padding: 10px 12px;
+    margin: 0;
+    width: 100%;
+    max-width: none;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+    position: relative;
+    z-index: 3;
+    align-self: center;
+}
+
+.rc-ai-stage-balloon::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -6px;
+    transform: translateY(-50%) rotate(45deg);
+    width: 11px;
+    height: 11px;
+    background: #fffdfb;
+    border-left: 1px solid rgba(212, 175, 55, 0.5);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.5);
+}
+
+.rc-ai-stage-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #8c3a2c;
+    margin-bottom: 2px;
+}
+
+.rc-ai-pulse-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 6px rgba(34, 197, 94, 0.8);
+    display: inline-block;
+}
+
+.rc-ai-stage-speech {
+    margin: 0;
+    font-size: 0.78rem;
+    line-height: 1.4;
+    color: #240a00;
+    font-weight: 500;
+}
+
+/* Responsive adjustment for Guide Stage */
+@media screen and (max-width: 380px) {
+    .rc-ai-guide-stage {
+        grid-template-columns: 96px minmax(0, 1fr);
+        column-gap: 8px;
+        padding: 8px 10px 10px;
+    }
+
+    .rc-ai-stage-character-container {
+        height: 124px;
+    }
+
+    .rc-ai-stage-spotlight {
+        left: 48px;
+        width: 140px;
+        height: 140px;
+    }
+}
+
+@media screen and (max-height: 720px) {
+    .rc-ai-stage-character-container {
+        height: 128px;
+    }
+
+    .rc-ai-guide-stage {
+        padding: 8px 12px 10px;
+    }
+}
+
+/* =========================================================================
+   12. Accessibility & Reduced Motion Support
+   ========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+    .rc-ai-character-svg,
+    .rc-ai-highlighted-section,
+    .rc-ai-tour-beacon,
+    .rc-rig-brow,
+    .rc-arm-pose,
+    .rc-rig-eyelid,
+    .rc-ai-section-pointer-cue {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+

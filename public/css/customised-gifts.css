@@ -1,0 +1,528 @@
+/* ==========================================================================
+   Ruchi Chocolates — Customised Gifts Page Styles
+   Matching Luxury Confectionery & Bespoke Gifting Aesthetic
+   ========================================================================== */
+
+.rc-customised-page {
+    background-color: #fdfaf7;
+    color: #4a2f26;
+    font-family: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* ==========================================================================
+   Hero Section: 3-Column Layout (Content - Form - Hamper Image)
+   ========================================================================== */
+.rc-custom-hero-section {
+    background: linear-gradient(135deg, #faeae6 0%, #fef5f0 50%, #faede8 100%);
+    position: relative;
+    padding: clamp(32px, 4.5vw, 60px) 0 clamp(40px, 5.5vw, 76px);
+    overflow: hidden;
+    border-bottom: 1px solid rgba(228, 198, 190, 0.45);
+}
+
+.rc-custom-hero-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 clamp(18px, 3.5vw, 40px);
+    display: grid;
+    grid-template-columns: 1fr 1.08fr 1fr;
+    gap: clamp(20px, 3vw, 40px);
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+/* Left Column: Breadcrumb, Heading, Description */
+.rc-custom-hero-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    position: relative;
+}
+
+.rc-custom-breadcrumb {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.88rem;
+    color: #8c6f66;
+    margin-bottom: 16px;
+    font-weight: 500;
+}
+
+.rc-custom-breadcrumb-link {
+    color: #8c6f66;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.rc-custom-breadcrumb-link:hover {
+    color: #2b1408;
+}
+
+.rc-custom-breadcrumb-sep {
+    color: #baa39c;
+    font-size: 0.8rem;
+}
+
+.rc-custom-breadcrumb-current {
+    color: #4a2f26;
+    font-weight: 600;
+}
+
+.rc-custom-hero-heading-wrap {
+    position: relative;
+    margin-bottom: 16px;
+}
+
+.rc-custom-hero-title {
+    margin: 0;
+    line-height: 1.1;
+}
+
+.rc-custom-title-serif {
+    display: block;
+    font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+    font-size: clamp(2.4rem, 4vw, 3.4rem);
+    font-weight: 700;
+    color: #2c1206;
+    letter-spacing: -0.01em;
+}
+
+.rc-custom-title-script {
+    display: block;
+    font-family: 'Dancing Script', 'Allura', 'Cormorant Garamond', cursive;
+    font-style: italic;
+    font-size: clamp(2.6rem, 4.4vw, 3.8rem);
+    font-weight: 700;
+    color: #d47e24;
+    line-height: 1.15;
+    margin-top: 4px;
+}
+
+.rc-custom-title-heart {
+    position: absolute;
+    top: -8px;
+    right: -28px;
+    color: #d47e24;
+    transform: rotate(8deg);
+    animation: rcHeartGently 3.5s ease-in-out infinite;
+}
+
+.rc-custom-hero-desc {
+    font-size: clamp(0.95rem, 1.18vw, 1.05rem);
+    line-height: 1.68;
+    color: #5c4137;
+    margin: 0;
+    max-width: 380px;
+}
+
+/* Subtle botanical line-art behind left content */
+.rc-custom-botanical-bg {
+    position: absolute;
+    bottom: -60px;
+    left: -40px;
+    width: 140px;
+    height: 180px;
+    opacity: 0.45;
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* Center Column: Customisation Enquiry Form Card */
+.rc-custom-hero-center {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.rc-custom-form-card {
+    background-color: #ffffff;
+    border: 1px solid rgba(228, 198, 190, 0.75);
+    border-radius: 20px;
+    box-shadow: 0 10px 34px rgba(80, 30, 20, 0.08);
+    padding: clamp(24px, 3.2vw, 32px) clamp(22px, 3vw, 28px);
+    width: 100%;
+    max-width: 440px;
+    box-sizing: border-box;
+    text-align: center;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    position: relative;
+}
+
+.rc-custom-form-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 40px rgba(80, 30, 20, 0.12);
+}
+
+.rc-custom-form-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #d47e24;
+    background: #fdf5eb;
+    border: 1px solid rgba(212, 126, 36, 0.25);
+    border-radius: 20px;
+    padding: 4px 12px;
+    margin-bottom: 12px;
+}
+
+.rc-custom-form-title {
+    font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.35rem, 1.8vw, 1.55rem);
+    font-weight: 700;
+    color: #2b1408;
+    margin: 0 0 8px 0;
+    line-height: 1.25;
+}
+
+.rc-custom-form-sub {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: #6e5248;
+    margin: 0 0 18px 0;
+}
+
+.rc-custom-textarea {
+    width: 100%;
+    min-height: 110px;
+    box-sizing: border-box;
+    border: 1.5px solid #e5ccc4;
+    border-radius: 12px;
+    background-color: #fdfbf9;
+    color: #3b1b11;
+    font-family: inherit;
+    font-size: 0.94rem;
+    line-height: 1.55;
+    padding: 12px 14px;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    margin-bottom: 18px;
+}
+
+.rc-custom-textarea::placeholder {
+    color: #9c8279;
+}
+
+.rc-custom-textarea:focus {
+    border-color: #d47e24;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(212, 126, 36, 0.15);
+}
+
+.rc-custom-enquire-btn {
+    width: 100%;
+    background-color: #2b1408;
+    color: #ffffff;
+    border: none;
+    border-radius: 30px;
+    font-size: 0.98rem;
+    font-weight: 600;
+    padding: 14px 22px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 6px 18px rgba(43, 20, 8, 0.22);
+    transition: all 0.25s ease;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+}
+
+.rc-custom-enquire-btn:hover {
+    background-color: #431f0d;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(43, 20, 8, 0.28);
+    color: #ffffff;
+}
+
+.rc-custom-enquire-btn:active {
+    transform: translateY(0);
+}
+
+.rc-custom-wa-icon {
+    width: 20px;
+    height: 20px;
+    fill: #25d366;
+    flex-shrink: 0;
+}
+
+/* Right Column: Hero Hamper Image */
+.rc-custom-hero-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.rc-custom-hero-media-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 16px 36px rgba(80, 30, 20, 0.12);
+}
+
+.rc-custom-hero-media-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    aspect-ratio: 16 / 11;
+    transform: scale(1.02);
+    transition: transform 0.6s ease;
+}
+
+.rc-custom-hero-media-wrap:hover .rc-custom-hero-media-img {
+    transform: scale(1.05);
+}
+
+.rc-custom-hero-media-blend {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(to right, rgba(250, 234, 230, 0.45) 0%, rgba(250, 234, 230, 0.05) 35%, transparent 60%);
+    border-radius: 20px;
+}
+
+/* ==========================================================================
+   Product Photos Section (5-product grid)
+   ========================================================================== */
+.rc-custom-gallery-section {
+    padding: clamp(48px, 6vw, 84px) 0 clamp(44px, 5.5vw, 76px);
+    position: relative;
+    background-color: #fdfaf7;
+}
+
+.rc-custom-gallery-container {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 clamp(18px, 3.5vw, 40px);
+    position: relative;
+}
+
+/* Section Header */
+.rc-custom-gallery-header {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto clamp(28px, 4vw, 44px) auto;
+}
+
+.rc-custom-gallery-divider {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.rc-custom-divider-line {
+    width: 44px;
+    height: 1px;
+    background-color: #e5b382;
+}
+
+.rc-custom-divider-heart {
+    color: #d47e24;
+    font-size: 13px;
+    line-height: 1;
+}
+
+.rc-custom-gallery-title {
+    font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+    font-size: clamp(2rem, 3.4vw, 2.8rem);
+    font-weight: 700;
+    color: #2b1408;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.01em;
+}
+
+.rc-custom-gallery-sub {
+    font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+    color: #6e5248;
+    margin: 0;
+}
+
+.rc-custom-gallery-wrapper {
+    position: relative;
+}
+
+.rc-custom-gallery-track {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: clamp(16px, 2vw, 24px);
+    padding: 12px 0 20px;
+    width: 100%;
+}
+
+/* Individual Gallery Item Card */
+.rc-custom-gallery-card {
+    min-width: 0;
+    background-color: #ffffff;
+    border-radius: 16px;
+    border: 1px solid rgba(228, 198, 190, 0.65);
+    box-shadow: 0 6px 20px rgba(80, 30, 20, 0.05);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.rc-custom-gallery-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(80, 30, 20, 0.12);
+    border-color: rgba(212, 126, 36, 0.6);
+}
+
+.rc-custom-card-media {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background-color: #fdf5f0;
+}
+
+.rc-custom-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.rc-custom-gallery-card:hover .rc-custom-card-img {
+    transform: scale(1.08);
+}
+
+.rc-custom-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(43, 20, 8, 0.45) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 12px;
+}
+
+.rc-custom-gallery-card:hover .rc-custom-card-overlay {
+    opacity: 1;
+}
+
+.rc-custom-card-btn {
+    background: rgba(255, 255, 255, 0.95);
+    color: #2b1408;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: background-color 0.2s ease;
+}
+
+.rc-custom-card-btn:hover {
+    background: #ffffff;
+    color: #d47e24;
+}
+
+.rc-custom-card-info {
+    padding: 14px 16px 16px 16px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: center;
+}
+
+.rc-custom-card-title {
+    font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+    font-size: 1.08rem;
+    font-weight: 700;
+    color: #2b1408;
+    margin: 0 0 4px 0;
+    line-height: 1.3;
+}
+
+.rc-custom-card-desc {
+    font-size: 0.82rem;
+    color: #7a5e54;
+    margin: 0;
+    line-height: 1.45;
+}
+
+/* ==========================================================================
+   Responsive Breakpoints
+   ========================================================================== */
+@media (max-width: 1100px) {
+    .rc-custom-hero-container {
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+    }
+
+    .rc-custom-hero-left {
+        grid-column: span 1;
+    }
+
+    .rc-custom-hero-center {
+        grid-column: span 1;
+    }
+
+    .rc-custom-hero-right {
+        grid-column: span 2;
+        margin-top: 10px;
+    }
+
+    .rc-custom-hero-media-wrap {
+        max-width: 580px;
+    }
+
+    .rc-custom-gallery-track {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .rc-custom-hero-section {
+        padding: 24px 0 36px 0;
+    }
+
+    .rc-custom-hero-container {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        text-align: center;
+    }
+
+    .rc-custom-hero-left {
+        align-items: center;
+        text-align: center;
+    }
+
+    .rc-custom-hero-right {
+        grid-column: span 1;
+    }
+
+    .rc-custom-hero-media-wrap {
+        max-width: 100%;
+    }
+
+    .rc-custom-gallery-track {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .rc-custom-gallery-section {
+        padding: 36px 0 44px 0;
+    }
+}
