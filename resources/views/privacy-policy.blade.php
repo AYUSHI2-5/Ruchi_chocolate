@@ -114,7 +114,7 @@
                             <li class="rc-policy-card__item">Name</li>
                             <li class="rc-policy-card__item">Mobile Number</li>
                             <li class="rc-policy-card__item">Email Address</li>
-                            <li class="rc-policy-card__item">Delivery Address (if shared for enquiries)</li>
+                            <li class="rc-policy-card__item">Pickup or contact details (if shared for enquiries)</li>
                             <li class="rc-policy-card__item">Any other information you provide through our contact form, WhatsApp, email or calls</li>
                         </ul>
                     </div>
@@ -163,7 +163,7 @@
                         <ul class="rc-policy-card__list">
                             <li class="rc-policy-card__item">WhatsApp and email service providers (for responding to enquiries)</li>
                             <li class="rc-policy-card__item">Website hosting and analytics providers (to understand website usage)</li>
-                            <li class="rc-policy-card__item">Delivery partners (only if you share your address for product enquiries)</li>
+                            <li class="rc-policy-card__item">We do not share your details with delivery or courier partners — shop pickup only</li>
                         </ul>
                         <p class="rc-policy-card__text">
                             These partners are required to keep your information confidential and use it only for the purpose of providing their services to us.

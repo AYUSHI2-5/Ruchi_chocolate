@@ -144,7 +144,7 @@ class AiAssistantService
 
         // 4. Non-Navigation Direct Inquiries (Answer directly without redirecting)
         // 4A. Delivery details
-        if ($this->matchesIntent($normalized, ['delivery', 'shipping', 'ahmedabad', 'courier', 'dispatch', 'pincode', 'location', 'local delivery', 'डिलीवरी', 'पहुंचाना', 'ડિલિવરી'])) {
+        if ($this->matchesIntent($normalized, ['delivery', 'shipping', 'courier', 'dispatch', 'pincode', 'home delivery', 'pickup', 'collect from shop', 'shop pickup', 'डिलीवरी', 'पिकअप', 'ડિલિવરી', 'પિકઅપ'])) {
             return $this->handleDeliveryInformation($detectedLang);
         }
 
@@ -421,7 +421,7 @@ class AiAssistantService
         }
 
         return [
-            'message' => "We have two policy pages available. Which one would you like to explore?\n\n• **Privacy Policy:** How we safeguard and respect your personal contact and delivery data.\n• **Terms & Conditions:** Ordering, delivery, cancellations, returns, and website use.",
+            'message' => "We have two policy pages available. Which one would you like to explore?\n\n• **Privacy Policy:** How we safeguard and respect your personal contact and order data.\n• **Terms & Conditions:** Ordering, shop pickup, cancellations, returns, and website use.",
             'speech_text' => 'We have our Privacy Policy and Terms and Conditions pages. Which one would you like to explore?',
             'quick_replies' => ['Privacy Policy 🛡️', 'Terms & Conditions 📜'],
         ];
@@ -499,7 +499,7 @@ class AiAssistantService
                     'message' => "🏷️ **Best Value Chocolates Under ₹300:**\n\nHere are popular selections under ₹300 crafted fresh with premium ingredients:",
                     'speech_text' => 'Here are our top selections under three hundred rupees, including our signature heart tins starting from one hundred seventy rupees!',
                     'products' => $this->formatProducts($topBudget),
-                    'quick_replies' => ['Heart Tin Boxes 💖', 'Customise a Gift ✨', 'Delivery Details 🚚'],
+                    'quick_replies' => ['Heart Tin Boxes 💖', 'Customise a Gift ✨', 'Shop Pickup 🏪'],
                 ];
             }
         }
@@ -740,7 +740,7 @@ class AiAssistantService
     protected function buildCustomisedGiftsGuideResponse(string $lang): array
     {
         $message = "✨ **Custom chocolate or hampers**\n\n"
-            ."Explain here **what type of chocolates or chocolate hampers** you want — occasion, quantity, flavours, names, budget, and delivery date.\n\n"
+            ."Explain here **what type of chocolates or chocolate hampers** you want — occasion, quantity, flavours, names, budget, and preferred pickup date.\n\n"
             .'**Submit your description** in the box on this page (or type it here in chat). '
             .'Then tap **Send on WhatsApp** — I will open WhatsApp with your message ready so you can send it directly to our team.';
 
@@ -750,14 +750,14 @@ class AiAssistantService
             default => 'Explain what type of chocolate or hampers you want. Submit your description in the box on this page or here in chat, then tap Send on WhatsApp and I will open WhatsApp with your message ready to send.',
         };
 
-            return [
+        return [
             'message' => $message,
             'speech_text' => $speechText,
             'avatar_gesture' => 'pointing',
             'section_target' => $this->customisedGiftsFormSectionTarget(),
-                'action' => 'whatsapp',
+            'action' => 'whatsapp',
             'action_url' => $this->customisedGiftWhatsAppUrl(''),
-                'action_label' => 'Enquire on WhatsApp',
+            'action_label' => 'Enquire on WhatsApp',
             'quick_replies' => ['Browse Products 🍫', 'Contact Us 📞'],
         ];
     }
@@ -774,7 +774,7 @@ class AiAssistantService
                 ."I've added your description to the **Share Your Customisation Details** box.\n\n"
                 .'Tap **Send on WhatsApp** below — your enquiry will open in WhatsApp so you can send it directly to our team.',
             'speech_text' => 'I have added your description to the customisation box. Tap Send on WhatsApp to send it directly to our team.',
-                'avatar_gesture' => 'pointing',
+            'avatar_gesture' => 'pointing',
             'section_target' => $this->customisedGiftsFormSectionTarget(),
             'action' => 'prefill_customisation_form',
             'action_url' => $this->customisedGiftWhatsAppUrl($details),
@@ -861,14 +861,14 @@ class AiAssistantService
         $message = "🔄 **Return & Refund Guidelines:**\n\n"
             ."Because our artisan chocolates are perishable food items handcrafted fresh to order:\n\n"
             ."• **Damaged or Incorrect Items:** Eligible for an immediate replacement or refund.\n"
-            ."• **Reporting Window:** Please report concerns within **24 hours of delivery** with photo proof via WhatsApp (+91 7490828282).\n"
+            .'• **Reporting Window:** Please report concerns within **24 hours of pickup** with photo proof via WhatsApp ('.config('ruchi.phone_display').").\n"
             ."• **Non-Returnable:** Opened food items or melted chocolates resulting from improper customer heat exposure.\n\n"
             .'Verified damaged orders receive an immediate replacement or refund as per mutual agreement.';
 
         $speechText = match ($lang) {
             'hi' => 'हमारी चॉकलेट्स ताज़ी खाद्य वस्तुएं हैं। क्षतिग्रस्त या गलत ऑर्डर की रिपोर्ट डिलीवरी के 24 घंटे के अंदर व्हाट्सएप पर करें।',
             'gu' => 'અમારી ચોકલેટ્સ તાજી ખાદ્ય વસ્તુઓ છે. ડેમેજ અથવા ખોટા ઓર્ડરની 24 કલાકમાં વૉટ્સએપ પર જાણ કરો.',
-            default => 'Because our chocolates are perishable, report damaged or incorrect orders on WhatsApp within twenty-four hours of delivery for a replacement or refund.',
+            default => 'Because our chocolates are perishable, report damaged or incorrect orders on WhatsApp within twenty-four hours of pickup for a replacement or refund.',
         };
 
         return [
@@ -878,7 +878,7 @@ class AiAssistantService
             'action_url' => 'https://wa.me/917490828282?text='.urlencode('Hi Ruchi Chocolates, I would like to report an issue with my order.'),
             'action_label' => 'Report Issue on WhatsApp',
             'avatar_gesture' => 'explaining',
-            'quick_replies' => ['Non-Returnable Items 🚫', 'Delivery Details 🚚', 'Contact Us 📞'],
+            'quick_replies' => ['Non-Returnable Items 🚫', 'Shop Pickup 🏪', 'Contact Us 📞'],
         ];
     }
 
@@ -947,7 +947,7 @@ class AiAssistantService
      */
     protected function normalizeContactFormFields(array $rawFields): array
     {
-            return [
+        return [
             'name' => trim((string) ($rawFields['name'] ?? '')),
             'email' => trim((string) ($rawFields['email'] ?? '')),
             'phone' => trim((string) ($rawFields['phone'] ?? '')),
@@ -1128,7 +1128,7 @@ class AiAssistantService
                 ."• **Message:** {$clientFields['message']}\n\n"
                 .'Please review the form on this page and tap **Send Message** when you are ready.',
             'speech_text' => 'I have filled in the contact form with your details. Please review it and tap Send Message when you are ready.',
-                    'avatar_gesture' => 'pointing',
+            'avatar_gesture' => 'pointing',
             'section_target' => $this->contactFormSectionTarget(),
             'action' => 'prefill_contact_form',
             'contact_form' => [
@@ -1275,14 +1275,14 @@ class AiAssistantService
 
         $explMessage = "🛡️ **Privacy Policy Overview:**\n\n"
             ."At Ruchi Chocolates, your privacy and trust are our top priority:\n\n"
-            ."• **Confidential Details:** We only use your contact and delivery address to fulfill and hand-deliver your orders.\n"
+            ."• **Confidential Details:** We only use your contact details to confirm orders and arrange shop pickup.\n"
             ."• **Zero Third-Party Sharing:** Your personal data is never sold or shared with third-party advertisers.\n"
             .'• **Direct Updates:** We communicate order and dispatch updates securely via verified WhatsApp channels.';
 
         $explSpeech = match ($lang) {
             'hi' => 'स्वागत है हमारे Privacy Policy पेज पर! रुचि चॉकलेट्स पर आपकी जानकारी पूरी तरह सुरक्षित रखी जाती है और किसी तीसरे पक्ष के साथ साझा नहीं की जाती।',
             'gu' => 'અમારા Privacy Policy પેજ પર સ્વાગત છે! રુચિ ચોકલેટ્સ પર તમારી માહિતી સંપૂર્ણપણે સુરક્ષિત રાખવામાં આવે છે.',
-            default => 'Welcome to our Privacy Policy page! At Ruchi Chocolates, your contact and delivery details are kept strictly confidential and secure. We never share your personal information with third parties.',
+            default => 'Welcome to our Privacy Policy page! At Ruchi Chocolates, your contact and order details are kept strictly confidential and secure. We never share your personal information with third parties.',
         };
 
         $quickReplies = ['Terms & Conditions 📜', 'Contact Us 📞'];
@@ -1337,13 +1337,13 @@ class AiAssistantService
             ."These conditions explain browsing and ordering with Ruchi Chocolates:\n\n"
             ."• **Artisan Quality:** Handcrafted fresh in small batches upon order confirmation.\n"
             ."• **Customisation Notice:** Name lettering and bulk orders require advance confirmation before preparation.\n"
-            ."• **Delivery Requirements:** Recipient must provide accurate address and availability for fresh local hand-delivery in Ahmedabad.\n"
+            .'• **Shop Pickup Only:** '.config('ruchi.shop_pickup_notice')." Collect orders from our Ahmedabad shop after confirmation on WhatsApp.\n"
             .'• **Food Safety:** Prepared following strict homemade hygiene standards.';
 
         $explSpeech = match ($lang) {
             'hi' => 'स्वागत है हमारे Terms and Conditions पेज पर! हमारे नियम हैंडक्राफ्टेड ऑर्डरिंग, कस्टमाइजेशन और अहमदाबाद लोकल डिलीवरी से जुड़े हैं।',
             'gu' => 'અમારા Terms and Conditions પેજ પર સ્વાગત છે! અમારા નિયમો હેન્ડમેડ ઓર્ડરિંગ અને ડિલિવરી માટે છે.',
-            default => 'Welcome to our Terms and Conditions page! Our terms outline handcrafted ordering, customisation timelines, payment, and Ahmedabad local delivery guidelines.',
+            default => 'Welcome to our Terms and Conditions page! Our terms outline handcrafted ordering, customisation timelines, payment, and shop pickup guidelines.',
         };
 
         $quickReplies = ['Privacy Policy 🛡️', 'Contact Us 📞'];
@@ -1398,7 +1398,7 @@ class AiAssistantService
             ."From our homepage, you can discover:\n"
             ."• **Best Seller Hampers** & chocolate bouquets\n"
             ."• **Festive Category Circles** (Diwali, Rakhi, Birthday, Valentine's)\n"
-            ."• **Customised Gifts Preview** and local Ahmedabad delivery benefits.\n\n"
+            ."• **Customised Gifts Preview** and clear **shop pickup** information.\n\n"
             .'How can I help make your celebration sweeter today?';
 
         $explSpeech = match ($lang) {
@@ -1451,24 +1451,29 @@ class AiAssistantService
      */
     protected function handleDeliveryInformation(string $lang): array
     {
-        $message = "🚚 **Delivery & Shipping Details:**\n\n"
-            ."• **Local Hand-Delivery in Ahmedabad:** Fast, safe hand-delivery across Ahmedabad to ensure your delicate chocolates and bouquets arrive fresh and melted-free.\n"
-            ."• **Same-Day / Scheduled Delivery:** Available for pre-booked orders in Ahmedabad.\n"
-            ."• **Gujarat & PAN-India Courier:** Available for sturdy tin boxes and packaged assortments with insulated packaging.\n"
-            .'• **Delivery Charges:** Calculated at checkout based on distance, or confirmed directly on WhatsApp for custom hampers.';
+        $notice = (string) config('ruchi.shop_pickup_notice');
+        $address = (string) config('ruchi.address');
+
+        $message = "🏪 **Shop Pickup Only**\n\n"
+            ."{$notice}\n\n"
+            ."• **Collect from our Ahmedabad shop:** {$address}\n"
+            ."• **Confirm on WhatsApp:** We confirm availability, pricing, and a pickup time before you visit.\n"
+            .'• **No home delivery or shipping:** Courier and dispatch services are not available.';
 
         $speech = match ($lang) {
-            'hi' => 'हम अहमदाबाद में सुरक्षित हैंड-डिलीवरी देते हैं ताकि आपकी चॉकलेट्स एकदम ताज़ा और सुरक्षित पहुँचें।',
-            'gu' => 'અમે અમદાવાદમાં ફાસ્ટ લોકલ ડિલિવરી આપીએ છીએ જેથી ચોકલેટ્સ એકદમ તાજી રહે.',
-            default => 'We offer local hand-delivery across Ahmedabad to ensure your chocolates arrive fresh and melted-free.',
+            'hi' => 'हम केवल शॉप पिकअप देते हैं — होम डिलीवरी उपलब्ध नहीं है। व्हाट्सएप पर उपलब्धता और पिकअप की जानकारी लें।',
+            'gu' => 'અમે ફક્ત શોપ પિકઅપ આપીએ છીએ — હોમ ડિલિવરી ઉપલબ્ધ નથી. વૉટ્સએપ પર ઉપલબ્ધતા અને પિકઅપની વિગતો મેળવો.',
+            default => 'We are shop pickup only — home delivery is not available. Message us on WhatsApp to confirm availability and arrange pickup.',
         };
+
+        $waBase = rtrim((string) config('ruchi.whatsapp_url'), '/');
 
         return [
             'message' => $message,
             'speech_text' => $speech,
             'action' => 'whatsapp',
-            'action_url' => 'https://wa.me/917490828282?text='.urlencode('Hi Ruchi Chocolates, I would like to check delivery availability and charges for my location.'),
-            'action_label' => 'Check Delivery on WhatsApp',
+            'action_url' => $waBase.'?text='.urlencode('Hi Ruchi Chocolates, I would like to confirm product availability and arrange shop pickup.'),
+            'action_label' => 'Arrange Pickup on WhatsApp',
             'quick_replies' => ['Browse Products 🍫', 'Customise a Gift ✨', 'Contact Us 📞'],
         ];
     }
@@ -1480,15 +1485,17 @@ class AiAssistantService
      */
     protected function handleTrackOrder(string $normalized, string $lang): array
     {
+        $waBase = rtrim((string) config('ruchi.whatsapp_url'), '/');
+
         return [
-            'message' => "🔍 **Order Tracking & Updates:**\n\n"
-                ."For privacy and accurate real-time delivery status, our team shares direct WhatsApp updates when your chocolates are freshly prepared and dispatched.\n\n"
-                .'Please share your **Order ID** or contact number on WhatsApp, and our dispatch team will update you immediately!',
-            'speech_text' => 'Please message our dispatch team on WhatsApp with your Order ID for real-time tracking updates.',
+            'message' => "🔍 **Order & Pickup Updates:**\n\n"
+                ."Our team shares WhatsApp updates when your order is confirmed and when it is ready for **shop pickup** in Ahmedabad.\n\n"
+                .'Please share your **order reference** or contact number on WhatsApp, and we will reply with the latest status and pickup details.',
+            'speech_text' => 'Message us on WhatsApp with your order reference for pickup-ready updates.',
             'action' => 'whatsapp',
-            'action_url' => 'https://wa.me/917490828282?text='.urlencode('Hi Ruchi Chocolates, I would like to track my order. My order details: '),
-            'action_label' => 'Track on WhatsApp (+91 7490828282)',
-            'quick_replies' => ['Browse Products 🍫', 'Delivery Information 🚚'],
+            'action_url' => $waBase.'?text='.urlencode('Hi Ruchi Chocolates, I would like an update on my order and shop pickup details. My order details: '),
+            'action_label' => 'Get Pickup Update on WhatsApp',
+            'quick_replies' => ['Browse Products 🍫', 'Shop Pickup 🏪'],
         ];
     }
 
@@ -1801,9 +1808,9 @@ class AiAssistantService
     protected function buildEmptyResponse(string $lang): array
     {
         return [
-            'message' => 'How can I help make your celebration sweeter today? Ask me about our chocolates, custom gift hampers, pricing, or delivery!',
+            'message' => 'How can I help make your celebration sweeter today? Ask me about our chocolates, custom gift hampers, pricing, or shop pickup!',
             'speech_text' => 'How can I help make your celebration sweeter today?',
-            'quick_replies' => ['Browse Products 🍫', 'Customise a Gift ✨', 'Delivery Info 🚚'],
+            'quick_replies' => ['Browse Products 🍫', 'Customise a Gift ✨', 'Shop Pickup 🏪'],
         ];
     }
 

@@ -76,13 +76,13 @@ class ContactPageTest extends TestCase
         $response->assertSee('STILL HAVE QUESTIONS?');
         $response->assertSee('Frequently Asked Questions');
         $response->assertSee('rc-faq-divider');
-        $response->assertSee('What are your delivery areas?');
+        $response->assertSee('Do you offer home delivery?');
         $response->assertSee('Can I customize a gift hamper?');
-        $response->assertSee('How can I track my order?');
+        $response->assertSee('How will I know when my order is ready?');
         $response->assertSee('What is your return or refund policy?');
-        $response->assertSee('We deliver across Ahmedabad and selected locations across India.');
+        $response->assertSee(config('ruchi.shop_pickup_notice'));
         $response->assertSee('Yes. You can customize selected hampers with chocolates, gifts, packaging and personalized details based on availability.');
-        $response->assertSee('Once your order is dispatched, you will receive tracking information through the contact details provided during checkout.');
+        $response->assertSee('pickup-ready updates on WhatsApp');
         $response->assertSee('Please contact us as soon as possible if there is an issue with your order.');
         $response->assertSee('rc-faq-bottom-decor');
 

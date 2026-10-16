@@ -61,5 +61,24 @@ class ProductModalTest extends TestCase
         $response->assertSee('id="modalProductDetailsList"', false);
         $response->assertSee('modalWhatsAppBtn', false);
         $response->assertSee('open-product-modal', false);
+        $response->assertSee('Shop Pickup Only');
+        $response->assertSee('product-modal__pickup-notice', false);
+    }
+
+    /**
+     * Product API includes shareable URL and WhatsApp inquiry link with pickup wording.
+     */
+    public function test_api_returns_whatsapp_inquiry_fields_for_product(): void
+    {
+        $response = $this->getJson('/api/products/r001');
+
+        $response->assertStatus(200);
+        $response->assertJsonPath('shop_pickup_only', true);
+
+        $data = $response->json();
+        $this->assertStringContainsString(route('new-arrivals', ['product' => 'r001'], absolute: true), $data['product_url']);
+        $this->assertStringStartsWith(config('ruchi.whatsapp_url'), $data['whatsapp_inquiry_url']);
+        $this->assertStringContainsString('arrange%20pickup', $data['whatsapp_inquiry_url']);
+        $this->assertStringContainsString(rawurlencode($data['title']), $data['whatsapp_inquiry_url']);
     }
 }

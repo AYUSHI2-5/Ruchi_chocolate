@@ -40,7 +40,7 @@ class TermsAndConditionsPageTest extends TestCase
         $response->assertSee('3. Orders and Confirmation');
         $response->assertSee('4. Pricing and Payment');
         $response->assertSee('5. Customised Products');
-        $response->assertSee('6. Delivery');
+        $response->assertSee('6. Shop Pickup');
         $response->assertSee('7. Cancellations, Returns, and Refunds');
         $response->assertSee('8. Customer Responsibilities');
         $response->assertSee('9. Intellectual Property');
@@ -51,7 +51,7 @@ class TermsAndConditionsPageTest extends TestCase
 
         // Working link to Privacy Policy
         $response->assertSee(route('privacy-policy'));
-        $response->assertSee('24 hours of delivery');
+        $response->assertSee('24 hours of pickup');
 
         // Contact Info & Chocolate Stack Decoration
         $response->assertSee(config('ruchi.email'));

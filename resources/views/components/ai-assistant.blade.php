@@ -192,7 +192,7 @@
                             <strong>Hi! I'm Ruchi's AI Assistant.</strong> How can I make your day sweeter?
                         </p>
                         <p class="rc-ai-welcome-sub">
-                            Ask me about our handmade chocolates, personalized gifts, Ahmedabad delivery, or current offers!
+                            Ask me about our handmade chocolates, personalized gifts, shop pickup, or current offers!
                         </p>
                     </div>
                     <div class="rc-ai-msg-time" id="rcAiWelcomeTime">Just now</div>

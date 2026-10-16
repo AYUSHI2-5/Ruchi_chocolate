@@ -4,6 +4,7 @@ use App\Http\Controllers\AiAssistantController;
 use App\Http\Controllers\NewArrivalsController;
 use App\Http\Controllers\TrendingController;
 use App\Services\ProductCatalogService;
+use App\Services\ProductWhatsAppInquiry;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -93,14 +94,14 @@ Route::get('/terms', function () {
     return redirect()->route('terms-and-conditions');
 });
 
-Route::get('/api/products/{id}', function (string $id, ProductCatalogService $catalog) {
+Route::get('/api/products/{id}', function (string $id, ProductCatalogService $catalog, ProductWhatsAppInquiry $inquiry) {
     $product = $catalog->getProductById($id);
 
     if (! $product) {
         return response()->json(['message' => 'Product not found'], 404);
     }
 
-    return response()->json($product);
+    return response()->json($inquiry->enrichProductForApi($product));
 })->name('api.product');
 
 Route::post('/api/ai/chat', [AiAssistantController::class, 'chat'])->name('api.ai.chat');

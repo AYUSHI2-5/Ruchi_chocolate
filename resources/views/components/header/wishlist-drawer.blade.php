@@ -45,7 +45,7 @@
                     <span>📦 Secure Packaging</span>
                 </div>
                 <div class="custom-wishlist-drawer__trust-item">
-                    <span>🚚 Pan India Delivery</span>
+                    <span>🏪 Shop Pickup Only</span>
                 </div>
                 <div class="custom-wishlist-drawer__trust-item">
                     <span>🛡️ 100% Quality Assured</span>

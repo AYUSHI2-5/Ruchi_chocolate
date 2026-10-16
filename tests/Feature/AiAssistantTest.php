@@ -150,7 +150,7 @@ class AiAssistantTest extends TestCase
     }
 
     /**
-     * Test Ahmedabad delivery enquiry.
+     * Test shop pickup enquiry (no home delivery).
      */
     public function test_ai_chat_api_delivery_enquiry(): void
     {
@@ -161,7 +161,8 @@ class AiAssistantTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertJson(['success' => true]);
-        $this->assertStringContainsString('Ahmedabad', $response->json('data.message'));
+        $this->assertStringContainsString('Shop Pickup', $response->json('data.message'));
+        $this->assertStringContainsString('not available', strtolower($response->json('data.message')));
     }
 
     /**

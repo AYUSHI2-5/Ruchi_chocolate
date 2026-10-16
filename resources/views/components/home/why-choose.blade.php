@@ -175,16 +175,13 @@
                     <div class="why-choose-separator-line"></div>
                 </div>
 
-                <!-- Feature 5: PAN India Delivery -->
+                <!-- Feature 5: Shop pickup -->
                 <div class="why-choose-item">
                     <div class="why-choose-icon-wrap">
                         <div class="why-choose-icon-circle">
-                            <!-- Delivery Truck Icon -->
                             <svg class="why-choose-icon-svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#FFC800" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="1" y="3" width="15" height="13"></rect>
-                                <polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon>
-                                <circle cx="5.5" cy="18.5" r="2.5"></circle>
-                                <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
                             </svg>
                         </div>
                         <div class="why-choose-icon-badge" aria-hidden="true">
@@ -193,13 +190,13 @@
                             </svg>
                         </div>
                     </div>
-                    <h3 class="why-choose-title">PAN India Delivery</h3>
+                    <h3 class="why-choose-title">Shop Pickup Only</h3>
                     <div class="why-choose-item-divider" aria-hidden="true">
                         <span class="why-choose-dot">·</span>
                         <span class="why-choose-mini-heart">♥</span>
                         <span class="why-choose-dot">·</span>
                     </div>
-                    <p class="why-choose-desc">Safe, fast &amp; reliable delivery across<br>India to your loved ones.</p>
+                    <p class="why-choose-desc">Collect your order from our shop.<br>Home delivery is not available.</p>
                 </div>
 
             </div>

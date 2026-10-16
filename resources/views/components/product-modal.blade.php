@@ -43,6 +43,11 @@
                         <span class="product-modal__price-current" id="modalProductCurrentPrice">₹0.00</span>
                     </div>
 
+                    <div class="product-modal__pickup-notice" role="note">
+                        <p class="product-modal__pickup-notice-title">{{ config('ruchi.shop_pickup_notice') }}</p>
+                        <p class="product-modal__pickup-notice-text">Orders must be collected from our shop. Home delivery is not available. Contact us on WhatsApp to confirm product availability and arrange pickup.</p>
+                    </div>
+
                     <!-- Stock Status -->
                     <div class="product-modal__stock" id="modalProductStock">
                         <span class="product-modal__stock-dot"></span>
@@ -83,17 +88,17 @@
                                 <span>Add to Cart</span>
                             </button>
 
-                            <!-- Order on WhatsApp -->
-                            <a href="https://wa.me/917490828282" 
-                               target="_blank" 
-                               rel="noopener noreferrer" 
-                               class="product-modal__btn product-modal__btn--whatsapp" 
+                            <!-- Product enquiry on WhatsApp (pre-filled message; customer taps Send) -->
+                            <a href="{{ config('ruchi.whatsapp_url') }}"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="product-modal__btn product-modal__btn--whatsapp"
                                id="modalWhatsAppBtn">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.634.062-1.025-.067-.323-.106-.743-.243-1.282-.477-2.264-.98-3.738-3.303-3.85-3.454-.113-.15-.92-1.226-.92-2.338 0-1.112.576-1.658.784-1.884.208-.225.454-.282.607-.282.152 0 .304.002.436.009.141.007.33-.053.516.395.191.462.652 1.589.709 1.704.057.115.095.249.019.4-.076.152-.114.247-.227.381-.114.133-.239.297-.341.399-.114.113-.233.236-.101.463.133.227.591.974 1.269 1.577.873.777 1.609 1.018 1.837 1.131.228.113.361.095.494-.057.133-.152.57-.665.722-.893.152-.228.304-.19.516-.114.212.076 1.344.634 1.572.748.228.114.38.171.436.266.057.095.057.55-.087.955z"/>
                                     <path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.38 5.07L2 22l5.09-1.33C8.54 21.49 10.22 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18.2c-1.61 0-3.11-.47-4.38-1.28l-.31-.2-3.03.79.81-2.95-.2-.33C4.03 14.94 3.55 13.51 3.55 12c0-4.66 3.79-8.45 8.45-8.45 4.66 0 8.45 3.79 8.45 8.45 0 4.66-3.79 8.45-8.45 8.45z"/>
                                 </svg>
-                                <span>Order on WhatsApp</span>
+                                <span>Enquire on WhatsApp</span>
                             </a>
                         </div>
                     </div>
@@ -102,8 +107,8 @@
                     <!-- Trust Strip -->
                     <div class="product-modal__trust">
                         <div class="product-modal__trust-item">
-                            <span class="trust-icon">🚚</span>
-                            <span>Freshly Made on Order</span>
+                            <span class="trust-icon">🏪</span>
+                            <span>Shop Pickup Only</span>
                         </div>
                         <div class="product-modal__trust-item">
                             <span class="trust-icon">🍫</span>
@@ -336,6 +341,28 @@
     font-size: 26px;
     font-weight: 700;
     color: #4A1D0B;
+}
+
+.product-modal__pickup-notice {
+    margin: 12px 0 4px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid #E8CF9A;
+    background: #FFF9F3;
+}
+
+.product-modal__pickup-notice-title {
+    margin: 0 0 6px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #381300;
+}
+
+.product-modal__pickup-notice-text {
+    margin: 0;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: #5C4638;
 }
 
 /* Stock Status */
@@ -589,6 +616,8 @@
 // ==========================================================================
 (function() {
     const productCache = {};
+    const whatsAppBaseUrl = @json(config('ruchi.whatsapp_url'));
+    const newArrivalsBaseUrl = @json(route('new-arrivals', [], true));
 
     const modal = document.getElementById('productDetailModal');
     const overlay = document.getElementById('productModalOverlay');
@@ -710,7 +739,7 @@
         if (elStock && elStockText) {
             if (p.in_stock !== false) {
                 elStock.classList.remove('out-of-stock');
-                elStockText.textContent = 'In Stock & Ready to Ship';
+                elStockText.textContent = 'In Stock — Ready for Shop Pickup';
             } else {
                 elStock.classList.add('out-of-stock');
                 elStockText.textContent = 'Out of Stock';
@@ -744,11 +773,47 @@
         updateWhatsAppLink(p, 1);
     }
 
+    function formatInrPrice(price) {
+        const value = Number(price || 0);
+        return '₹' + value.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function productPageUrl(productId) {
+        const id = String(productId || '').trim().toLowerCase();
+        const url = new URL(newArrivalsBaseUrl);
+        url.searchParams.set('product', id);
+        return url.toString();
+    }
+
+    function buildWhatsAppInquiryUrl(p, qty) {
+        if (!p) {
+            return whatsAppBaseUrl;
+        }
+
+        const quantity = Math.max(1, Math.min(99, parseInt(qty, 10) || 1));
+        const title = p.title || 'Product';
+        const priceLine = formatInrPrice(p.price);
+        const link = p.product_url || productPageUrl(p.id);
+        const quantityLine = quantity > 1 ? `\nQuantity: ${quantity}` : '';
+
+        const message =
+            "Hello! I'm interested in this product from Ruchi Homemade Chocolates.\n\n" +
+            `Product: ${title}\n` +
+            `Price: ${priceLine}` +
+            quantityLine + '\n' +
+            `Product Link: ${link}\n\n` +
+            "I'd like to confirm availability and arrange pickup from your shop. Please share the pickup details. Thank you!";
+
+        return whatsAppBaseUrl + '?text=' + encodeURIComponent(message);
+    }
+
     function updateWhatsAppLink(p, qty) {
         if (!btnWhatsApp || !p) return;
-        const total = (Number(p.price || 170) * qty).toFixed(2);
-        const msg = encodeURIComponent(`Hi Ruchi Chocolates, I would like to order ${qty}x ${p.title} (Total: ₹${total}). Please provide details for ordering.`);
-        btnWhatsApp.href = `https://wa.me/917490828282?text=${msg}`;
+        if (p.whatsapp_inquiry_url && (parseInt(qty, 10) || 1) === 1) {
+            btnWhatsApp.href = p.whatsapp_inquiry_url;
+            return;
+        }
+        btnWhatsApp.href = buildWhatsAppInquiryUrl(p, qty);
     }
 
     // Quantity controls
@@ -844,5 +909,12 @@
     // Expose globally for programmatic triggers
     window.rcOpenProductModal = openModal;
     window.rcCloseProductModal = closeModal;
+
+    const deepLinkProduct = new URLSearchParams(window.location.search).get('product');
+    if (deepLinkProduct) {
+        window.addEventListener('load', function() {
+            openModal(deepLinkProduct);
+        });
+    }
 })();
 </script>

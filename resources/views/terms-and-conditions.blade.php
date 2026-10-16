@@ -148,7 +148,7 @@
                     <div class="rc-policy-card__content">
                         <h2 class="rc-policy-card__title">3. Orders and Confirmation</h2>
                         <p class="rc-policy-card__text">
-                            Submitting an enquiry or order request does not necessarily mean that an order has been accepted. Orders may require confirmation of product availability, customisation details, delivery arrangements, and final pricing.
+                            Submitting an enquiry or order request does not necessarily mean that an order has been accepted. Orders may require confirmation of product availability, customisation details, shop pickup arrangements, and final pricing.
                         </p>
                         <p class="rc-policy-card__text" style="margin-top: 10px;">
                             We will communicate any necessary clarification or confirmation through the contact details provided by the customer.
@@ -170,7 +170,7 @@
                     <div class="rc-policy-card__content">
                         <h2 class="rc-policy-card__title">4. Pricing and Payment</h2>
                         <p class="rc-policy-card__text">
-                            Prices and applicable charges will be communicated or displayed before an order is confirmed. Any delivery charges, customisation charges, taxes, or other applicable costs should be disclosed before the customer commits to the purchase.
+                            Prices and applicable charges will be communicated or displayed before an order is confirmed. Any customisation charges, taxes, or other applicable costs should be disclosed before the customer commits to the purchase. We do not offer home delivery or shipping.
                         </p>
                         <p class="rc-policy-card__text" style="margin-top: 10px;">
                             Payment methods and payment timing are subject to the arrangements confirmed for the particular order. We support secure and verified payment methods agreed upon during order confirmation.
@@ -200,27 +200,24 @@
                     </div>
                 </article>
 
-                {{-- CARD 6: Delivery --}}
+                {{-- CARD 6: Shop pickup --}}
                 <article class="rc-policy-card">
                     <div class="rc-policy-card__icon-wrap" aria-hidden="true">
-                        <!-- Delivery Truck Icon -->
                         <svg class="rc-policy-card__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <rect x="1" y="3" width="15" height="13"></rect>
-                            <polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon>
-                            <circle cx="5.5" cy="18.5" r="2.5"></circle>
-                            <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
                         </svg>
                     </div>
                     <div class="rc-policy-card__content">
-                        <h2 class="rc-policy-card__title">6. Delivery</h2>
+                        <h2 class="rc-policy-card__title">6. Shop Pickup</h2>
                         <p class="rc-policy-card__text">
-                            Delivery availability, estimated delivery dates, and applicable charges depend on the delivery location, product availability, order requirements, and arrangements confirmed at the time of ordering.
+                            {{ config('ruchi.shop_pickup_notice') }} All orders must be collected from our shop in Ahmedabad. Home delivery, courier shipping, and dispatch to other cities are not available.
                         </p>
                         <p class="rc-policy-card__text" style="margin-top: 10px;">
-                            Customers should provide accurate delivery details and a reachable contact number. If a delay or delivery issue occurs, customers should contact us for assistance.
+                            Pickup dates and times depend on product availability, customisation requirements, and the arrangements confirmed with you at the time of ordering. Please provide accurate contact details and collect your order within the agreed pickup window.
                         </p>
                         <p class="rc-policy-card__text" style="margin-top: 10px;">
-                            We provide local delivery across Ahmedabad and scheduled dispatch services as agreed at the time of order confirmation.
+                            Our shop address is published on the Contact page. Contact us on WhatsApp ({{ config('ruchi.phone_display') }}) to confirm availability and arrange pickup.
                         </p>
                     </div>
                 </article>
@@ -241,7 +238,7 @@
                             Order cancellations, returns, replacements, and refunds are handled case by case. Because some products are perishable or customised, different conditions may apply depending on the product and the circumstances.
                         </p>
                         <p class="rc-policy-card__text" style="margin-top: 10px;">
-                            For damaged or incorrect deliveries, please contact us on WhatsApp ({{ config('ruchi.phone_display') }}) within 24 hours of delivery with photo or video proof. Nothing in these terms removes any consumer rights that cannot legally be excluded.
+                            For damaged or incorrect orders, please contact us on WhatsApp ({{ config('ruchi.phone_display') }}) within 24 hours of pickup with photo or video proof. Nothing in these terms removes any consumer rights that cannot legally be excluded.
                         </p>
                     </div>
                 </article>
@@ -261,7 +258,7 @@
                             Customers agree to:
                         </p>
                         <ul class="rc-policy-card__list">
-                            <li class="rc-policy-card__item">Provide accurate contact, delivery, and order information.</li>
+                            <li class="rc-policy-card__item">Provide accurate contact and order information for shop pickup.</li>
                             <li class="rc-policy-card__item">Use the website lawfully and responsibly.</li>
                             <li class="rc-policy-card__item">Avoid submitting fraudulent orders or misleading enquiries.</li>
                             <li class="rc-policy-card__item">Respect the intellectual property and content published on the website.</li>
