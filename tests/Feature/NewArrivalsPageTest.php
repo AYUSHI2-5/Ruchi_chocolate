@@ -69,7 +69,7 @@ class NewArrivalsPageTest extends TestCase
         $response = $this->get('/new-arrivals');
 
         $response->assertStatus(200);
-        $response->assertSee('47', false);
+        $response->assertSee('<strong id="naToolbarCountNumber">80</strong> Items', false);
         $response->assertSee('Items', false);
         $response->assertSee('Sort by:', false);
         $response->assertSee('Featured', false);
@@ -119,11 +119,18 @@ class NewArrivalsPageTest extends TestCase
         $responsePage3->assertDontSee('P001 Small Heart Tin Box', false);
         $responsePage3->assertSee(route('new-arrivals', ['page' => 4]), false);
 
-        // Page 4: Displays last page items, Previous enabled, Next disabled
+        // Page 4: Displays items 49-64, Previous enabled, Next enabled
         $responsePage4 = $this->get('/new-arrivals?page=4');
         $responsePage4->assertStatus(200);
         $responsePage4->assertDontSee('P001 Small Heart Tin Box', false);
-        $responsePage4->assertSee('na-page-link--next na-page-link--disabled', false);
+        $responsePage4->assertSee(route('new-arrivals', ['page' => 5]), false);
+        $responsePage4->assertDontSee('na-page-link--next na-page-link--disabled', false);
+
+        // Page 5: Displays last page items, Previous enabled, Next disabled
+        $responsePage5 = $this->get('/new-arrivals?page=5');
+        $responsePage5->assertStatus(200);
+        $responsePage5->assertDontSee('P001 Small Heart Tin Box', false);
+        $responsePage5->assertSee('na-page-link--next na-page-link--disabled', false);
     }
 
     public function test_products_page_has_no_category_selected_by_default(): void
@@ -224,17 +231,104 @@ class NewArrivalsPageTest extends TestCase
         $responseHoli->assertSee('Holi collection — Coming Soon', false);
         $responseHoli->assertDontSee('P001 Small Heart Tin Box', false);
 
-        // Occasions - Ring Ceremony
+        // Occasions - Ring Ceremony (dedicated catalog cards)
         $responseRing = $this->get('/new-arrivals?category=ring-ceremony');
         $responseRing->assertStatus(200);
-        $responseRing->assertSee('P002 Big Heart Tin Box', false);
-        $responseRing->assertSee('P016 15 chocolate', false);
+        $responseRing->assertSee('data-subcategory="ring-ceremony"', false);
+        $responseRing->assertSee('Red &amp; Silver Ring Ceremony Heart Platter', false);
+        $responseRing->assertSee('Pink Bride &amp; Groom Ring Ceremony Platter', false);
+        $responseRing->assertSee('Royal Blue Ring Ceremony Chocolate Bouquet', false);
+        $responseRing->assertSee('36 Dryfruit Chocolate', false);
+        $responseRing->assertSee('44 Dryfruit Chocolate', false);
+        $responseRing->assertSee('images/ring-ceremony/red-silver-ring-platter.jpg', false);
+        $responseRing->assertSee('images/ring-ceremony/pink-ring-ceremony-platter.jpg', false);
+        $responseRing->assertSee('images/ring-ceremony/blue-ring-ceremony-bouquet.jpg', false);
+        $responseRing->assertSee('images/ring-ceremony/36-dryfruit-chocolate.jpg', false);
+        $responseRing->assertSee('images/ring-ceremony/44-dryfruit-chocolate.jpg', false);
+        $responseRing->assertSee('₹1,850.00', false);
+        $responseRing->assertSee('₹1,750.00', false);
+        $responseRing->assertSee('₹1,650.00', false);
+        $responseRing->assertSee('₹1,450.00', false);
+        $responseRing->assertDontSee('P002 Big Heart Tin Box', false);
+        $responseRing->assertDontSee('P016 15 chocolate', false);
+        $responseRing->assertSee('<strong id="naToolbarCountNumber">5</strong> Items', false);
 
-        // Occasions - Valentine
+        // Occasions - Valentine (dedicated catalog cards)
         $responseValentine = $this->get('/new-arrivals?category=valentine');
         $responseValentine->assertStatus(200);
-        $responseValentine->assertSee('P001 Small Heart Tin Box', false);
-        $responseValentine->assertSee('P002 Big Heart Tin Box', false);
+        $responseValentine->assertSee('data-subcategory="valentine"', false);
+        $responseValentine->assertSee('11 Dryfruit Chocolate', false);
+        $responseValentine->assertSee('3 Dryfruit Chocolate', false);
+        $responseValentine->assertSee('12 Dryfruit Chocolate', false);
+        $responseValentine->assertSee('images/valentine/11-dryfruit-chocolate.jpg', false);
+        $responseValentine->assertSee('images/valentine/3-dryfruit-chocolate.jpg', false);
+        $responseValentine->assertSee('images/valentine/12-dryfruit-chocolate.jpg', false);
+        $responseValentine->assertSee('₹320.00', false);
+        $responseValentine->assertSee('₹90.00', false);
+        $responseValentine->assertSee('₹330.00', false);
+        $responseValentine->assertDontSee('P001 Small Heart Tin Box', false);
+        $responseValentine->assertDontSee('P002 Big Heart Tin Box', false);
+        $responseValentine->assertSee('<strong id="naToolbarCountNumber">3</strong> Items', false);
+
+        // Occasions - Birthday (dedicated catalog card)
+        $responseBirthday = $this->get('/new-arrivals?category=birthday');
+        $responseBirthday->assertStatus(200);
+        $responseBirthday->assertSee('data-subcategory="birthday"', false);
+        $responseBirthday->assertSee('13 Dryfruit Chocolate', false);
+        $responseBirthday->assertSee('13 Dryfruit Chocolate + Dryfruit Bar + Big Heart', false);
+        $responseBirthday->assertSee('15 Dryfruit Chocolate', false);
+        $responseBirthday->assertSee('images/birthday/13-dryfruit-chocolate.jpg', false);
+        $responseBirthday->assertSee('images/birthday/13-dryfruit-bar-big-heart-combo.jpg', false);
+        $responseBirthday->assertSee('images/birthday/15-dryfruit-chocolate.jpg', false);
+        $responseBirthday->assertSee('₹490.00', false);
+        $responseBirthday->assertSee('₹520.00', false);
+        $responseBirthday->assertSee('70 to 80 gm Dryfruit Chocolate', false);
+        $responseBirthday->assertSee('images/birthday/dryfruit-chocolate-bar-70-80gm.jpg', false);
+        $responseBirthday->assertSee('₹360.00', false);
+        $responseBirthday->assertSee('₹120.00', false);
+        $responseBirthday->assertDontSee('P001 Small Heart Tin Box', false);
+        $responseBirthday->assertSee('<strong id="naToolbarCountNumber">4</strong> Items', false);
+
+        // Occasions - Anniversary (dedicated catalog cards)
+        $responseAnniversary = $this->get('/new-arrivals?category=anniversary');
+        $responseAnniversary->assertStatus(200);
+        $responseAnniversary->assertSee('data-subcategory="anniversary"', false);
+        $responseAnniversary->assertSee('45 to 50 gm Plain Chocolate — Happy Anniversary', false);
+        $responseAnniversary->assertSee('18 Dryfruit Chocolate', false);
+        $responseAnniversary->assertSee('27 Dryfruit Chocolate + 2 Big Dryfruit Hearts', false);
+        $responseAnniversary->assertSee('25 Dryfruit Chocolate + Chocolate Bottle', false);
+        $responseAnniversary->assertSee('images/anniversary/plain-chocolate-bar-45-50gm-happy-anniversary.jpg', false);
+        $responseAnniversary->assertSee('images/anniversary/18-dryfruit-chocolate.jpg', false);
+        $responseAnniversary->assertSee('images/anniversary/27-dryfruit-2-big-hearts.jpg', false);
+        $responseAnniversary->assertSee('images/anniversary/25-dryfruit-chocolate-bottle.jpg', false);
+        $responseAnniversary->assertSee('₹90.00', false);
+        $responseAnniversary->assertSee('₹410.00', false);
+        $responseAnniversary->assertSee('₹750.00', false);
+        $responseAnniversary->assertSee('₹1,050.00', false);
+        $responseAnniversary->assertDontSee('P001 Small Heart Tin Box', false);
+        $responseAnniversary->assertDontSee('P002 Big Heart Tin Box', false);
+        $responseAnniversary->assertSee('<strong id="naToolbarCountNumber">4</strong> Items', false);
+
+        // Occasions - New Born (no catalog items until dedicated products are added)
+        $responseNewBorn = $this->get('/new-arrivals?category=new-born');
+        $responseNewBorn->assertStatus(200);
+        $responseNewBorn->assertSee('data-subcategory="new-born"', false);
+        $responseNewBorn->assertSee('<strong id="naToolbarCountNumber">0</strong> Items', false);
+        $responseNewBorn->assertDontSee('24 Dryfruit Chocolate', false);
+        $responseNewBorn->assertDontSee('It&#039;s a Boy Baby Shower Bouquet', false);
+
+        // Occasions - Baby Shower (dedicated catalog cards)
+        $responseBabyShower = $this->get('/new-arrivals?category=baby-shower');
+        $responseBabyShower->assertStatus(200);
+        $responseBabyShower->assertSee('data-subcategory="baby-shower"', false);
+        $responseBabyShower->assertSee('24 Dryfruit Chocolate', false);
+        $responseBabyShower->assertSee('It&#039;s a Boy Baby Shower Bouquet', false);
+        $responseBabyShower->assertSee('images/baby-shower/24-dryfruit-chocolate.jpg', false);
+        $responseBabyShower->assertSee('images/baby-shower/its-a-boy-bouquet.jpg', false);
+        $responseBabyShower->assertSee('₹1,050.00', false);
+        $responseBabyShower->assertSee('₹1,350.00', false);
+        $responseBabyShower->assertDontSee('P012 Teddy Basket', false);
+        $responseBabyShower->assertSee('<strong id="naToolbarCountNumber">2</strong> Items', false);
 
         // Gifting category filter shows all gifting products
         $responseGifting = $this->get('/new-arrivals?category=gifting');
@@ -245,12 +339,21 @@ class NewArrivalsPageTest extends TestCase
 
     public function test_single_occasion_filter_shows_matching_products(): void
     {
-        // Birthday filter
+        // Birthday occasion filter
         $responseBirthday = $this->get('/new-arrivals?occasion=birthday');
         $responseBirthday->assertStatus(200);
-        $responseBirthday->assertSee('P001 Small Heart Tin Box', false);
-        $responseBirthday->assertSee('P003 Rectangle Tin Box', false);
-        $responseBirthday->assertDontSee('P006 Polka bag', false);
+        $responseBirthday->assertSee('13 Dryfruit Chocolate', false);
+        $responseBirthday->assertSee('70 to 80 gm Dryfruit Chocolate', false);
+        $responseBirthday->assertSee('₹120.00', false);
+        $responseBirthday->assertDontSee('P001 Small Heart Tin Box', false);
+        $responseBirthday->assertSee('<strong id="naToolbarCountNumber">4</strong> Items', false);
+
+        // Anniversary occasion filter
+        $responseAnniversary = $this->get('/new-arrivals?occasion=anniversary');
+        $responseAnniversary->assertStatus(200);
+        $responseAnniversary->assertSee('25 Dryfruit Chocolate + Chocolate Bottle', false);
+        $responseAnniversary->assertSee('₹750.00', false);
+        $responseAnniversary->assertSee('<strong id="naToolbarCountNumber">4</strong> Items', false);
 
         // Wedding filter
         $responseWedding = $this->get('/new-arrivals?occasion=wedding');
@@ -274,15 +377,21 @@ class NewArrivalsPageTest extends TestCase
         // Birthday OR Anniversary (array query)
         $responseMultiple = $this->get('/new-arrivals?occasion[]=birthday&occasion[]=anniversary');
         $responseMultiple->assertStatus(200);
-        $responseMultiple->assertSee('P001 Small Heart Tin Box', false); // birthday
-        $responseMultiple->assertSee('P002 Big Heart Tin Box', false); // anniversary
+        $responseMultiple->assertSee('13 Dryfruit Chocolate', false);
+        $responseMultiple->assertSee('45 to 50 gm Plain Chocolate — Happy Anniversary', false);
+        $responseMultiple->assertSee('<strong id="naToolbarCountNumber">8</strong> Items', false);
+        $responseMultiple->assertDontSee('P001 Small Heart Tin Box', false);
+        $responseMultiple->assertDontSee('P002 Big Heart Tin Box', false);
         $responseMultiple->assertSee('Clear', false);
 
         // Comma-separated query string
         $responseComma = $this->get('/new-arrivals?occasion=birthday,anniversary');
         $responseComma->assertStatus(200);
-        $responseComma->assertSee('P001 Small Heart Tin Box', false);
-        $responseComma->assertSee('P002 Big Heart Tin Box', false);
+        $responseComma->assertSee('13 Dryfruit Chocolate', false);
+        $responseComma->assertSee('45 to 50 gm Plain Chocolate — Happy Anniversary', false);
+        $responseComma->assertSee('<strong id="naToolbarCountNumber">8</strong> Items', false);
+        $responseComma->assertDontSee('P001 Small Heart Tin Box', false);
+        $responseComma->assertDontSee('P002 Big Heart Tin Box', false);
     }
 
     public function test_occasion_filter_preserves_pagination_and_query_parameters(): void

@@ -61,7 +61,7 @@ class NewArrivalsController extends Controller
                 $products = array_values(array_filter($products, function ($item) {
                     $itemOccs = array_map('strtolower', $item['occasions'] ?? []);
 
-                    return in_array('ring-ceremony', $itemOccs) || in_array('engagement', $itemOccs);
+                    return in_array('ring-ceremony', $itemOccs);
                 }));
             } elseif (in_array($catLower, ['valentine', 'valentines-day'])) {
                 $products = array_values(array_filter($products, function ($item) {
@@ -73,7 +73,7 @@ class NewArrivalsController extends Controller
                 $products = array_values(array_filter($products, function ($item) {
                     $itemOccs = array_map('strtolower', $item['occasions'] ?? []);
 
-                    return in_array('new-born', $itemOccs) || in_array('baby-shower', $itemOccs);
+                    return in_array('new-born', $itemOccs);
                 }));
             } else {
                 $products = array_values(array_filter($products, function ($item) use ($catLower) {
@@ -120,7 +120,7 @@ class NewArrivalsController extends Controller
                     if ($occSlug === 'rakhi' && (in_array('rakhi', $itemOccasions) || in_array('raksha-bandhan', $itemOccasions))) {
                         return true;
                     }
-                    if ($occSlug === 'ring-ceremony' && (in_array('ring-ceremony', $itemOccasions) || in_array('engagement', $itemOccasions))) {
+                    if ($occSlug === 'ring-ceremony' && in_array('ring-ceremony', $itemOccasions)) {
                         return true;
                     }
                     if (in_array($occSlug, ['valentine', 'valentines-day']) && (in_array('valentine', $itemOccasions) || in_array('valentines-day', $itemOccasions))) {
