@@ -331,6 +331,12 @@
                     @endforelse
                 </div>
 
+                @if(!empty($categoryFilterDisplayName))
+                    <p class="na-collection-more-soon" role="status">
+                        Many more {{ $categoryFilterDisplayName }} chocolates, hampers &amp; gift ideas coming soon — watch this space!
+                    </p>
+                @endif
+
                 <!-- 7. Centered Pagination -->
                 @if($totalPages > 1)
                     <nav class="na-pagination" id="naPagination" aria-label="Products pagination">

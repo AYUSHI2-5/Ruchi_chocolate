@@ -199,6 +199,11 @@ class NewArrivalsController extends Controller
         $offset = ($page - 1) * $perPage;
         $paginatedProducts = array_slice($products, $offset, $perPage);
 
+        $categoryFilterDisplayName = null;
+        if ($activeSubcategory !== null && $activeSubcategory !== '' && $comingSoonFestivalName === null) {
+            $categoryFilterDisplayName = $this->catalogService->resolveCategoryFilterLabel($activeSubcategory);
+        }
+
         return view('new-arrivals', [
             'products' => $paginatedProducts,
             'allProducts' => $products,
@@ -220,6 +225,7 @@ class NewArrivalsController extends Controller
             'totalPages' => $totalPages,
             'comingSoonFestivalSlug' => $comingSoonFestivalSlug,
             'comingSoonFestivalName' => $comingSoonFestivalName,
+            'categoryFilterDisplayName' => $categoryFilterDisplayName,
         ]);
     }
 }

@@ -725,6 +725,18 @@
   transform: translateY(-1px);
 }
 
+.na-collection-more-soon {
+  margin: 20px 0 8px;
+  padding: 14px 18px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.55;
+  color: #5C4638;
+  background: #FFF9F3;
+  border: 1px dashed #E8CF9A;
+  border-radius: 12px;
+}
+
 /* Price Range Slider */
 .na-price-range {
   display: flex;

@@ -69,7 +69,7 @@ class NewArrivalsPageTest extends TestCase
         $response = $this->get('/new-arrivals');
 
         $response->assertStatus(200);
-        $response->assertSee('<strong id="naToolbarCountNumber">80</strong> Items', false);
+        $response->assertSee('<strong id="naToolbarCountNumber">79</strong> Items', false);
         $response->assertSee('Items', false);
         $response->assertSee('Sort by:', false);
         $response->assertSee('Featured', false);
@@ -143,6 +143,7 @@ class NewArrivalsPageTest extends TestCase
         $response->assertDontSee('na-subcategory-link active', false);
         $response->assertDontSee('na-category-direct-link active', false);
         $response->assertDontSee('id="naClearFiltersBtn"', false);
+        $response->assertDontSee('na-collection-more-soon', false);
     }
 
     public function test_category_filter_works(): void
@@ -236,22 +237,22 @@ class NewArrivalsPageTest extends TestCase
         $responseRing->assertStatus(200);
         $responseRing->assertSee('data-subcategory="ring-ceremony"', false);
         $responseRing->assertSee('Red &amp; Silver Ring Ceremony Heart Platter', false);
-        $responseRing->assertSee('Pink Bride &amp; Groom Ring Ceremony Platter', false);
         $responseRing->assertSee('Royal Blue Ring Ceremony Chocolate Bouquet', false);
+        $responseRing->assertDontSee('Pink Bride &amp; Groom Ring Ceremony Platter', false);
         $responseRing->assertSee('36 Dryfruit Chocolate', false);
         $responseRing->assertSee('44 Dryfruit Chocolate', false);
         $responseRing->assertSee('images/ring-ceremony/red-silver-ring-platter.jpg', false);
-        $responseRing->assertSee('images/ring-ceremony/pink-ring-ceremony-platter.jpg', false);
         $responseRing->assertSee('images/ring-ceremony/blue-ring-ceremony-bouquet.jpg', false);
+        $responseRing->assertDontSee('images/ring-ceremony/pink-ring-ceremony-platter.jpg', false);
         $responseRing->assertSee('images/ring-ceremony/36-dryfruit-chocolate.jpg', false);
         $responseRing->assertSee('images/ring-ceremony/44-dryfruit-chocolate.jpg', false);
         $responseRing->assertSee('₹1,850.00', false);
-        $responseRing->assertSee('₹1,750.00', false);
         $responseRing->assertSee('₹1,650.00', false);
+        $responseRing->assertDontSee('₹1,750.00', false);
         $responseRing->assertSee('₹1,450.00', false);
         $responseRing->assertDontSee('P002 Big Heart Tin Box', false);
         $responseRing->assertDontSee('P016 15 chocolate', false);
-        $responseRing->assertSee('<strong id="naToolbarCountNumber">5</strong> Items', false);
+        $responseRing->assertSee('<strong id="naToolbarCountNumber">4</strong> Items', false);
 
         // Occasions - Valentine (dedicated catalog cards)
         $responseValentine = $this->get('/new-arrivals?category=valentine');
@@ -288,6 +289,8 @@ class NewArrivalsPageTest extends TestCase
         $responseBirthday->assertSee('₹120.00', false);
         $responseBirthday->assertDontSee('P001 Small Heart Tin Box', false);
         $responseBirthday->assertSee('<strong id="naToolbarCountNumber">4</strong> Items', false);
+        $responseBirthday->assertSee('na-collection-more-soon', false);
+        $responseBirthday->assertSee('Many more Birthday chocolates, hampers &amp; gift ideas coming soon', false);
 
         // Occasions - Anniversary (dedicated catalog cards)
         $responseAnniversary = $this->get('/new-arrivals?category=anniversary');

@@ -1307,25 +1307,6 @@ class ProductCatalogService
                 ],
             ],
             [
-                'id' => 'rc002',
-                'title' => 'Pink Bride & Groom Ring Ceremony Platter',
-                'price' => 1750.00,
-                'rating' => 4.9,
-                'rating_count' => 104,
-                'image' => 'images/ring-ceremony/pink-ring-ceremony-platter.jpg',
-                'category' => 'gift-hampers',
-                'occasions' => ['ring-ceremony'],
-                'in_stock' => true,
-                'is_trending' => true,
-                'description' => 'Pink engagement platter with bride-and-groom figurine, hexagonal ring boxes, and heart chocolates on a rhinestone-trimmed tiered stand.',
-                'details' => [
-                    'Bride & groom figurine with dove arch accent',
-                    'Twin open hexagonal ring boxes',
-                    'Pink and checkered heart chocolates on silver-bow sticks',
-                    'Pink glitter fans and rhinestone base with fabric flowers',
-                ],
-            ],
-            [
                 'id' => 'rc003',
                 'title' => 'Royal Blue Ring Ceremony Chocolate Bouquet',
                 'price' => 1650.00,
@@ -1623,6 +1604,33 @@ class ProductCatalogService
         }
 
         return null;
+    }
+
+    /**
+     * Human-readable label for an active Products page category / subcategory filter.
+     */
+    public function resolveCategoryFilterLabel(string $slug): string
+    {
+        $slug = strtolower(trim($slug));
+
+        foreach ($this->getMainCategorySections() as $section) {
+            if (($section['slug'] ?? '') === $slug && ! empty($section['name'])) {
+                return (string) $section['name'];
+            }
+
+            foreach ($section['subcategories'] ?? [] as $subcategory) {
+                if (($subcategory['slug'] ?? '') === $slug && ! empty($subcategory['name'])) {
+                    return (string) $subcategory['name'];
+                }
+            }
+        }
+
+        $festivalName = $this->getFestivalDisplayName($slug);
+        if ($festivalName !== null) {
+            return $festivalName;
+        }
+
+        return ucwords(str_replace(['-', '_'], ' ', $slug));
     }
 
     /**
