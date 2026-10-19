@@ -22,14 +22,14 @@ class ContactPageTest extends TestCase
 
         // Left Side: "Send Us a Message" Card
         $response->assertSee('Send Us a Message');
-        $response->assertSee("Fill out the form and we'll get back to you as soon as possible.", false);
+        $response->assertSee('your details will open in WhatsApp', false);
         $response->assertSee('Your Name');
         $response->assertSee('Email Address');
         $response->assertSee('Phone Number');
         $response->assertSee('Subject');
         $response->assertSee('Your Message');
-        $response->assertSee('Send Message');
-        $response->assertSee('Your information is safe with us and will never be shared.');
+        $response->assertSee('Send Message on WhatsApp');
+        $response->assertSee('review the message in WhatsApp');
         $response->assertSee('rc-form-flower-decor');
 
         // Right Side: "Get in Touch" Section
@@ -56,8 +56,8 @@ class ContactPageTest extends TestCase
         $response->assertSee('Stay connected for new arrivals, offers &amp; sweet surprises!', false);
         $response->assertSee('instagram.com/ruchichocolates09');
         $response->assertSee('facebook.com/RuchiHomemadeChocolates');
-        $response->assertSee('pinterest.com/ruchichocolate');
-        $response->assertSee('youtube.com/ruchichocolate');
+        $response->assertDontSee('pinterest.com/ruchichocolate');
+        $response->assertDontSee('youtube.com/ruchichocolate');
 
         // New Map Section & Overlaid Information Card
         $response->assertSee('rc-contact-map-section');
@@ -104,8 +104,13 @@ class ContactPageTest extends TestCase
             'message' => 'I would like to order a customized chocolate bouquet for an anniversary.',
         ]);
 
-        $response->assertSessionHas('success');
         $response->assertRedirect();
+        $target = $response->headers->get('Location');
+        $this->assertNotNull($target);
+        $this->assertStringStartsWith(config('ruchi.whatsapp_url'), $target);
+        $this->assertStringContainsString(rawurlencode('Rahul Sharma'), $target);
+        $this->assertStringContainsString(rawurlencode('Custom Bouquet Inquiry'), $target);
+        $this->assertStringContainsString(rawurlencode('rahul@example.com'), $target);
 
         // 2. Submit invalid message (missing required fields)
         $invalidResponse = $this->post(route('contact.submit'), [

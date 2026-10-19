@@ -266,6 +266,66 @@ class AiAssistantTest extends TestCase
         $this->assertTrue($data['navigation']['navigate']);
         $this->assertEquals(route('products'), $data['navigation']['url']);
         $this->assertNotEmpty($data['navigation']['explanation']);
+        $this->assertStringContainsStringIgnoringCase('Same options as our Products menu', $data['navigation']['explanation']['message']);
+        $this->assertContains('Diwali 🪔', $data['navigation']['explanation']['quick_replies']);
+        $this->assertContains('Birthday 🎂', $data['navigation']['explanation']['quick_replies']);
+        $this->assertContains('Gifting 🎁', $data['navigation']['explanation']['quick_replies']);
+        $this->assertStringNotContainsString('Rakhi', $data['navigation']['explanation']['message']);
+        $this->assertNotContains('New Born', $data['navigation']['explanation']['quick_replies']);
+    }
+
+    public function test_browse_products_gifting_opens_full_catalog_slice(): void
+    {
+        $response = $this->postJson(route('api.ai.chat'), [
+            'message' => 'Gifting 🎁',
+            'language' => 'en',
+            'current_page' => '/products',
+        ]);
+
+        $response->assertStatus(200);
+        $data = $response->json('data');
+        $this->assertStringContainsString('Gifting', $data['message']);
+        $this->assertNotEmpty($data['products']);
+        $this->assertStringContainsString('category=gifting', $data['action_url']);
+        $this->assertNull($data['navigation']);
+        $this->assertLessThanOrEqual(3, count($data['products']));
+    }
+
+    public function test_browse_products_diwali_shows_festival_catalog_items(): void
+    {
+        $response = $this->postJson(route('api.ai.chat'), [
+            'message' => 'Diwali 🪔',
+            'language' => 'en',
+            'current_page' => '/products',
+        ]);
+
+        $response->assertStatus(200);
+        $data = $response->json('data');
+        $this->assertStringContainsString('Diwali', $data['message']);
+        $this->assertNotEmpty($data['products']);
+        $titles = array_column($data['products'], 'title');
+        $this->assertContains('Golden Metal Box', $titles);
+        $this->assertStringContainsString('category=diwali', $data['action_url']);
+        $this->assertNull($data['navigation']);
+        $this->assertLessThanOrEqual(3, count($data['products']));
+    }
+
+    public function test_browse_anniversary_shows_sample_in_chat_without_page_redirect(): void
+    {
+        $response = $this->postJson(route('api.ai.chat'), [
+            'message' => 'Anniversary 💕',
+            'language' => 'en',
+            'current_page' => '/products',
+        ]);
+
+        $response->assertStatus(200);
+        $data = $response->json('data');
+        $this->assertStringContainsString('Anniversary', $data['message']);
+        $this->assertNull($data['navigation']);
+        $this->assertGreaterThanOrEqual(1, count($data['products']));
+        $this->assertLessThanOrEqual(3, count($data['products']));
+        $this->assertStringContainsString('category=anniversary', $data['action_url']);
+        $this->assertStringContainsString('View All', $data['action_label']);
     }
 
     /**
@@ -394,8 +454,15 @@ class AiAssistantTest extends TestCase
         $data = $response->json('data');
         $this->assertSame('complete', $data['contact_form']['step']);
         $this->assertSame('prefill_contact_form', $data['action']);
+        $this->assertSame('Send on WhatsApp', $data['action_label']);
         $this->assertSame('Priya Shah', $data['contact_form']['fields']['name']);
         $this->assertSame('Need 24 pieces with name lettering by next Saturday.', $data['contact_form']['fields']['message']);
+        $this->assertStringContainsString('wa.me', $data['action_url']);
+        $decodedUrl = rawurldecode($data['action_url']);
+        $this->assertStringContainsString('Priya Shah', $decodedUrl);
+        $this->assertStringContainsString('priya@example.com', $decodedUrl);
+        $this->assertStringContainsString('Custom hamper for anniversary', $decodedUrl);
+        $this->assertStringContainsString('Need 24 pieces with name lettering by next Saturday.', $decodedUrl);
     }
 
     /**
@@ -553,8 +620,38 @@ class AiAssistantTest extends TestCase
         $data = $response->json('data');
         $this->assertSame('prefill_customisation_form', $data['action']);
         $this->assertSame($description, $data['customisation_details']);
+        $this->assertSame('complete', $data['customisation_intake']);
         $this->assertStringContainsString('wa.me', $data['action_url']);
         $this->assertStringContainsString('birthday', strtolower($data['action_url']));
+    }
+
+    public function test_customised_gifts_chat_description_captured_when_awaiting_intake_flag(): void
+    {
+        $description = 'Red and gold theme only';
+
+        $response = $this->postJson(route('api.ai.chat'), [
+            'message' => $description,
+            'language' => 'en',
+            'current_page' => '/',
+            'customisation_intake' => ['awaiting_description' => true],
+        ]);
+
+        $response->assertStatus(200);
+        $data = $response->json('data');
+        $this->assertSame('prefill_customisation_form', $data['action']);
+        $this->assertSame($description, $data['customisation_details']);
+    }
+
+    public function test_customised_gifts_guide_sets_awaiting_intake_state(): void
+    {
+        $response = $this->postJson(route('api.ai.chat'), [
+            'message' => 'How to Submit Order 📝',
+            'language' => 'en',
+            'current_page' => '/customised-gifts',
+        ]);
+
+        $response->assertStatus(200);
+        $this->assertSame('awaiting_description', $response->json('data.customisation_intake'));
     }
 
     public function test_customised_gifts_welcome_speech_focuses_on_description_and_whatsapp(): void

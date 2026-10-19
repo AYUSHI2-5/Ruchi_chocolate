@@ -4,31 +4,31 @@ $categories = [
     [
         'title' => 'Diwali',
         'image' => asset('images/categories/diwali.jpg'),
-        'url' => route('new-arrivals', ['category' => 'diwali']),
+        'url' => route('products', ['category' => 'diwali']).'#productsCatalog',
         'alt' => 'Happy Diwali festive chocolate gift box with purple and gold assorted chocolates',
     ],
     [
         'title' => 'Gifting',
         'image' => asset('images/categories/gifting.jpg'),
-        'url' => route('new-arrivals', ['category' => 'gifting']),
+        'url' => route('products', ['category' => 'gifting']).'#productsCatalog',
         'alt' => 'Black and gold luxury chocolate bouquet with glitter bow for gifting',
     ],
     [
         'title' => 'New Born',
         'image' => asset('images/categories/new-born.jpg'),
-        'url' => route('new-arrivals', ['category' => 'new-born']),
+        'url' => route('products', ['category' => 'new-born']).'#productsCatalog',
         'alt' => 'Pink and blue tulle gift jars filled with chocolates for newborn baby gifts',
     ],
     [
         'title' => 'Birthday',
         'image' => asset('images/categories/birthday.jpg'),
-        'url' => route('new-arrivals', ['category' => 'birthday']),
+        'url' => route('products', ['category' => 'birthday']).'#productsCatalog',
         'alt' => 'Happy Birthday blue and white chocolate gift box with balloons and celebration treats',
     ],
     [
         'title' => 'Occasions',
         'image' => asset('images/categories/occasions.jpg'),
-        'url' => route('new-arrivals', ['occasion' => 'occasions']),
+        'url' => route('products', ['occasion' => 'occasions']).'#productsCatalog',
         'alt' => 'Ruchi homemade occasion chocolate bars for Diwali, birthday, and anniversary',
     ],
 ];

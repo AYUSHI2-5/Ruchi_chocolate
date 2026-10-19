@@ -319,234 +319,24 @@ class ProductCatalogService
                 ],
             ],
             [
-                'id' => 'p016',
-                'title' => 'P016 15 chocolate',
-                'price' => 290.00,
+                'id' => 'r001',
+                'title' => 'R001 Volley Handy',
+                'price' => 250.00,
                 'rating' => 4.8,
-                'rating_count' => 180,
-                'image' => 'images/products/p001.jpg',
+                'rating_count' => 216,
+                'image' => 'images/products/r001.jpg',
                 'category' => 'bouquets',
-                'occasions' => ['engagement', 'congratulations', 'womens-day'],
-                'in_stock' => false,
-                'is_trending' => true,
-            ],
-
-            // Items 17 - 34 (Catalog completeness)
-            [
-                'id' => 'p017',
-                'title' => 'P017 18 Rose Chocolates Box',
-                'price' => 450.00,
-                'rating' => 4.9,
-                'rating_count' => 205,
-                'image' => 'images/products/p002.jpg',
-                'category' => 'chocolates',
-                'occasions' => ['wedding', 'bride-and-groom', 'engagement'],
+                'occasions' => ['festive-gifting', 'celebrations'],
                 'in_stock' => true,
                 'is_trending' => true,
-            ],
-            [
-                'id' => 'p018',
-                'title' => 'P018 Grand Heart Jute Hamper',
-                'price' => 750.00,
-                'rating' => 4.9,
-                'rating_count' => 165,
-                'image' => 'images/products/p003.jpg',
-                'category' => 'gift-hampers',
-                'occasions' => ['wedding', 'wedding-hampers', 'raksha-bandhan', 'corporate-gifting'],
-                'in_stock' => false,
-                'is_trending' => true,
-            ],
-            [
-                'id' => 'p019',
-                'title' => 'P019 Chocolate Cane Bouquet',
-                'price' => 490.00,
-                'rating' => 4.7,
-                'rating_count' => 112,
-                'image' => 'images/products/p004.jpg',
-                'category' => 'bouquets',
-                'occasions' => ['congratulations', 'thank-you', 'womens-day'],
-                'in_stock' => false,
-                'is_trending' => false,
-            ],
-            [
-                'id' => 'p020',
-                'title' => 'P020 Premium Dark Truffles 24pc',
-                'price' => 620.00,
-                'rating' => 4.8,
-                'rating_count' => 190,
-                'image' => 'images/products/p005.jpg',
-                'category' => 'chocolates',
-                'occasions' => ['mothers-day', 'fathers-day', 'corporate-gifting', 'new-year', 'christmas', 'eid'],
-                'in_stock' => false,
-                'is_trending' => true,
-            ],
-            [
-                'id' => 'p021',
-                'title' => 'P021 Teddy & Chocolate Hamper',
-                'price' => 680.00,
-                'rating' => 4.8,
-                'rating_count' => 140,
-                'image' => 'images/products/p001.jpg',
-                'category' => 'gift-hampers',
-                'occasions' => ['childrens-day'],
-                'in_stock' => false,
-                'is_trending' => false,
-            ],
-            [
-                'id' => 'p022',
-                'title' => 'P022 Nutty Crunch Bites 16pc',
-                'price' => 380.00,
-                'rating' => 4.9,
-                'rating_count' => 220,
-                'image' => 'images/products/p002.jpg',
-                'category' => 'chocolates',
-                'occasions' => ['wedding', 'reception', 'navratri', 'ganesh-chaturthi', 'janmashtami'],
-                'in_stock' => false,
-                'is_trending' => true,
-            ],
-            [
-                'id' => 'p023',
-                'title' => 'P023 Celebrations Combo Delight',
-                'price' => 540.00,
-                'rating' => 4.7,
-                'rating_count' => 95,
-                'image' => 'images/products/p003.jpg',
-                'category' => 'combos',
-                'occasions' => ['festive-gifting', 'holi', 'eid', 'christmas', 'new-year'],
-                'in_stock' => false,
-                'is_trending' => false,
-            ],
-            [
-                'id' => 'p024',
-                'title' => 'P024 Golden Hazelnut Pralines',
-                'price' => 460.00,
-                'rating' => 4.8,
-                'rating_count' => 135,
-                'image' => 'images/products/p004.jpg',
-                'category' => 'chocolates',
-                'occasions' => ['fathers-day', 'corporate-gifting', 'festive-gifting', 'christmas'],
-                'in_stock' => false,
-                'is_trending' => false,
-            ],
-            [
-                'id' => 'p025',
-                'title' => 'P025 Luxury Potli Bag Gift Set',
-                'price' => 340.00,
-                'rating' => 4.8,
-                'rating_count' => 170,
-                'image' => 'images/products/p005.jpg',
-                'category' => 'gift-hampers',
-                'occasions' => ['mothers-day', 'wedding-return-gifts', 'return-gifts', 'housewarming', 'navratri', 'ganesh-chaturthi'],
-                'in_stock' => false,
-                'is_trending' => false,
-            ],
-            [
-                'id' => 'p026',
-                'title' => 'P026 Milk & White Swirl Bites',
-                'price' => 250.00,
-                'rating' => 4.6,
-                'rating_count' => 84,
-                'image' => 'images/products/p001.jpg',
-                'category' => 'chocolates',
-                'occasions' => ['childrens-day', 'other-occasions'],
-                'in_stock' => false,
-                'is_trending' => false,
-            ],
-            [
-                'id' => 'p027',
-                'title' => 'P027 Romantic Red Rose Bouquet',
-                'price' => 580.00,
-                'rating' => 4.9,
-                'rating_count' => 210,
-                'image' => 'images/products/p002.jpg',
-                'category' => 'bouquets',
-                'occasions' => ['wedding', 'engagement', 'bride-and-groom', 'reception'],
-                'in_stock' => false,
-                'is_trending' => true,
-            ],
-            [
-                'id' => 'p028',
-                'title' => 'P028 Assorted Luxury Gift Box 20pc',
-                'price' => 590.00,
-                'rating' => 4.8,
-                'rating_count' => 160,
-                'image' => 'images/products/p003.jpg',
-                'category' => 'gift-hampers',
-                'occasions' => ['corporate-gifting', 'festive-gifting', 'wedding-hampers'],
-                'in_stock' => false,
-                'is_trending' => true,
-            ],
-            [
-                'id' => 'p029',
-                'title' => 'P029 Sweet Love Combo Pack',
-                'price' => 420.00,
-                'rating' => 4.7,
-                'rating_count' => 110,
-                'image' => 'images/products/p004.jpg',
-                'category' => 'combos',
-                'occasions' => ['engagement', 'other-occasions'],
-                'in_stock' => false,
-                'is_trending' => false,
-            ],
-            [
-                'id' => 'p030',
-                'title' => 'P030 Roasted Almond Bark 200g',
-                'price' => 310.00,
-                'rating' => 4.9,
-                'rating_count' => 195,
-                'image' => 'images/products/p005.jpg',
-                'category' => 'chocolates',
-                'occasions' => ['fathers-day', 'corporate-gifting', 'christmas', 'new-year', 'janmashtami', 'eid'],
-                'in_stock' => false,
-                'is_trending' => true,
-            ],
-            [
-                'id' => 'p031',
-                'title' => 'P031 Festive Joy Chocolate Box',
-                'price' => 480.00,
-                'rating' => 4.8,
-                'rating_count' => 145,
-                'image' => 'images/products/p001.jpg',
-                'category' => 'chocolates',
-                'occasions' => ['festive-gifting', 'raksha-bandhan', 'navratri', 'ganesh-chaturthi', 'housewarming'],
-                'in_stock' => false,
-                'is_trending' => false,
-            ],
-            [
-                'id' => 'p032',
-                'title' => 'P032 Chocolate & Greeting Combo',
-                'price' => 360.00,
-                'rating' => 4.7,
-                'rating_count' => 102,
-                'image' => 'images/products/p002.jpg',
-                'category' => 'combos',
-                'occasions' => ['mothers-day', 'thank-you', 'congratulations', 'womens-day'],
-                'in_stock' => false,
-                'is_trending' => false,
-            ],
-            [
-                'id' => 'p033',
-                'title' => 'P033 Royal Silk Chocolate Hamper',
-                'price' => 790.00,
-                'rating' => 4.9,
-                'rating_count' => 230,
-                'image' => 'images/products/p003.jpg',
-                'category' => 'gift-hampers',
-                'occasions' => ['wedding', 'wedding-hampers', 'corporate-gifting', 'festive-gifting'],
-                'in_stock' => false,
-                'is_trending' => true,
-            ],
-            [
-                'id' => 'p034',
-                'title' => 'P034 Petite Blossom Bouquet 10pc',
-                'price' => 390.00,
-                'rating' => 4.8,
-                'rating_count' => 125,
-                'image' => 'images/products/p004.jpg',
-                'category' => 'bouquets',
-                'occasions' => ['congratulations', 'reception', 'womens-day', 'other-occasions'],
-                'in_stock' => false,
-                'is_trending' => false,
+                'description' => 'A stylish Volley Handy Chocolate Bouquet, beautifully arranged with assorted chocolates in an elegant black-and-golden presentation. Its unique handcrafted design makes it a lovely choice for birthdays, anniversaries, festive gifting and special occasions. The chocolates, colors and bouquet presentation can be customized according to your preference.',
+                'details' => [
+                    'Volley Handy chocolate bouquet',
+                    'Contains 8 assorted chocolates + 3 heart chocolates',
+                    'Elegant black & golden decorative wrapping',
+                    'Customizable chocolates, colors & presentation',
+                    'Ideal for birthdays, anniversaries, festivals & special occasions',
+                ],
             ],
             [
                 'id' => 'r002',
@@ -584,26 +374,6 @@ class ProductCatalogService
                     'One-side multi-style chocolate bouquet',
                     'Contains 15 regular heart chocolates',
                     'Layered decorative arrangement',
-                    'Customizable chocolates, colors & presentation',
-                    'Ideal for birthdays, anniversaries, festivals & special occasions',
-                ],
-            ],
-            [
-                'id' => 'r001',
-                'title' => 'R001 Volley Handy',
-                'price' => 250.00,
-                'rating' => 4.8,
-                'rating_count' => 216,
-                'image' => 'images/products/r001.jpg',
-                'category' => 'bouquets',
-                'occasions' => ['festive-gifting', 'celebrations'],
-                'in_stock' => true,
-                'is_trending' => true,
-                'description' => 'A stylish Volley Handy Chocolate Bouquet, beautifully arranged with assorted chocolates in an elegant black-and-golden presentation. Its unique handcrafted design makes it a lovely choice for birthdays, anniversaries, festive gifting and special occasions. The chocolates, colors and bouquet presentation can be customized according to your preference.',
-                'details' => [
-                    'Volley Handy chocolate bouquet',
-                    'Contains 8 assorted chocolates + 3 heart chocolates',
-                    'Elegant black & golden decorative wrapping',
                     'Customizable chocolates, colors & presentation',
                     'Ideal for birthdays, anniversaries, festivals & special occasions',
                 ],
@@ -1572,6 +1342,161 @@ class ProductCatalogService
         }
 
         return [];
+    }
+
+    /**
+     * Browse options for the AI assistant — same Festivals / Occasions / Gifting menu as the Products page sidebar.
+     *
+     * @return array<int, array{name: string, slug: string, count: int, icon: string, group: string}>
+     */
+    public function getAvailableBrowseOccasions(): array
+    {
+        $icons = [
+            'diwali' => '🪔',
+            'birthday' => '🎂',
+            'anniversary' => '💕',
+            'ring-ceremony' => '💍',
+            'valentine' => '❤️',
+            'baby-shower' => '👶',
+            'new-born' => '🍼',
+            'gifting' => '🎁',
+        ];
+
+        $available = [];
+
+        foreach ($this->getMainCategorySections() as $section) {
+            $sectionSlug = (string) ($section['slug'] ?? '');
+            $group = match ($sectionSlug) {
+                'festivals' => 'Festivals',
+                'occasions' => 'Occasions',
+                'gifting' => 'Gifting',
+                default => null,
+            };
+
+            if ($group === null) {
+                continue;
+            }
+
+            if ($sectionSlug === 'gifting') {
+                $count = (int) ($section['count'] ?? 0);
+                if ($count <= 0) {
+                    continue;
+                }
+
+                $available[] = [
+                    'name' => (string) ($section['name'] ?? 'Gifting'),
+                    'slug' => 'gifting',
+                    'count' => $count,
+                    'icon' => $icons['gifting'],
+                    'group' => 'Gifting',
+                ];
+
+                continue;
+            }
+
+            foreach ($section['subcategories'] ?? [] as $sub) {
+                if (! empty($sub['coming_soon'])) {
+                    continue;
+                }
+
+                $count = (int) ($sub['count'] ?? 0);
+                if ($count <= 0) {
+                    continue;
+                }
+
+                $slug = (string) ($sub['slug'] ?? '');
+                if ($slug === '') {
+                    continue;
+                }
+
+                $available[] = [
+                    'name' => (string) ($sub['name'] ?? ''),
+                    'slug' => $slug,
+                    'count' => $count,
+                    'icon' => $icons[$slug] ?? '🎁',
+                    'group' => $group,
+                ];
+            }
+        }
+
+        return $available;
+    }
+
+    /**
+     * Products in a curated browse collection (matches live product cards on the site).
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public function filterProductsForBrowseCollection(string $slug): array
+    {
+        $slug = strtolower(trim($slug));
+        $all = $this->getAllProducts();
+
+        return array_values(array_filter($all, function (array $product) use ($slug): bool {
+            $id = strtolower((string) ($product['id'] ?? ''));
+
+            return match ($slug) {
+                'diwali' => str_starts_with($id, 'd'),
+                'birthday' => str_starts_with($id, 'bd'),
+                'anniversary' => str_starts_with($id, 'an'),
+                'ring-ceremony' => str_starts_with($id, 'rc'),
+                'valentine' => str_starts_with($id, 'vl'),
+                'baby-shower' => str_starts_with($id, 'bs'),
+                'gifting' => in_array(strtolower((string) ($product['category'] ?? '')), ['chocolates', 'gift-hampers', 'bouquets', 'combos'], true)
+                    || ! empty($product['occasions']),
+                default => false,
+            };
+        }));
+    }
+
+    public function browseCollectionUrl(string $slug): string
+    {
+        $slug = strtolower(trim($slug));
+
+        return route('products', ['category' => $slug]).'#productsCatalog';
+    }
+
+    /**
+     * Products matching a Products page category / occasion filter slug.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public function filterProductsByOccasionSlug(string $slug): array
+    {
+        $catLower = strtolower(trim($slug));
+        if ($catLower === '' || $this->isFestivalComingSoon($catLower)) {
+            return [];
+        }
+
+        $products = $this->getAllProducts();
+
+        $filtered = array_filter($products, function ($item) use ($catLower) {
+            $itemOccs = array_map('strtolower', $item['occasions'] ?? []);
+
+            if ($catLower === 'rakhi') {
+                return in_array('rakhi', $itemOccs, true) || in_array('raksha-bandhan', $itemOccs, true);
+            }
+
+            if ($catLower === 'ring-ceremony') {
+                return in_array('ring-ceremony', $itemOccs, true);
+            }
+
+            if (in_array($catLower, ['valentine', 'valentines-day'], true)) {
+                return in_array('valentine', $itemOccs, true) || in_array('valentines-day', $itemOccs, true);
+            }
+
+            if ($catLower === 'new-born') {
+                return in_array('new-born', $itemOccs, true);
+            }
+
+            if (in_array($catLower, $itemOccs, true)) {
+                return true;
+            }
+
+            return strtolower((string) ($item['category'] ?? '')) === $catLower;
+        });
+
+        return array_values($filtered);
     }
 
     /**

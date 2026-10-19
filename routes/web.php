@@ -3,6 +3,7 @@
 use App\Http\Controllers\AiAssistantController;
 use App\Http\Controllers\NewArrivalsController;
 use App\Http\Controllers\TrendingController;
+use App\Services\ContactWhatsAppInquiry;
 use App\Services\ProductCatalogService;
 use App\Services\ProductWhatsAppInquiry;
 use Illuminate\Http\Request;
@@ -46,16 +47,16 @@ Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
 
-Route::post('/contact', function (Request $request) {
-    $request->validate([
+Route::post('/contact', function (Request $request, ContactWhatsAppInquiry $contactWhatsApp) {
+    $validated = $request->validate([
         'name' => 'required|string|max:255',
         'email' => 'required|email|max:255',
         'phone' => 'nullable|string|max:50',
         'subject' => 'required|string|max:255',
-        'message' => 'required|string',
+        'message' => 'required|string|max:5000',
     ]);
 
-    return back()->with('success', 'Thank you for reaching out! Your message has been sent successfully. We will get back to you soon.');
+    return redirect()->away($contactWhatsApp->buildInquiryUrl($validated));
 })->name('contact.submit');
 
 Route::get('/offers', function () {

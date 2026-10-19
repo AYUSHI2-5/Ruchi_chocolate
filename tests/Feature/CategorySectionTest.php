@@ -36,6 +36,11 @@ class CategorySectionTest extends TestCase
         $response->assertSee('occasions.jpg');
         $response->assertDontSee('jute-potli-bags.jpg');
 
+        $response->assertSee(route('products', ['category' => 'diwali']).'#productsCatalog', false);
+        $response->assertSee(route('products', ['category' => 'gifting']).'#productsCatalog', false);
+        $response->assertSee(route('products', ['category' => 'birthday']).'#productsCatalog', false);
+        $response->assertSee(route('products', ['occasion' => 'occasions']).'#productsCatalog', false);
+
         // Verify Section 1 Header is still intact
         $response->assertSee('Handmade with Love');
         $response->assertSee('+91 7490828282');

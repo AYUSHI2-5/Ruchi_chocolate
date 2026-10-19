@@ -69,7 +69,7 @@ class NewArrivalsPageTest extends TestCase
         $response = $this->get('/new-arrivals');
 
         $response->assertStatus(200);
-        $response->assertSee('<strong id="naToolbarCountNumber">79</strong> Items', false);
+        $response->assertSee('<strong id="naToolbarCountNumber">60</strong> Items', false);
         $response->assertSee('Items', false);
         $response->assertSee('Sort by:', false);
         $response->assertSee('Featured', false);
@@ -100,13 +100,15 @@ class NewArrivalsPageTest extends TestCase
         $response->assertSee('na-pagination', false);
         $response->assertSee('P001 Small Heart Tin Box', false);
         $response->assertDontSee('P017 18 Rose Chocolates Box', false);
+        $response->assertSee('R001 Volley Handy', false);
+        $response->assertDontSee('R002 12 Chocolates', false);
         $response->assertSee('na-page-link--prev na-page-link--disabled', false);
         $response->assertSee(route('new-arrivals', ['page' => 2]), false);
 
         // Page 2: Displays items 17-32, Previous enabled, Next enabled
         $responsePage2 = $this->get('/new-arrivals?page=2');
         $responsePage2->assertStatus(200);
-        $responsePage2->assertSee('P017 18 Rose Chocolates Box', false);
+        $responsePage2->assertSee('R002 12 Chocolates', false);
         $responsePage2->assertDontSee('P001 Small Heart Tin Box', false);
         $responsePage2->assertSee(route('new-arrivals', ['page' => 1]), false);
         $responsePage2->assertSee(route('new-arrivals', ['page' => 3]), false);
@@ -114,23 +116,16 @@ class NewArrivalsPageTest extends TestCase
         // Page 3: Displays items 33-48, Previous enabled, Next enabled
         $responsePage3 = $this->get('/new-arrivals?page=3');
         $responsePage3->assertStatus(200);
-        $responsePage3->assertSee('P033 Royal Silk Chocolate Hamper', false);
-        $responsePage3->assertSee('P034 Petite Blossom Bouquet 10pc', false);
+        $responsePage3->assertSee('Black Leather Box', false);
         $responsePage3->assertDontSee('P001 Small Heart Tin Box', false);
         $responsePage3->assertSee(route('new-arrivals', ['page' => 4]), false);
 
-        // Page 4: Displays items 49-64, Previous enabled, Next enabled
+        // Page 4: Displays last page items (49-60), Previous enabled, Next disabled
         $responsePage4 = $this->get('/new-arrivals?page=4');
         $responsePage4->assertStatus(200);
+        $responsePage4->assertSee('12 Dryfruit Chocolate', false);
         $responsePage4->assertDontSee('P001 Small Heart Tin Box', false);
-        $responsePage4->assertSee(route('new-arrivals', ['page' => 5]), false);
-        $responsePage4->assertDontSee('na-page-link--next na-page-link--disabled', false);
-
-        // Page 5: Displays last page items, Previous enabled, Next disabled
-        $responsePage5 = $this->get('/new-arrivals?page=5');
-        $responsePage5->assertStatus(200);
-        $responsePage5->assertDontSee('P001 Small Heart Tin Box', false);
-        $responsePage5->assertSee('na-page-link--next na-page-link--disabled', false);
+        $responsePage4->assertSee('na-page-link--next na-page-link--disabled', false);
     }
 
     public function test_products_page_has_no_category_selected_by_default(): void
@@ -251,7 +246,7 @@ class NewArrivalsPageTest extends TestCase
         $responseRing->assertDontSee('₹1,750.00', false);
         $responseRing->assertSee('₹1,450.00', false);
         $responseRing->assertDontSee('P002 Big Heart Tin Box', false);
-        $responseRing->assertDontSee('P016 15 chocolate', false);
+        $responseRing->assertDontSee('P017 18 Rose Chocolates Box', false);
         $responseRing->assertSee('<strong id="naToolbarCountNumber">4</strong> Items', false);
 
         // Occasions - Valentine (dedicated catalog cards)

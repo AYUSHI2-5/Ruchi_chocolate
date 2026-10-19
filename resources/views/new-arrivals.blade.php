@@ -460,6 +460,27 @@
             });
         }
 
+        function scrollToProductsCatalogSection() {
+            const target = document.getElementById('productsCatalog');
+            if (!target) {
+                return;
+            }
+            const headerOffset = 70;
+            const elementPosition = target.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            window.scrollTo({
+                top: Math.max(0, offsetPosition),
+                behavior: 'smooth'
+            });
+        }
+
+        const hasCategoryFilter = window.location.search.includes('category=') || window.location.search.includes('occasion=');
+        if (window.location.hash === '#productsCatalog' || hasCategoryFilter) {
+            requestAnimationFrame(function () {
+                scrollToProductsCatalogSection();
+            });
+        }
+
         // 5. Scroll to top of product grid when navigating pages via URL query parameter
         if (window.location.search.includes('page=') && !window.location.search.includes('page=1')) {
             const mainProducts = document.querySelector('.na-main-products');

@@ -5,7 +5,8 @@ namespace App\Services;
 class AiAssistantService
 {
     public function __construct(
-        protected ProductCatalogService $catalogService
+        protected ProductCatalogService $catalogService,
+        protected ContactWhatsAppInquiry $contactWhatsAppInquiry
     ) {}
 
     /**
@@ -16,7 +17,7 @@ class AiAssistantService
      * @param  string|null  $currentPage  Current URL pathname or route name
      * @return array<string, mixed>
      */
-    public function processMessage(string $message, string $language = 'en', array $history = [], ?string $currentPage = null, array $contactForm = []): array
+    public function processMessage(string $message, string $language = 'en', array $history = [], ?string $currentPage = null, array $contactForm = [], array $customisationIntake = []): array
     {
         $trimmedMessage = trim($message);
         if ($trimmedMessage === '') {
@@ -29,7 +30,7 @@ class AiAssistantService
         $normalized = mb_strtolower($trimmedMessage, 'UTF-8');
         $detectedLang = $this->detectLanguage($normalized, $language);
 
-        $response = $this->dispatchIntent($normalized, $trimmedMessage, $detectedLang, $currentPage, $contactForm);
+        $response = $this->dispatchIntent($normalized, $trimmedMessage, $detectedLang, $currentPage, $contactForm, $history, $customisationIntake);
 
         return $this->formatFinalResponse($response);
     }
@@ -39,7 +40,7 @@ class AiAssistantService
      *
      * @return array<string, mixed>
      */
-    protected function dispatchIntent(string $normalized, string $trimmedMessage, string $detectedLang, ?string $currentPage, array $contactForm = []): array
+    protected function dispatchIntent(string $normalized, string $trimmedMessage, string $detectedLang, ?string $currentPage, array $contactForm = [], array $history = [], array $customisationIntake = []): array
     {
         // 0. Direct Voice Commands & Assistant Controls
         // 0A. "Stop speaking" / "Stop"
@@ -70,7 +71,7 @@ class AiAssistantService
             }
         }
 
-        if ($this->isCurrentPage($currentPage, 'customised-gifts') && $this->looksLikeCustomGiftDescription($trimmedMessage, $normalized)) {
+        if ($this->shouldCaptureCustomGiftDescription($trimmedMessage, $normalized, $currentPage, $history, $customisationIntake)) {
             return $this->buildCustomisedGiftsWhatsAppFromDescription($trimmedMessage, $detectedLang);
         }
 
@@ -169,7 +170,7 @@ class AiAssistantService
         }
 
         // 4F. Occasion recommendation (e.g. birthday, anniversary)
-        $occasionResult = $this->handleOccasionSearch($normalized, $detectedLang);
+        $occasionResult = $this->handleOccasionSearch($normalized, $detectedLang, $currentPage);
         if ($occasionResult !== null) {
             return $occasionResult;
         }
@@ -219,6 +220,7 @@ class AiAssistantService
             'avatar_gesture' => $response['avatar_gesture'] ?? 'idle',
             'contact_form' => $response['contact_form'] ?? null,
             'customisation_details' => $response['customisation_details'] ?? null,
+            'customisation_intake' => $response['customisation_intake'] ?? null,
         ];
     }
 
@@ -471,22 +473,31 @@ class AiAssistantService
 
         // 2. Follow-ups on Our Products page
         if ($this->isCurrentPage($currentPage, 'products')) {
-            if (preg_match('/(next section|more details|tell me more|what else|continue|tin|box|best seller)/ui', $normalized)) {
+            $browseSlug = $this->resolveBrowseOccasionSlug($normalized);
+            if ($browseSlug !== null) {
+                return $this->buildOccasionCatalogResponse($browseSlug, $lang);
+            }
+
+            if (preg_match('/(festive|hamper|which celebration|which festival|festival|occasion|celebration|shop for|shopping for)/ui', $normalized)) {
+                return $this->buildOccasionBrowsePickerResponse($lang);
+            }
+
+            if (preg_match('/(next section|more details|tell me more|what else|continue|best seller|tin boxes|heart tins|explain.*tin)/ui', $normalized)) {
                 return [
                     'message' => "🎁 **Section 2: Artisan Gift Tin Boxes & Best Sellers**\n\n• **Small & Big Heart Tins:** Starting from ₹170 up to ₹350, perfect for romantic and birthday gifting.\n• **Square & Rectangle Tins:** ₹250 to ₹650, filled with milk truffles and roasted almond rochers.\n• **Grand Celebration Hampers:** Luxury festive arrangements with premium treats.\n\nWould you like to hear about our floral chocolate bouquets or custom gifts next?",
                     'speech_text' => 'Our best selling tin box collection features heart-shaped tins starting from one hundred seventy rupees, and assorted square tins up to six hundred fifty rupees. Would you like to hear about our chocolate bouquets or custom gifts next?',
-                    'quick_replies' => ['Explain Bouquets 💐', 'Gifts Under ₹300 🏷️', 'Customise a Gift ✨'],
+                    'quick_replies' => ['Explain Bouquets 💐', 'Browse Products 🍫', 'Customise a Gift ✨'],
                 ];
             }
 
-            if (preg_match('/(bouquet|flower|floret|bunch|potli)/ui', $normalized)) {
+            if (preg_match('/(explain bouquets|bouquet section|flower bouquet|floret|potli)/ui', $normalized)) {
                 return [
-                    'message' => "💐 **Chocolate Bouquets & Satin Potlis:**\n\n• **Chocolate Bouquets:** Floral arrangements featuring individually foil-wrapped chocolate florets in gorgeous decorative vases.\n• **Satin Potlis:** Traditional drawstring pouches with gold borders packed with assorted chocolates.\n\nWould you like to see options under ₹300 or enquire on WhatsApp?",
+                    'message' => "💐 **Chocolate Bouquets & Satin Potlis:**\n\n• **Chocolate Bouquets:** Floral arrangements featuring individually foil-wrapped chocolate florets in gorgeous decorative vases.\n• **Satin Potlis:** Traditional drawstring pouches with gold borders packed with assorted chocolates.\n\nWould you like to customise a gift or enquire on WhatsApp?",
                     'speech_text' => 'Our floral chocolate bouquets combine handmade chocolate florets in luxury vases, perfect for anniversaries and birthdays. Would you like to see options under three hundred rupees or enquire on WhatsApp?',
                     'action' => 'whatsapp',
                     'action_url' => 'https://wa.me/917490828282?text='.urlencode('Hi Ruchi Chocolates, I would like to order a chocolate bouquet.'),
                     'action_label' => 'Order Bouquet on WhatsApp',
-                    'quick_replies' => ['Gifts Under ₹300 🏷️', 'Customise a Gift ✨', 'Contact Details 📞'],
+                    'quick_replies' => ['Customise a Gift ✨', 'Browse Products 🍫', 'Contact Details 📞'],
                 ];
             }
 
@@ -630,9 +641,10 @@ class AiAssistantService
     protected function handleNavigateProducts(string $normalized, string $lang, bool $isAlreadyOnPage): array
     {
         $isBirthday = (bool) preg_match('/(birthday|janmadin|જન્મદિવસ)/ui', $normalized);
+
         $url = $isBirthday ? route('products', ['category' => 'birthday']).'#productsCatalog' : route('products');
-        $all = $this->catalogService->getAllProducts();
-        $topProducts = array_slice($all, 0, 4);
+        $catalogCount = count($this->catalogService->getAllProducts());
+        $occasionPicker = $this->buildOccasionBrowsePickerResponse($lang, true);
 
         $preSpeech = match ($lang) {
             'hi' => $isBirthday ? 'ज़रूर! चलिए मैं आपको हमारे बर्थडे गिफ्ट्स और चॉकलेट्स दिखाती हूँ।' : 'ज़रूर! चलिए मैं आपको हमारे Products पेज पर ले चलती हूँ ताकि आप हमारी सभी चॉकलेट्स देख सकें।',
@@ -644,22 +656,17 @@ class AiAssistantService
             ? "🎂 **Special Birthday Chocolate Gifts!**\n\n"
                 ."Here is our handcrafted birthday gift selection! You can choose personalised birthday chocolate boxes, heart tins, and luxury flower bouquets designed to make birthdays unforgettable.\n\n"
                 .'Would you like to customise a name or message for this birthday gift?'
-            : "🎁 **Discover Our Chocolate Collection!**\n\n"
-                ."Here you can explore our complete collection of **34 handcrafted chocolate delights**:\n\n"
-                ."• **Artisan Gift Boxes:** Small & Big Heart Tins, Rectangle & Square tins starting from just **₹170**.\n"
-                ."• **Chocolate Bouquets:** Stunning floral chocolate arrangements for romantic and festive gifting.\n"
-                ."• **Potli Bags & Hampers:** Traditional satin potlis and luxury festive hampers.\n\n"
-                .'Which celebration or gift style are you shopping for?';
+            : $occasionPicker['message'];
 
         $explSpeech = match ($lang) {
-            'hi' => $isBirthday ? 'यहाँ हैं हमारे खास बर्थडे चॉकलेट गिफ्ट्स! आप नाम और संदेश भी कस्टमाइज करवा सकते हैं।' : 'स्वागत है हमारे Products कलेक्शन में! यहाँ आप हमारे 34+ हैंडक्राफ्टेड चॉकलेट गिफ्ट्स देख सकते हैं, जो सिर्फ ₹170 से शुरू होते हैं।',
-            'gu' => $isBirthday ? 'અહીં છે અમારા ખાસ બર્થડે ચોકલેટ ગિફ્ટ્સ! તમે નામ અને મેસેજ પણ કસ્ટમાઇઝ કરાવી શકો છો.' : 'અમારા Products કલેક્શનમાં સ્વાગત છે! અહીં તમે અમારી 34 થી વધુ હેન્ડમેડ ચોકલેટ્સ જોઈ શકો છો, જે માત્ર ₹170 થી શરૂ થાય છે.',
-            default => $isBirthday ? 'Here are our handcrafted birthday gift collections! We can personalize chocolate name letters, ribbons, and gift hampers for the celebration. Would you like to customize a gift?' : 'Welcome to our Products collection! Here you can explore thirty-four handcrafted chocolate delights, including heart-shaped tin boxes starting from just one hundred seventy rupees, luxury bouquets, and festive hampers. Which celebration are you shopping for?',
+            'hi' => $isBirthday ? 'यहाँ हैं हमारे खास बर्थडे चॉकलेट गिफ्ट्स! आप नाम और संदेश भी कस्टमाइज करवा सकते हैं।' : 'स्वागत है हमारे Products कलेक्शन में! नीचे अपना त्योहार या मौका चुनें — मैं उपलब्ध हैम्पर और गिफ्ट दिखाऊँगी।',
+            'gu' => $isBirthday ? 'અહીં છે અમારા ખાસ બર્થડે ચોકલેટ ગિફ્ટ્સ! તમે નામ અને મેસેજ પણ કસ્ટમાઇઝ કરાવી શકો છો.' : 'અમારા Products કલેક્શનમાં સ્વાગત છે! નીચે તમારો તહેવાર અથવા પ્રસંગ પસંદ કરો — હું ઉપલબ્ધ હેમ્પર અને ગિફ્ટ્સ બતાવીશ.',
+            default => $isBirthday ? 'Here are our handcrafted birthday gift collections! We can personalize chocolate name letters, ribbons, and gift hampers for the celebration. Would you like to customize a gift?' : "Welcome to our Products collection with {$catalogCount} handcrafted gifts! Which festival, occasion, or gift type are you shopping for? Tap an option below to see what's available.",
         };
 
         $quickReplies = $isBirthday
-            ? ['Customise a Gift ✨', 'Heart Tin Boxes 💖', 'Gifts under ₹300 🏷️', 'Order on WhatsApp 💬']
-            : ['Explain Next Section: Tin Boxes 🎁', 'Explain Bouquets 💐', 'Gifts under ₹300 🏷️', 'Customise a Gift ✨'];
+            ? ['Customise a Gift ✨', 'Heart Tin Boxes 💖', 'Order on WhatsApp 💬']
+            : $occasionPicker['quick_replies'];
 
         $sectionTarget = [
             'selector' => '#productsCatalog',
@@ -670,15 +677,15 @@ class AiAssistantService
         ];
 
         if ($isAlreadyOnPage) {
-            return [
+            return array_merge($occasionPicker, [
                 'message' => "We are right here on our **Our Products** page! 🍫\n\n".$explMessage,
                 'speech_text' => "We are right here on our Products page! {$explSpeech}",
-                'products' => $this->formatProducts($topProducts),
                 'quick_replies' => $quickReplies,
                 'section_target' => $sectionTarget,
                 'avatar_gesture' => 'pointing',
                 'navigation' => null,
-            ];
+                'products' => $isBirthday ? $this->formatProducts(array_slice($this->catalogService->filterProductsForBrowseCollection('birthday'), 0, 4)) : [],
+            ]);
         }
 
         return [
@@ -687,7 +694,7 @@ class AiAssistantService
             'action' => 'navigate',
             'action_url' => $url,
             'action_label' => 'View All Products',
-            'products' => $this->formatProducts($topProducts),
+            'products' => [],
             'avatar_gesture' => 'walking',
             'section_target' => $sectionTarget,
             'navigation' => [
@@ -700,13 +707,182 @@ class AiAssistantService
                 'explanation' => [
                     'message' => $explMessage,
                     'speech_text' => $explSpeech,
-                    'products' => $this->formatProducts($topProducts),
+                    'products' => [],
                     'quick_replies' => $quickReplies,
                     'section_target' => $sectionTarget,
                     'avatar_gesture' => 'pointing',
                 ],
             ],
             'quick_replies' => $quickReplies,
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    protected function buildOccasionBrowsePickerResponse(string $lang, bool $includeIntro = true): array
+    {
+        $available = $this->catalogService->getAvailableBrowseOccasions();
+        $lines = [];
+
+        $sectionTitles = [
+            'Festivals' => 'Festivals',
+            'Occasions' => 'Occasions',
+            'Gifting' => 'Gifting',
+        ];
+
+        foreach ($sectionTitles as $groupKey => $title) {
+            $items = array_values(array_filter($available, fn ($o) => $o['group'] === $groupKey));
+            if ($items === []) {
+                continue;
+            }
+
+            $lines[] = "**{$title}**";
+            foreach ($items as $item) {
+                $lines[] = "• {$item['icon']} **{$item['name']}** — {$item['count']} available";
+            }
+            $lines[] = '';
+        }
+
+        if ($lines !== [] && end($lines) === '') {
+            array_pop($lines);
+        }
+
+        $body = implode("\n", $lines);
+
+        $intro = match ($lang) {
+            'hi' => "🎁 **कौन-सा त्योहार या मौका?**\n\nनीचे उपलब्ध कलेक्शन चुनें — मैं उसी के हिसाब से हैम्पर और गिफ्ट दिखाऊँगी:\n\n",
+            'gu' => "🎁 **કયો તહેવાર અથવા પ્રસંગ?**\n\nનીચે ઉપલબ્ધ કલેક્શન પસંદ કરો — હું તે મુજબ હેમ્પર અને ગિફ્ટ્સ બતાવીશ:\n\n",
+            default => "🎁 **Same options as our Products menu**\n\nChoose a **Festival**, **Occasion**, or **Gifting** collection below — counts match what you see on the website:\n\n",
+        };
+
+        $message = ($includeIntro ? $intro : '').$body;
+
+        return [
+            'message' => $message,
+            'speech_text' => match ($lang) {
+                'hi' => 'नीचे से अपना त्योहार या मौका चुनें, मैं उपलब्ध गिफ्ट और हैम्पर दिखाऊँगी।',
+                'gu' => 'નીચેથી તહેવાર અથવા પ્રસંગ પસંદ કરો, હું ઉપલબ્ધ ગિફ્ટ્સ બતાવીશ.',
+                default => 'Pick a festival, occasion, or gifting option below — the same choices as our Products page sidebar.',
+            },
+            'products' => [],
+            'quick_replies' => $this->buildOccasionBrowseQuickReplies($available),
+            'avatar_gesture' => 'pointing',
+        ];
+    }
+
+    /**
+     * @param  array<int, array{name: string, slug: string, count: int, icon: string, group: string}>  $available
+     * @return array<int, string>
+     */
+    protected function buildOccasionBrowseQuickReplies(array $available): array
+    {
+        $chips = [];
+        foreach ($available as $item) {
+            $chips[] = trim($item['name'].' '.$item['icon']);
+        }
+
+        $chips[] = 'Customise a Gift ✨';
+
+        return $chips;
+    }
+
+    protected function resolveBrowseOccasionSlug(string $message): ?string
+    {
+        $normalized = mb_strtolower(trim($message), 'UTF-8');
+        $normalized = preg_replace('/[\x{1F300}-\x{1FAFF}\x{2600}-\x{27BF}]/u', ' ', $normalized) ?? $normalized;
+        $normalized = trim(preg_replace('/\s+/u', ' ', $normalized));
+
+        foreach ($this->catalogService->getAvailableBrowseOccasions() as $occ) {
+            $slug = $occ['slug'];
+            $name = mb_strtolower($occ['name'], 'UTF-8');
+            $slugSpaced = str_replace('-', ' ', $slug);
+
+            if ($normalized === $slug || $normalized === $name || $normalized === $slugSpaced) {
+                return $slug;
+            }
+
+            if ($this->messagePrimarilySelectsBrowseOccasion($normalized, $slug, $name, $slugSpaced)) {
+                return $slug;
+            }
+        }
+
+        $aliases = [
+            'valentines day' => 'valentine',
+            'valentines' => 'valentine',
+            "valentine's day" => 'valentine',
+            'ring ceremony' => 'ring-ceremony',
+            'gifting' => 'gifting',
+            'all gifts' => 'gifting',
+        ];
+
+        foreach ($aliases as $needle => $slug) {
+            if (str_contains($normalized, $needle) && $this->catalogService->filterProductsForBrowseCollection($slug) !== []) {
+                if ($this->messagePrimarilySelectsBrowseOccasion($normalized, $slug, $needle, $needle)) {
+                    return $slug;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    protected function messagePrimarilySelectsBrowseOccasion(string $normalized, string $slug, string $name, string $slugSpaced): bool
+    {
+        if (preg_match('/(browse|show (me )?(the )?(your )?(all )?(products|catalogue|catalog|collection)|chocolates you sell|our products)/ui', $normalized)) {
+            return false;
+        }
+
+        if ($normalized === $slug || $normalized === $name || $normalized === $slugSpaced) {
+            return true;
+        }
+
+        if (str_starts_with($normalized, $name.' ') || str_starts_with($normalized, $slugSpaced.' ')) {
+            return true;
+        }
+
+        if (mb_strlen($normalized) <= 40 && (str_contains($normalized, $slug) || str_contains($normalized, $name))) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    protected function buildOccasionCatalogResponse(string $slug, string $lang): array
+    {
+        $products = $this->catalogService->filterProductsForBrowseCollection($slug);
+        $label = $this->catalogService->resolveCategoryFilterLabel($slug);
+        $top = array_slice($products, 0, 3);
+        $count = count($products);
+        $url = $this->catalogService->browseCollectionUrl($slug);
+
+        if ($lang === 'hi') {
+            $message = "🎉 **{$label} — {$count} उपलब्ध गिफ्ट**\n\nचैट में कुछ लोकप्रिय विकल्प। पूरा कलेक्शन देखने के लिए **View All {$label} Gifts** टैप करें।";
+            $speech = "{$label} के लिए {$count} गिफ्ट उपलब्ध हैं। यहाँ कुछ विकल्प हैं; पूरा कलेक्शन View All पर टैप करके देखें।";
+        } elseif ($lang === 'gu') {
+            $message = "🎉 **{$label} — {$count} ઉપલબ્ધ ગિફ્ટ્સ**\n\nચેટમાં થોડા લોકપ્રિય વિકલ્પો. સંપૂર્ણ કલેક્શન માટે **View All {$label} Gifts** ટેપ કરો.";
+            $speech = "{$label} માટે {$count} ગિફ્ટ્સ ઉપલબ્ધ છે. સંપૂર્ણ કલેક્શન View All પર ટેપ કરીને જુઓ.";
+        } else {
+            $message = "🎉 **{$label} — {$count} available gifts & hampers**\n\nHere are a few popular picks in chat. Tap **View All {$label} Gifts** to open the full collection on our Products page.";
+            $speech = "For {$label}, we have {$count} gifts available. Here are a few popular options in chat. Tap View All to see every gift on our Products page.";
+        }
+
+        return [
+            'message' => $message,
+            'speech_text' => $speech,
+            'products' => $this->formatProducts($top),
+            'action' => 'navigate',
+            'action_url' => $url,
+            'action_label' => "View All {$label} Gifts",
+            'quick_replies' => array_merge(
+                $this->buildOccasionBrowseQuickReplies($this->catalogService->getAvailableBrowseOccasions()),
+                ['Enquire on WhatsApp 💬']
+            ),
+            'avatar_gesture' => 'speaking',
+            'navigation' => null,
         ];
     }
 
@@ -758,6 +934,7 @@ class AiAssistantService
             'action' => 'whatsapp',
             'action_url' => $this->customisedGiftWhatsAppUrl(''),
             'action_label' => 'Enquire on WhatsApp',
+            'customisation_intake' => 'awaiting_description',
             'quick_replies' => ['Browse Products 🍫', 'Contact Us 📞'],
         ];
     }
@@ -780,8 +957,82 @@ class AiAssistantService
             'action_url' => $this->customisedGiftWhatsAppUrl($details),
             'action_label' => 'Send on WhatsApp',
             'customisation_details' => $details,
+            'customisation_intake' => 'complete',
             'quick_replies' => ['Browse Products 🍫', 'Contact Us 📞'],
         ];
+    }
+
+    /**
+     * @param  array<int, array<string, string>>  $history
+     */
+    protected function shouldCaptureCustomGiftDescription(string $message, string $normalized, ?string $currentPage, array $history, array $customisationIntake = []): bool
+    {
+        if ($this->isObviousNonCustomGiftDescriptionIntent($normalized)) {
+            return false;
+        }
+
+        $awaitingDescription = ! empty($customisationIntake['awaiting_description'])
+            || $this->isAwaitingCustomGiftDescription($history, $currentPage);
+
+        if ($awaitingDescription && mb_strlen(trim($message)) >= 5) {
+            return true;
+        }
+
+        return $this->isCurrentPage($currentPage, 'customised-gifts')
+            && $this->looksLikeCustomGiftDescription($message, $normalized);
+    }
+
+    /**
+     * @param  array<int, array<string, string>>  $history
+     */
+    protected function isAwaitingCustomGiftDescription(array $history, ?string $currentPage): bool
+    {
+        $markers = [
+            'submit your description',
+            'share your customisation details',
+            'custom chocolate or hampers',
+            'type it here in chat',
+            'type your customisation details',
+            'विवरण बॉक्स',
+            'description in the box',
+        ];
+
+        $recent = array_slice($history, -8);
+        for ($i = count($recent) - 1; $i >= 0; $i--) {
+            if (($recent[$i]['role'] ?? '') !== 'assistant') {
+                continue;
+            }
+
+            $content = mb_strtolower($recent[$i]['content'] ?? '', 'UTF-8');
+            foreach ($markers as $marker) {
+                if (str_contains($content, $marker)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    protected function isObviousNonCustomGiftDescriptionIntent(string $normalized): bool
+    {
+        if ($this->isStopSpeakingIntent($normalized) || $this->isRepeatIntent($normalized) || $this->isGoBackIntent($normalized)) {
+            return true;
+        }
+
+        if ($this->isAboutIntent($normalized) || $this->isProductsIntent($normalized) || $this->isCustomisedIntent($normalized)) {
+            return true;
+        }
+
+        if ($this->isContactIntent($normalized) || $this->isPrivacyPolicyIntent($normalized) || $this->isTermsIntent($normalized) || $this->isHomeIntent($normalized)) {
+            return true;
+        }
+
+        if ($this->matchesIntent($normalized, ['hi', 'hello', 'hey', 'namaste', 'good morning', 'good evening', 'thank', 'thanks'])) {
+            return true;
+        }
+
+        return (bool) preg_match('/^(browse products|contact us|how to submit|submit order|explain that again|go to next|show products|track|delivery|policy|privacy|terms|cancel form|skip)$/ui', $normalized);
     }
 
     protected function looksLikeCustomGiftDescription(string $message, string $normalized): bool
@@ -845,6 +1096,7 @@ class AiAssistantService
                     'action' => $guide['action'],
                     'action_url' => $guide['action_url'],
                     'action_label' => $guide['action_label'],
+                    'customisation_intake' => 'awaiting_description',
                 ],
             ],
             'quick_replies' => $guide['quick_replies'],
@@ -1117,6 +1369,7 @@ class AiAssistantService
     {
         $clientFields = $this->contactFormFieldsForClient($fields);
         $phoneLine = $clientFields['phone'] !== '' ? $clientFields['phone'] : '—';
+        $whatsappUrl = $this->contactWhatsAppInquiry->buildInquiryUrl($clientFields);
 
         return [
             'message' => "✅ **Your contact form is ready!**\n\n"
@@ -1126,11 +1379,13 @@ class AiAssistantService
                 ."• **Phone:** {$phoneLine}\n"
                 ."• **Subject:** {$clientFields['subject']}\n"
                 ."• **Message:** {$clientFields['message']}\n\n"
-                .'Please review the form on this page and tap **Send Message** when you are ready.',
-            'speech_text' => 'I have filled in the contact form with your details. Please review it and tap Send Message when you are ready.',
+                .'Tap **Send on WhatsApp** below — your enquiry will open in WhatsApp with these details so you can send it directly to our team. You can also review the form on this page.',
+            'speech_text' => 'I have filled in the contact form with your details. Tap Send on WhatsApp to message our team with your enquiry.',
             'avatar_gesture' => 'pointing',
             'section_target' => $this->contactFormSectionTarget(),
             'action' => 'prefill_contact_form',
+            'action_url' => $whatsappUrl,
+            'action_label' => 'Send on WhatsApp',
             'contact_form' => [
                 'step' => 'complete',
                 'fields' => $clientFields,
@@ -1202,7 +1457,7 @@ class AiAssistantService
         };
 
         $explMessage = "📞 **Contact Ruchi Chocolates:**\n\n"
-            ."• **Send a message:** Tap **Submit a Query** below — I'll collect the same details as our contact form (name, email, phone, subject, message) and fill the form for you to review and send.\n\n"
+            ."• **Send a message:** Tap **Submit a Query** below — I'll collect the same details as our contact form (name, email, phone, subject, message), fill the form, and open WhatsApp when you're done.\n\n"
             .'• **Studio Address:** '.config('ruchi.address')."\n"
             .'• **Phone / WhatsApp:** '.config('ruchi.phone_display')." *(Instant reply)*\n"
             .'• **Email:** '.config('ruchi.email')."\n"
@@ -1211,7 +1466,7 @@ class AiAssistantService
         $explSpeech = match ($lang) {
             'hi' => 'स्वागत है हमारे Contact Us पेज पर! क्वेरी भेजने के लिए Submit a Query टैप करें — मैं फॉर्म की तरह आपका नाम, ईमेल और संदेश लूँगी और फॉर्म भर दूँगी।',
             'gu' => 'અમારા Contact Us પેજ પર સ્વાગત છે! Submit a Query ટેપ કરો — હું ફોર્મ જેવી જ વિગતો લઈને ફોર્મ ભરી દઈશ.',
-            default => 'Welcome to our Contact Us page! Tap Submit a Query and I will collect your name, email, subject, and message just like the contact form, then fill the form for you to send.',
+            default => 'Welcome to our Contact Us page! Tap Submit a Query and I will collect your details like the contact form, fill the form, and connect you to WhatsApp to send your message.',
         };
 
         $quickReplies = ['Submit a Query 📝', 'Chat on WhatsApp 💬', 'Studio Address 📍'];
@@ -1516,7 +1771,7 @@ class AiAssistantService
             'action' => 'navigate',
             'action_url' => route('products'),
             'action_label' => 'Browse Affordable Chocolates',
-            'quick_replies' => ['Gifts under ₹300 🎁', 'Customised Hampers ✨', 'Enquire on WhatsApp 💬'],
+            'quick_replies' => ['Browse Products 🍫', 'Customised Hampers ✨', 'Enquire on WhatsApp 💬'],
         ];
     }
 
@@ -1602,70 +1857,11 @@ class AiAssistantService
      *
      * @return array<string, mixed>|null
      */
-    protected function handleOccasionSearch(string $normalized, string $lang): ?array
+    protected function handleOccasionSearch(string $normalized, string $lang, ?string $currentPage = null): ?array
     {
-        $occasionsMap = [
-            'birthday' => ['slug' => 'birthday', 'name' => 'Birthday', 'desc' => 'celebrate another year of happiness'],
-            'anniversary' => ['slug' => 'anniversary', 'name' => 'Anniversary', 'desc' => 'romantic milestones and sweet love'],
-            'wedding' => ['slug' => 'wedding', 'name' => 'Wedding & Reception', 'desc' => 'elegant hampers for couples and guests'],
-            'valentine' => ['slug' => 'valentines-day', 'name' => "Valentine's Day", 'desc' => 'heart-shaped boxes and red roses'],
-            'diwali' => ['slug' => 'diwali', 'name' => 'Diwali', 'desc' => 'traditional festive gifting with sweet joy'],
-            'rakhi' => ['slug' => 'raksha-bandhan', 'name' => 'Raksha Bandhan', 'desc' => 'celebrating the sibling bond with chocolates'],
-            'baby shower' => ['slug' => 'baby-shower', 'name' => 'Baby Shower', 'desc' => 'sweet blessings for the new arrival'],
-            'corporate' => ['slug' => 'corporate-gifting', 'name' => 'Corporate Gifting', 'desc' => 'professional, premium chocolate boxes for clients and employees'],
-            'bouquet' => ['slug' => 'bouquets', 'name' => 'Chocolate Bouquets', 'desc' => 'stunning chocolate arrangements wrapped like flowers'],
-        ];
-
-        foreach ($occasionsMap as $key => $meta) {
-            if (mb_stripos($normalized, $key) !== false) {
-                $all = $this->catalogService->getAllProducts();
-                $matched = array_filter($all, function ($p) use ($meta) {
-                    $occs = $p['occasions'] ?? [];
-                    if (in_array($meta['slug'], $occs, true)) {
-                        return true;
-                    }
-                    if (mb_stripos($p['title'] ?? '', $meta['name']) !== false || mb_stripos($p['description'] ?? '', $meta['name']) !== false) {
-                        return true;
-                    }
-                    if ($meta['slug'] === 'bouquets' && strtolower($p['category'] ?? '') === 'bouquets') {
-                        return true;
-                    }
-
-                    return false;
-                });
-
-                $top = array_slice($matched, 0, 4);
-                if (empty($top)) {
-                    $top = array_slice($all, 0, 3);
-                }
-
-                $topTitles = array_map(function ($p) {
-                    return preg_replace('/^P\d+\s*/i', '', $p['title']);
-                }, array_slice($top, 0, 2));
-
-                $topNamesStr = implode(' and the ', $topTitles);
-
-                if ($lang === 'hi') {
-                    $speech = "{$meta['name']} के लिए हमारा सबसे लोकप्रिय गिफ्ट है {$topNamesStr}। आप इसपर नाम और रिबन भी कस्टमाइज करवा सकते हैं!";
-                    $msgText = "🎉 **{$meta['name']} चॉकलेट गिफ्ट्स**\n\n{$meta['desc']} के लिए ये रहे हमारे सबसे पसंदीदा और स्वादिष्ट विकल्प:";
-                } elseif ($lang === 'gu') {
-                    $speech = "{$meta['name']} માટે અમારી સૌથી લોકપ્રિય ચોકલેટ ગિફ્ટ છે {$topNamesStr}. તમે આમાં નામ અને રિબન પણ કસ્ટમાઇઝ કરાવી શકો છો!";
-                    $msgText = "🎉 **{$meta['name']} ચોકલેટ ગિફ્ટ્સ**\n\nઆ ખાસ પ્રસંગ માટે અમારી શ્રેષ્ઠ હેન્ડમેડ ચોકલેટ્સ:";
-                } else {
-                    $speech = "For {$meta['name']}, our most popular chocolate gift is the {$topNamesStr}. Handcrafted with premium ingredients, you can also personalize custom lettering and ribbon colors!";
-                    $msgText = "🎉 **{$meta['name']} Chocolate Gifts**\n\nHere are our top recommended creations to {$meta['desc']}:";
-                }
-
-                return [
-                    'message' => $msgText,
-                    'speech_text' => $speech,
-                    'products' => $this->formatProducts($top),
-                    'action' => 'navigate',
-                    'action_url' => route('products'),
-                    'action_label' => "View All {$meta['name']} Gifts",
-                    'quick_replies' => ['Customise a Gift ✨', 'Enquire on WhatsApp 💬'],
-                ];
-            }
+        $browseSlug = $this->resolveBrowseOccasionSlug($normalized);
+        if ($browseSlug !== null) {
+            return $this->buildOccasionCatalogResponse($browseSlug, $lang);
         }
 
         return null;

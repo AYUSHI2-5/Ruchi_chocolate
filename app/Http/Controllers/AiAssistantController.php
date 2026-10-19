@@ -33,6 +33,8 @@ class AiAssistantController extends Controller
             'contact_form.fields.subject' => 'nullable|string|max:255',
             'contact_form.fields.message' => 'nullable|string|max:5000',
             'contact_form.fields.phone_skipped' => 'nullable|boolean',
+            'customisation_intake' => 'nullable|array',
+            'customisation_intake.awaiting_description' => 'nullable|boolean',
         ]);
 
         try {
@@ -41,8 +43,9 @@ class AiAssistantController extends Controller
             $history = (array) ($validated['history'] ?? []);
             $currentPage = (string) ($validated['current_page'] ?? '');
             $contactForm = (array) ($validated['contact_form'] ?? []);
+            $customisationIntake = (array) ($validated['customisation_intake'] ?? []);
 
-            $result = $this->aiService->processMessage($message, $language, $history, $currentPage, $contactForm);
+            $result = $this->aiService->processMessage($message, $language, $history, $currentPage, $contactForm, $customisationIntake);
 
             return response()->json([
                 'success' => true,

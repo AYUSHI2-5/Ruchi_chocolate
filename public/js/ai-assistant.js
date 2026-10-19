@@ -107,10 +107,15 @@
     /* =========================================================================
        1. Initialization, Voice Setup & State Restoration
        ========================================================================= */
+    const CUSTOMISATION_PREFILL_KEY = 'rc_ai_customisation_prefill';
+    const CUSTOMISATION_INTAKE_KEY = 'rc_ai_customisation_intake';
+
     function init() {
         initVoices();
         setupEventListeners();
+        hideTourGuideBeacon();
         restoreNavigationSession();
+        applyPendingCustomisationPrefill();
         updateVoiceToggleUI();
         setAvatarGesture('idle');
     }
@@ -166,6 +171,7 @@
                 // Add to history
                 conversationHistory.push({ role: 'assistant', content: expl.message || '' });
                 appendAssistantMessage(expl);
+                syncCustomisationIntakeFromResponse(expl);
 
                 const executeSectionGuide = function () {
                     loadVoices();
@@ -186,9 +192,11 @@
                         setTimeout(function () {
                             speakText(speechToPlay, targetSection?.gesture || 'explaining');
                         }, 500);
-                    } else if (targetSection?.gesture) {
+                    } else                     if (targetSection?.gesture) {
                         setAvatarGesture(targetSection.gesture);
                     }
+
+                    applyPendingCustomisationPrefill();
                 };
 
                 if (document.readyState === 'complete') {
@@ -562,22 +570,8 @@
         }
     }
 
-    const lightweightFormSectionSelectors = ['.rc-custom-form-card', '.rc-contact-form-card'];
-
-    function shouldUseLightweightFormFocus(sectionTarget, dataAction) {
-        if (!sectionTarget || !sectionTarget.selector) {
-            return false;
-        }
-
-        if (lightweightFormSectionSelectors.includes(sectionTarget.selector)) {
-            return true;
-        }
-
-        return dataAction === 'prefill_customisation_form' || dataAction === 'prefill_contact_form';
-    }
-
     /**
-     * Form / WhatsApp flows: scroll only — no floating "Ruchi AI Guide" dock or on-page sparkle overlay.
+     * Scroll to a section when helpful — guidance stays in the chat panel only (no on-page dock or overlays).
      */
     function focusSectionTargetForResponse(sectionTarget, explanationText, dataAction) {
         if (!sectionTarget) {
@@ -585,100 +579,35 @@
         }
 
         lastSectionTarget = sectionTarget;
-
-        if (shouldUseLightweightFormFocus(sectionTarget, dataAction)) {
-            hideTourGuideBeacon();
-            clearCurrentHighlight();
-
-            const el = document.querySelector(sectionTarget.selector);
-            if (el && sectionTarget.scroll !== false) {
-                const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-                el.scrollIntoView({
-                    behavior: prefersReduced ? 'auto' : 'smooth',
-                    block: 'center'
-                });
-            }
-
-            return;
-        }
-
         focusSectionTarget(sectionTarget, explanationText);
     }
 
     /**
-     * Smoothly scroll to, spotlight, and present the section being explained.
+     * Optional smooth scroll to a page section without floating guide UI on the storefront.
      */
     function focusSectionTarget(target, explanationText) {
-        if (!target || !target.selector) return;
-
-        clearCurrentHighlight();
-
-        const el = document.querySelector(target.selector);
-        if (!el) {
+        if (!target || !target.selector) {
             return;
         }
 
-        currentHighlightedEl = el;
+        hideTourGuideBeacon();
+        clearCurrentHighlight();
 
-        // 1. Smoothly scroll target into center view (respects prefers-reduced-motion)
-        if (target.scroll !== false) {
-            const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            el.scrollIntoView({
-                behavior: prefersReduced ? 'auto' : 'smooth',
-                block: 'center'
-            });
+        const el = document.querySelector(target.selector);
+        if (!el || target.scroll === false) {
+            return;
         }
 
-        // 2. Apply spotlight highlight
-        if (target.highlight !== false) {
-            el.classList.add('rc-ai-highlighted-section');
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        el.scrollIntoView({
+            behavior: prefersReduced ? 'auto' : 'smooth',
+            block: 'center'
+        });
 
-            // 3. Attach pointer cue
-            pointerCueEl = document.createElement('div');
-            pointerCueEl.className = 'rc-ai-section-pointer-cue';
-            pointerCueEl.innerHTML = `
-                <span class="rc-ai-pointer-sparkle">✨</span>
-                <span>${escapeHtml(target.title || 'Recommended Section')}</span>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8z"/></svg>
-            `;
-            if (window.getComputedStyle(el).position === 'static') {
-                el.style.position = 'relative';
-            }
-            el.appendChild(pointerCueEl);
-
-            // 4. Set character rig gesture
-            const gesture = target.gesture || 'pointing';
-            setAvatarGesture(gesture, {
-                line: explanationText || (target.title ? 'Here is ' + target.title + '.' : ''),
-                sectionHint: target.title ? 'Showing you: ' + target.title : undefined,
-            });
-
-            // 5. Display Tour Guide Beacon dock
-            showTourGuideBeacon(target, explanationText);
-
-            // 6. Automatically clear highlight after 12s so page returns to normal state
-            highlightClearTimer = setTimeout(function () {
-                clearCurrentHighlight();
-            }, 12000);
-        }
-    }
-
-    function showTourGuideBeacon(target, explanationText) {
-        if (!tourBeacon) return;
-
-        if (beaconTitle) {
-            beaconTitle.textContent = target.title || 'Exploring Section';
-        }
-        if (beaconText) {
-            const clean = explanationText
-                ? explanationText.replace(/\*\*.*?\*\*/g, '').replace(/[#*•]/g, '').replace(/\n+/g, ' ').trim()
-                : 'Guiding you through this section.';
-            beaconText.textContent = clean.length > 130 ? clean.slice(0, 130) + '...' : clean;
-        }
-
-        tourBeacon.style.display = 'block';
-        requestAnimationFrame(function () {
-            tourBeacon.classList.add('is-visible');
+        const gesture = target.gesture || 'pointing';
+        setAvatarGesture(gesture, {
+            line: explanationText || (target.title ? 'Here is ' + target.title + '.' : ''),
+            sectionHint: target.title ? 'Showing you: ' + target.title : undefined,
         });
     }
 
@@ -704,6 +633,8 @@
 
     function openPanel() {
         isOpen = true;
+        hideTourGuideBeacon();
+        clearCurrentHighlight();
         chatPanel.classList.add('is-open');
         chatPanel.setAttribute('aria-hidden', 'false');
         avatarBtn.setAttribute('aria-expanded', 'true');
@@ -722,6 +653,8 @@
 
     function closePanel() {
         isOpen = false;
+        hideTourGuideBeacon();
+        clearCurrentHighlight();
         chatPanel.classList.remove('is-open');
         chatPanel.setAttribute('aria-hidden', 'true');
         avatarBtn.setAttribute('aria-expanded', 'false');
@@ -1490,6 +1423,14 @@
         };
     }
 
+    function getCustomisationIntakePayload() {
+        if (sessionStorage.getItem(CUSTOMISATION_INTAKE_KEY) !== 'awaiting') {
+            return null;
+        }
+
+        return { awaiting_description: true };
+    }
+
     function getContactFormPayload() {
         if (!isContactPagePath()) {
             return null;
@@ -1510,8 +1451,9 @@
         };
     }
 
-    function applyCustomisationDetailsPrefill(text) {
-        if (!text || typeof text !== 'string') {
+    function applyPendingCustomisationPrefill() {
+        const pending = sessionStorage.getItem(CUSTOMISATION_PREFILL_KEY);
+        if (!pending) {
             return;
         }
 
@@ -1520,8 +1462,38 @@
             return;
         }
 
-        textarea.value = text.trim();
+        sessionStorage.removeItem(CUSTOMISATION_PREFILL_KEY);
+        applyCustomisationDetailsPrefill(pending);
+    }
+
+    function syncCustomisationIntakeFromResponse(data) {
+        if (!data) {
+            return;
+        }
+
+        if (data.customisation_intake === 'awaiting_description') {
+            sessionStorage.setItem(CUSTOMISATION_INTAKE_KEY, 'awaiting');
+        } else if (data.customisation_intake === 'complete' || data.customisation_details) {
+            sessionStorage.removeItem(CUSTOMISATION_INTAKE_KEY);
+        }
+    }
+
+    function applyCustomisationDetailsPrefill(text) {
+        if (!text || typeof text !== 'string') {
+            return;
+        }
+
+        const trimmed = text.trim();
+        const textarea = document.getElementById('customisation-details');
+        if (!textarea) {
+            sessionStorage.setItem(CUSTOMISATION_PREFILL_KEY, trimmed);
+            return;
+        }
+
+        sessionStorage.removeItem(CUSTOMISATION_PREFILL_KEY);
+        textarea.value = trimmed;
         textarea.dispatchEvent(new Event('input', { bubbles: true }));
+        textarea.focus({ preventScroll: true });
         textarea.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
         const formCard = document.querySelector('.rc-custom-form-card');
@@ -1605,7 +1577,8 @@
                     language: currentLanguage,
                     current_page: window.location.pathname,
                     history: conversationHistory.slice(-6),
-                    contact_form: getContactFormPayload()
+                    contact_form: getContactFormPayload(),
+                    customisation_intake: getCustomisationIntakePayload()
                 })
             });
 
@@ -1624,6 +1597,7 @@
             appendAssistantMessage(data);
 
             syncContactFormStateFromResponse(data);
+            syncCustomisationIntakeFromResponse(data);
 
             if (data.action === 'prefill_contact_form' && data.contact_form?.fields) {
                 applyContactFormPrefill(data.contact_form.fields);
@@ -1694,11 +1668,20 @@
         stopSpeechRecognition(true);
         const nav = data.navigation;
 
-        // Check if destination is already current page
+        const targetUrl = new URL(nav.url, window.location.origin);
         const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
-        const targetPath = (new URL(nav.url, window.location.origin)).pathname.replace(/\/$/, '') || '/';
+        const targetPath = targetUrl.pathname.replace(/\/$/, '') || '/';
+        const currentPathAndQuery = currentPath + window.location.search;
+        const targetPathAndQuery = targetPath + targetUrl.search;
 
-        if (currentPath === targetPath) {
+        if (currentPathAndQuery !== targetPathAndQuery) {
+            if (currentPath === targetPath) {
+                window.location.href = nav.url;
+                return;
+            }
+        }
+
+        if (currentPath === targetPath && currentPathAndQuery === targetPathAndQuery) {
             // Already on target page: scroll and explain directly without reloading!
             const sectionTarget = nav.section_target || (nav.explanation && nav.explanation.section_target);
             if (sectionTarget) {
@@ -1733,6 +1716,10 @@
             destinationPageName: nav.page_name || ''
         };
         sessionStorage.setItem('rc_ai_nav_state', JSON.stringify(stateToSave));
+
+        if (targetPath.includes('customised-gifts')) {
+            sessionStorage.setItem(CUSTOMISATION_INTAKE_KEY, 'awaiting');
+        }
 
         // Speak opening acknowledgment
         const ackSpeech = nav.pre_speech || data.speech_text || data.message;

@@ -25,7 +25,7 @@
                         </div>
                         
                         <p class="rc-contact-subtitle">
-                            Fill out the form and we'll get back to you as soon as possible.
+                            Fill out the form and tap Send Message — your details will open in WhatsApp so you can send them to our team.
                         </p>
                     </div>
 
@@ -179,7 +179,7 @@
                         <div class="rc-form-actions">
                             <button type="submit" class="rc-contact-submit-btn">
                                 <span class="rc-submit-arrow" aria-hidden="true">➤</span>
-                                <span>Send Message</span>
+                                <span>Send Message on WhatsApp</span>
                             </button>
 
                             <!-- Security Reassurance -->
@@ -188,7 +188,7 @@
                                     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                                     <polyline points="9 12 11 14 15 10"></polyline>
                                 </svg>
-                                <span>Your information is safe with us and will never be shared.</span>
+                                <span>You will review the message in WhatsApp and tap Send to reach us at {{ config('ruchi.phone_display') }}.</span>
                             </div>
                         </div>
 
@@ -336,21 +336,6 @@
                         <a href="{{ config('ruchi.whatsapp_url') }}?text=Hi%20Ruchi%20Chocolates" target="_blank" rel="noopener noreferrer" class="rc-social-btn" aria-label="WhatsApp">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm5.79 14.07c-.24.67-1.39 1.28-1.92 1.36-.5.08-1.14.12-3.37-.8-2.67-1.11-4.38-3.83-4.51-4.01-.13-.18-1.07-1.42-1.07-2.71 0-1.29.68-1.92.92-2.18.24-.26.53-.33.71-.33.18 0 .36.002.51.01.16.01.38-.06.59.45.24.57.81 1.97.88 2.11.07.15.12.32.02.51-.1.2-.15.32-.3.49-.15.17-.31.39-.45.52-.15.15-.31.31-.13.62.18.31.8 1.31 1.71 2.12 1.17 1.04 2.16 1.36 2.47 1.51.31.15.49.13.67-.08.18-.21.78-.91.99-1.22.21-.31.42-.26.71-.15.29.11 1.83.86 2.15 1.02.32.16.53.24.61.37.08.14.08.79-.16 1.46z"/>
-                            </svg>
-                        </a>
-
-                        <!-- Pinterest -->
-                        <a href="https://pinterest.com/ruchichocolate" target="_blank" rel="noopener noreferrer" class="rc-social-btn" aria-label="Pinterest">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 0a12 12 0 0 0-4.37 23.18c-.03-.98-.05-2.5.05-3.58l.75-3.17s-.19-.38-.19-.94c0-.88.51-1.54 1.15-1.54.54 0 .8.41.8.9 0 .55-.35 1.36-.53 2.12-.15.64.32 1.15.95 1.15 1.14 0 2.02-1.2 2.02-2.94 0-1.54-1.1-2.61-2.68-2.61-1.83 0-2.9 1.37-2.9 2.78 0 .55.21 1.14.48 1.46.05.06.06.12.04.18l-.18.73c-.03.11-.1.14-.22.09-.81-.38-1.32-1.56-1.32-2.51 0-2.04 1.49-3.92 4.28-3.92 2.25 0 4 1.6 4 3.75 0 2.24-1.41 4.04-3.37 4.04-.66 0-1.28-.34-1.49-.75l-.41 1.55c-.15.57-.55 1.28-.82 1.72A11.96 11.96 0 0 0 12 24c6.63 0 12-5.37 12-12S18.63 0 12 0z"/>
-                            </svg>
-                        </a>
-
-                        <!-- YouTube -->
-                        <a href="https://youtube.com/ruchichocolate" target="_blank" rel="noopener noreferrer" class="rc-social-btn" aria-label="YouTube">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
-                                <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
                             </svg>
                         </a>
                     </div>
