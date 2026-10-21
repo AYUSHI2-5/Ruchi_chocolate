@@ -46,6 +46,15 @@ class BestSellersSectionTest extends TestCase
         $response->assertSee('viewAllProductsBtn', false);
     }
 
+    public function test_best_sellers_mobile_carousel_css_aligns_track_to_start(): void
+    {
+        $css = file_get_contents(public_path('css/header.css'));
+
+        $this->assertStringContainsString('.best-sellers__track', $css);
+        $this->assertStringContainsString('justify-content: flex-start', $css);
+        $this->assertStringContainsString('scroll-padding-inline', $css);
+    }
+
     /**
      * Test that previous sections (Sections 1-5) remain fully intact.
      */

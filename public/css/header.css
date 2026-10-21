@@ -2810,24 +2810,74 @@ body.rc-drawer-open {
   .best-sellers-section {
     padding-top: 45px;
     padding-bottom: 60px;
+    overflow-x: clip;
   }
-  
+
   .best-sellers__arrow {
     display: none !important;
   }
-  
+
+  .best-sellers__carousel-wrapper {
+    width: 100%;
+    max-width: 100%;
+    margin-inline: 0;
+    overflow: hidden;
+  }
+
   .best-sellers__track {
     display: flex;
+    grid-template-columns: unset;
     overflow-x: auto;
+    overflow-y: hidden;
     gap: 16px;
     scroll-snap-type: x mandatory;
+    scroll-padding-inline: clamp(16px, 4vw, 20px);
     -webkit-overflow-scrolling: touch;
-    padding: 10px 10px 20px 10px;
+    justify-content: flex-start;
+    align-items: stretch;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 10px clamp(16px, 4vw, 20px) 24px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
-  
+
+  .best-sellers__track::-webkit-scrollbar {
+    display: none;
+  }
+
   .best-sellers__card {
-    flex: 0 0 240px;
+    flex: 0 0 clamp(220px, 78%, 260px);
+    width: clamp(220px, 78%, 260px);
+    min-width: 0;
+    max-width: calc(100% - 12px);
     scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .best-sellers__card:hover {
+    transform: none;
+  }
+
+  .best-sellers__card-body {
+    min-width: 0;
+    padding: 14px 12px 16px;
+  }
+
+  .best-sellers__card-title {
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .best-sellers__card-btn,
+  .best-sellers__card-btn--view {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 }
 
