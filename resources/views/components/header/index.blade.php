@@ -1,4 +1,4 @@
-{{-- Ruchi Beverages Custom Responsive Header --}}
+{{-- Ruchi Chocolate custom responsive header --}}
 <header id="shopify-section-header" class="shopify-section custom-header-section" role="banner">
     <header-component id="header-component" class="rc-header">
         {{-- Top Announcement Bar --}}

@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', config('ruchi.default_title'))
+
 @section('content')
 {{-- Home Hero Section: Slideshow Banner with Overlapping Features Strip --}}
 @include('components.home.hero-banner')

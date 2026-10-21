@@ -8,7 +8,7 @@
                 <!-- Column 1: Logo + Company Description -->
                 <div class="rc-footer-col rc-footer-col--brand">
                     <a href="{{ route('home') }}" class="rc-footer-logo-link" aria-label="Ruchi Chocolate Home">
-                        <img src="{{ asset('images/logo.png') }}" alt="Ruchi Beverages - Homemade Chocolates" class="rc-footer-logo-img">
+                        <img src="{{ asset('images/logo.png') }}" alt="{{ config('ruchi.site_name') }} — Homemade Chocolates" class="rc-footer-logo-img">
                     </a>
                     <p class="rc-footer-desc">
                         Ruchi Chocolate brings you the finest handmade chocolates and thoughtful gift hampers for every occasion.

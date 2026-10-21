@@ -1,2 +1,4 @@
 User-agent: *
 Disallow:
+
+Sitemap: https://ruchichocolate.com/sitemap.xml

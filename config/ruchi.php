@@ -11,6 +11,12 @@ if (str_starts_with($whatsappDigits, '91') && strlen($whatsappDigits) > 10) {
 }
 
 return [
+    'site_name' => env('RUCHI_SITE_NAME', 'Ruchi Chocolate'),
+    'default_title' => env('RUCHI_DEFAULT_TITLE', 'Ruchi Chocolate | Homemade Chocolates Made with Love'),
+    'meta_description' => env(
+        'RUCHI_META_DESCRIPTION',
+        'Ruchi Chocolate brings you the finest handmade chocolates and thoughtful gift hampers for every occasion.'
+    ),
     'email' => env('RUCHI_EMAIL', 'Info.ruchi11@gmail.com'),
     'phone' => env('RUCHI_PHONE', '7490828282'),
     'phone_display' => '+91 '.env('RUCHI_PHONE', '7490828282'),

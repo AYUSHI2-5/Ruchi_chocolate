@@ -6,7 +6,17 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="theme-color" content="#240a00">
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
-    <title>{{ $title ?? 'Ruchi Beverages | Homemade Chocolates Made with Love' }}</title>
+    @php
+        $pageTitle = $title ?? config('ruchi.default_title');
+        $metaDescription = $metaDescription ?? config('ruchi.meta_description');
+    @endphp
+    <title>{{ $pageTitle }}</title>
+    <meta name="description" content="{{ $metaDescription }}">
+    <meta property="og:site_name" content="{{ config('ruchi.site_name') }}">
+    <meta property="og:title" content="{{ $pageTitle }}">
+    <meta property="og:description" content="{{ $metaDescription }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
 
     <!-- Google Fonts: Allura, Cormorant Garamond, Poppins, Dancing Script, Playball, Playfair Display, Outfit, Inter, Montserrat -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
