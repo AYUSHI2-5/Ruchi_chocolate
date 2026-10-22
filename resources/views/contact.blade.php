@@ -1,9 +1,18 @@
 @extends('layouts.app')
 
+@section('title', 'Contact Us — Get in Touch & Store Location | Ruchi Chocolates')
+@section('meta_description', 'Contact Ruchi Chocolates in Paldi, Ahmedabad for custom chocolate orders, gift hamper inquiries, and WhatsApp support. We are here to sweeten your celebrations.')
+
 @section('content')
 <div class="rc-contact-page-wrapper">
     <div class="rc-contact-container">
         
+        <!-- Page-Level Accessible H1 -->
+        <div class="rc-contact-page-header visually-hidden">
+            <h1 class="rc-contact-page-title">Contact Ruchi Chocolates</h1>
+            <p>Get in touch with Ruchi Chocolates in Paldi, Ahmedabad for custom chocolate orders, celebration hampers, and WhatsApp inquiries.</p>
+        </div>
+
         <!-- Two-Column Main Layout: Form (Left) & Contact Info (Right) -->
         <div class="rc-contact-grid">
             
@@ -15,7 +24,7 @@
                     
                     <!-- Card Header -->
                     <div class="rc-contact-header">
-                        <h1 class="rc-contact-main-title">Send Us a Message</h1>
+                        <h2 class="rc-contact-main-title">Send Us a Message</h2>
                         
                         <!-- Decorative Heart Divider -->
                         <div class="rc-contact-divider" aria-hidden="true">
@@ -407,5 +416,31 @@
     @include('components.home.whatsapp-button')
 </div>
 @endsection
+
+@push('schema')
+<script type="application/ld+json">
+@php
+    $contactBreadcrumb = [
+        '@context' => 'https://schema.org',
+        '@type' => 'BreadcrumbList',
+        'itemListElement' => [
+            [
+                '@type' => 'ListItem',
+                'position' => 1,
+                'name' => 'Home',
+                'item' => rtrim(config('ruchi.canonical_base_url'), '/') . '/',
+            ],
+            [
+                '@type' => 'ListItem',
+                'position' => 2,
+                'name' => 'Contact Us',
+                'item' => rtrim(config('ruchi.canonical_base_url'), '/') . '/contact',
+            ],
+        ],
+    ];
+@endphp
+{!! json_encode($contactBreadcrumb, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+@endpush
 
 

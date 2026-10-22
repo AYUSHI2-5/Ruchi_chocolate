@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Terms & Conditions — Ruchi Chocolates | Handcrafted with Love')
+@section('meta_description', 'Review the Terms & Conditions governing orders, shop pickup, customized chocolate hampers, and website usage at Ruchi Chocolates.')
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/privacy-policy.css') }}">
@@ -46,6 +47,8 @@
                         alt="Ruchi Chocolates handcrafted luxury gift hamper with ribbons and artisan chocolates" 
                         class="rc-policy-hero-img"
                         loading="eager"
+                        width="1376"
+                        height="768"
                     >
                     <div class="rc-policy-hero-blend" aria-hidden="true"></div>
                 </div>
@@ -425,3 +428,30 @@
 
 </div>
 @endsection
+
+@push('schema')
+<script type="application/ld+json">
+@php
+    $termsBreadcrumb = [
+        '@context' => 'https://schema.org',
+        '@type' => 'BreadcrumbList',
+        'itemListElement' => [
+            [
+                '@type' => 'ListItem',
+                'position' => 1,
+                'name' => 'Home',
+                'item' => rtrim(config('ruchi.canonical_base_url'), '/') . '/',
+            ],
+            [
+                '@type' => 'ListItem',
+                'position' => 2,
+                'name' => 'Terms & Conditions',
+                'item' => rtrim(config('ruchi.canonical_base_url'), '/') . '/terms-and-conditions',
+            ],
+        ],
+    ];
+@endphp
+{!! json_encode($termsBreadcrumb, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+@endpush
+

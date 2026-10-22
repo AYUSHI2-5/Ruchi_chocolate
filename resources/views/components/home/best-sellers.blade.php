@@ -66,8 +66,8 @@
                             <span>BEST</span>
                             <span>SELLER</span>
                         </div>
-                        <img src="{{ asset('images/products/r011.jpg') }}" alt="R011 Big Rose Bouquet" class="best-sellers__card-img" loading="lazy">
-                        <button type="button" class="best-sellers__wishlist-btn wishlist-toggle" data-id="r011" data-title="R011 Big Rose Bouquet" data-price="₹350.00" data-image="{{ asset('images/products/r011.jpg') }}" data-url="{{ route('catalog') }}" aria-label="Add R011 to wishlist">
+                        <img src="{{ asset('images/products/r011.jpg') }}" alt="R011 Big Rose Bouquet" class="best-sellers__card-img" loading="lazy" width="768" height="1024">
+                        <button type="button" class="best-sellers__wishlist-btn wishlist-toggle" data-id="r011" data-title="R011 Big Rose Bouquet" data-price="₹350.00" data-image="{{ asset('images/products/r011.jpg') }}" data-url="{{ route('products') }}" aria-label="Add R011 to wishlist">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                             </svg>
@@ -96,8 +96,8 @@
                             <span>BEST</span>
                             <span>SELLER</span>
                         </div>
-                        <img src="{{ asset('images/products/r001.jpg') }}" alt="R001 Volley Handy" class="best-sellers__card-img" loading="lazy">
-                        <button type="button" class="best-sellers__wishlist-btn wishlist-toggle" data-id="r001" data-title="R001 Volley Handy" data-price="₹250.00" data-image="{{ asset('images/products/r001.jpg') }}" data-url="{{ route('catalog') }}" aria-label="Add R001 to wishlist">
+                        <img src="{{ asset('images/products/r001.jpg') }}" alt="R001 Volley Handy" class="best-sellers__card-img" loading="lazy" width="576" height="1024">
+                        <button type="button" class="best-sellers__wishlist-btn wishlist-toggle" data-id="r001" data-title="R001 Volley Handy" data-price="₹250.00" data-image="{{ asset('images/products/r001.jpg') }}" data-url="{{ route('products') }}" aria-label="Add R001 to wishlist">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                             </svg>
@@ -126,8 +126,8 @@
                             <span>BEST</span>
                             <span>SELLER</span>
                         </div>
-                        <img src="{{ asset('images/products/r012.jpg') }}" alt="R012 Acrylic Bouquet" class="best-sellers__card-img" loading="lazy">
-                        <button type="button" class="best-sellers__wishlist-btn wishlist-toggle" data-id="r012" data-title="R012 Acrylic Bouquet" data-price="₹750.00" data-image="{{ asset('images/products/r012.jpg') }}" data-url="{{ route('catalog') }}" aria-label="Add R012 to wishlist">
+                        <img src="{{ asset('images/products/r012.jpg') }}" alt="R012 Acrylic Bouquet" class="best-sellers__card-img" loading="lazy" width="766" height="1024">
+                        <button type="button" class="best-sellers__wishlist-btn wishlist-toggle" data-id="r012" data-title="R012 Acrylic Bouquet" data-price="₹750.00" data-image="{{ asset('images/products/r012.jpg') }}" data-url="{{ route('products') }}" aria-label="Add R012 to wishlist">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                             </svg>
@@ -156,8 +156,8 @@
                             <span>BEST</span>
                             <span>SELLER</span>
                         </div>
-                        <img src="{{ asset('images/products/r010.jpg') }}" alt="R010 Half Round Bouquet" class="best-sellers__card-img" loading="lazy">
-                        <button type="button" class="best-sellers__wishlist-btn wishlist-toggle" data-id="r010" data-title="R010 Half Round Bouquet" data-price="₹510.00" data-image="{{ asset('images/products/r010.jpg') }}" data-url="{{ route('catalog') }}" aria-label="Add R010 to wishlist">
+                        <img src="{{ asset('images/products/r010.jpg') }}" alt="R010 Half Round Bouquet" class="best-sellers__card-img" loading="lazy" width="768" height="1024">
+                        <button type="button" class="best-sellers__wishlist-btn wishlist-toggle" data-id="r010" data-title="R010 Half Round Bouquet" data-price="₹510.00" data-image="{{ asset('images/products/r010.jpg') }}" data-url="{{ route('products') }}" aria-label="Add R010 to wishlist">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                             </svg>
@@ -191,7 +191,7 @@
 
         <!-- Centered Bottom CTA Button: View All Products -->
         <div class="best-sellers__cta-wrapper">
-            <a href="{{ route('catalog') }}" class="best-sellers__cta-btn" id="viewAllProductsBtn">
+            <a href="{{ route('products') }}" class="best-sellers__cta-btn" id="viewAllProductsBtn">
                 <svg class="best-sellers__cta-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
                     <line x1="3" y1="6" x2="21" y2="6"></line>

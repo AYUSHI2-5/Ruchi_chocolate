@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+@section('title', 'About Us — Our Story & Handcrafted Chocolates Since 2010 | Ruchi Chocolates')
+@section('meta_description', 'Learn about Ruchi Chocolates, crafting artisanal homemade chocolates and celebration hampers with love and premium ingredients in Ahmedabad since 2010.')
+
 @section('content')
 <div class="rc-about-page-wrapper">
     
@@ -46,7 +49,7 @@
                 <!-- Right Column: Visual Image Blending Naturally into Background -->
                 <div class="rc-about-media-col">
                     <div class="rc-about-image-wrapper">
-                        <img src="{{ asset('images/about-hero-hamper.jpg') }}" alt="Ruchi Chocolates handmade chocolates and luxury gift hampers" class="rc-about-main-img" loading="eager">
+                        <img src="{{ asset('images/about-hero-hamper.jpg') }}" alt="Ruchi Chocolates handmade chocolates and luxury gift hampers" class="rc-about-main-img" loading="eager" width="1376" height="768">
                         <div class="rc-about-image-blend" aria-hidden="true"></div>
                     </div>
                 </div>
@@ -371,3 +374,30 @@
 
 </div>
 @endsection
+
+@push('schema')
+<script type="application/ld+json">
+@php
+    $breadcrumbSchema = [
+        '@context' => 'https://schema.org',
+        '@type' => 'BreadcrumbList',
+        'itemListElement' => [
+            [
+                '@type' => 'ListItem',
+                'position' => 1,
+                'name' => 'Home',
+                'item' => rtrim(config('ruchi.canonical_base_url'), '/') . '/',
+            ],
+            [
+                '@type' => 'ListItem',
+                'position' => 2,
+                'name' => 'About Us',
+                'item' => rtrim(config('ruchi.canonical_base_url'), '/') . '/about',
+            ],
+        ],
+    ];
+@endphp
+{!! json_encode($breadcrumbSchema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+@endpush
+

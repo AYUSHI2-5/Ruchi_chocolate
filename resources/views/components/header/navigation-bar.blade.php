@@ -12,7 +12,7 @@
             </button>
             <a href="{{ route('home') }}" class="rc-logo-link" aria-label="Ruchi Chocolates">
                 @if(file_exists(public_path('images/logo.png')))
-                    <img src="{{ asset('images/logo.png') }}" alt="Ruchi Chocolates" class="rc-logo-img">
+                    <img src="{{ asset('images/logo.png') }}" alt="Ruchi Chocolates" class="rc-logo-img" width="487" height="598">
                 @else
                     <span class="rc-logo-title">Ruchi <span class="rc-logo-accent">Chocolates</span></span>
                 @endif
@@ -27,12 +27,12 @@
                         </a>
                     </li>
                     <li class="rc-nav-item">
-                        <a href="{{ route('products') }}" class="rc-nav-link {{ request()->routeIs('products') || request()->routeIs('new-arrivals') ? 'active' : '' }}">
+                        <a href="{{ route('products') }}" class="rc-nav-link {{ request()->routeIs('products') ? 'active' : '' }}">
                             <span>Our Products</span>
                         </a>
                     </li>
                     <li class="rc-nav-item">
-                        <a href="{{ route('customised-gifts') }}" class="rc-nav-link {{ request()->routeIs('customised-gifts') || request()->routeIs('trending') ? 'active' : '' }}">
+                        <a href="{{ route('customised-gifts') }}" class="rc-nav-link {{ request()->routeIs('customised-gifts') ? 'active' : '' }}">
                             <span>Customised Gifts</span>
                         </a>
                     </li>

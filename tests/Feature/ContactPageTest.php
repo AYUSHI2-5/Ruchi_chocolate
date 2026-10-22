@@ -122,4 +122,24 @@ class ContactPageTest extends TestCase
 
         $invalidResponse->assertSessionHasErrors(['name', 'email', 'subject', 'message']);
     }
+
+    /**
+     * Test that the Contact page has exactly one H1 describing page purpose
+     * and preserves the inquiry form heading as an H2.
+     */
+    public function test_contact_page_has_single_meaningful_h1_and_h2_inquiry_form(): void
+    {
+        $response = $this->get(route('contact'));
+        $response->assertStatus(200);
+
+        $content = $response->getContent();
+
+        // Exactly one H1 tag
+        $this->assertSame(1, substr_count($content, '<h1'), 'Contact page must have exactly one H1.');
+        $this->assertStringContainsString('Contact Ruchi Chocolates', $content);
+
+        // Inquiry form heading is an H2
+        $this->assertStringContainsString('<h2 class="rc-contact-main-title">Send Us a Message</h2>', $content);
+    }
 }
+

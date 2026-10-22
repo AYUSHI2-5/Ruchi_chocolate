@@ -12,10 +12,10 @@ if (str_starts_with($whatsappDigits, '91') && strlen($whatsappDigits) > 10) {
 
 return [
     'site_name' => env('RUCHI_SITE_NAME', 'Ruchi Chocolate'),
-    'default_title' => env('RUCHI_DEFAULT_TITLE', 'Ruchi Chocolate | Homemade Chocolates Made with Love'),
+    'default_title' => env('RUCHI_DEFAULT_TITLE', 'Ruchi Chocolates | Handmade Chocolates & Gift Hampers'),
     'meta_description' => env(
         'RUCHI_META_DESCRIPTION',
-        'Ruchi Chocolate brings you the finest handmade chocolates and thoughtful gift hampers for every occasion.'
+        'Discover handmade chocolates, chocolate bouquets and gift hampers from Ruchi Chocolates. Explore thoughtful gifts for birthdays, anniversaries and special occasions.'
     ),
     'email' => env('RUCHI_EMAIL', 'Info.ruchi11@gmail.com'),
     'phone' => env('RUCHI_PHONE', '7490828282'),
@@ -31,4 +31,9 @@ return [
     'maps_search_url' => 'https://www.google.com/maps/search/?api=1&query='.rawurlencode(env('RUCHI_ADDRESS', $address)),
     'instagram_url' => env('RUCHI_INSTAGRAM_URL', 'https://www.instagram.com/ruchichocolates09/'),
     'facebook_url' => env('RUCHI_FACEBOOK_URL', 'https://www.facebook.com/RuchiHomemadeChocolates'),
+    'canonical_base_url' => env('RUCHI_CANONICAL_BASE_URL', 'https://ruchichocolate.com'),
+    'default_og_image' => env('RUCHI_OG_IMAGE', 'images/hero-banner.png'),
+    'default_og_image_alt' => env('RUCHI_OG_IMAGE_ALT', 'Ruchi Chocolates Handmade Chocolates & Gift Hampers'),
+    'default_og_image_width' => 1800,
+    'default_og_image_height' => 844,
 ];

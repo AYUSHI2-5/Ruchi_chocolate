@@ -55,7 +55,7 @@
             <div class="featured-collections__card">
                 <div class="featured-collections__card-image-wrap">
                     <img src="{{ asset('images/products/r011.jpg') }}" alt="R011 Big Rose Bouquet" class="featured-collections__card-img" loading="lazy">
-                    <button type="button" class="featured-collections__wishlist-btn wishlist-toggle" data-id="fc-r011" data-title="R011 Big Rose Bouquet" data-price="₹350.00" data-image="{{ asset('images/products/r011.jpg') }}" data-url="{{ route('catalog') }}" aria-label="Add R011 to wishlist">
+                    <button type="button" class="featured-collections__wishlist-btn wishlist-toggle" data-id="fc-r011" data-title="R011 Big Rose Bouquet" data-price="₹350.00" data-image="{{ asset('images/products/r011.jpg') }}" data-url="{{ route('products') }}" aria-label="Add R011 to wishlist">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                         </svg>
@@ -81,7 +81,7 @@
             <div class="featured-collections__card">
                 <div class="featured-collections__card-image-wrap">
                     <img src="{{ asset('images/products/r009.jpg') }}" alt="R009 Silver golden Bouquet" class="featured-collections__card-img" loading="lazy">
-                    <button type="button" class="featured-collections__wishlist-btn wishlist-toggle" data-id="fc-r009" data-title="R009 Silver golden Bouquet" data-price="₹490.00" data-image="{{ asset('images/products/r009.jpg') }}" data-url="{{ route('catalog') }}" aria-label="Add R009 to wishlist">
+                    <button type="button" class="featured-collections__wishlist-btn wishlist-toggle" data-id="fc-r009" data-title="R009 Silver golden Bouquet" data-price="₹490.00" data-image="{{ asset('images/products/r009.jpg') }}" data-url="{{ route('products') }}" aria-label="Add R009 to wishlist">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                         </svg>
@@ -107,7 +107,7 @@
             <div class="featured-collections__card">
                 <div class="featured-collections__card-image-wrap">
                     <img src="{{ asset('images/products/r010.jpg') }}" alt="R010 Half Round Bouquet" class="featured-collections__card-img" loading="lazy">
-                    <button type="button" class="featured-collections__wishlist-btn wishlist-toggle" data-id="fc-r010" data-title="R010 Half Round Bouquet" data-price="₹510.00" data-image="{{ asset('images/products/r010.jpg') }}" data-url="{{ route('catalog') }}" aria-label="Add R010 to wishlist">
+                    <button type="button" class="featured-collections__wishlist-btn wishlist-toggle" data-id="fc-r010" data-title="R010 Half Round Bouquet" data-price="₹510.00" data-image="{{ asset('images/products/r010.jpg') }}" data-url="{{ route('products') }}" aria-label="Add R010 to wishlist">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                         </svg>
@@ -133,7 +133,7 @@
             <div class="featured-collections__card">
                 <div class="featured-collections__card-image-wrap">
                     <img src="{{ asset('images/products/r002.jpg') }}" alt="R002 12 Chocolates" class="featured-collections__card-img" loading="lazy">
-                    <button type="button" class="featured-collections__wishlist-btn wishlist-toggle" data-id="fc-r002" data-title="R002 12 Chocolates" data-price="₹460" data-image="{{ asset('images/products/r002.jpg') }}" data-url="{{ route('catalog') }}" aria-label="Add R002 to wishlist">
+                    <button type="button" class="featured-collections__wishlist-btn wishlist-toggle" data-id="fc-r002" data-title="R002 12 Chocolates" data-price="₹460" data-image="{{ asset('images/products/r002.jpg') }}" data-url="{{ route('products') }}" aria-label="Add R002 to wishlist">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                         </svg>
@@ -160,7 +160,7 @@
             <div class="featured-collections__card">
                 <div class="featured-collections__card-image-wrap">
                     <img src="{{ asset('images/products/r006.jpg') }}" alt="R006 Volley Basket" class="featured-collections__card-img" loading="lazy">
-                    <button type="button" class="featured-collections__wishlist-btn wishlist-toggle" data-id="fc-r006" data-title="R006 Volley Basket" data-price="₹415.00" data-image="{{ asset('images/products/r006.jpg') }}" data-url="{{ route('catalog') }}" aria-label="Add R006 to wishlist">
+                    <button type="button" class="featured-collections__wishlist-btn wishlist-toggle" data-id="fc-r006" data-title="R006 Volley Basket" data-price="₹415.00" data-image="{{ asset('images/products/r006.jpg') }}" data-url="{{ route('products') }}" aria-label="Add R006 to wishlist">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                         </svg>
@@ -186,7 +186,7 @@
             <div class="featured-collections__card">
                 <div class="featured-collections__card-image-wrap">
                     <img src="{{ asset('images/products/r001.jpg') }}" alt="R001 Volley Handy" class="featured-collections__card-img" loading="lazy">
-                    <button type="button" class="featured-collections__wishlist-btn wishlist-toggle" data-id="fc-r001" data-title="R001 Volley Handy" data-price="₹250.00" data-image="{{ asset('images/products/r001.jpg') }}" data-url="{{ route('catalog') }}" aria-label="Add R001 to wishlist">
+                    <button type="button" class="featured-collections__wishlist-btn wishlist-toggle" data-id="fc-r001" data-title="R001 Volley Handy" data-price="₹250.00" data-image="{{ asset('images/products/r001.jpg') }}" data-url="{{ route('products') }}" aria-label="Add R001 to wishlist">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                         </svg>
@@ -212,7 +212,7 @@
             <div class="featured-collections__card">
                 <div class="featured-collections__card-image-wrap">
                     <img src="{{ asset('images/products/p001.jpg') }}" alt="R003 One side (Matki)" class="featured-collections__card-img" loading="lazy">
-                    <button type="button" class="featured-collections__wishlist-btn wishlist-toggle" data-id="fc-r003" data-title="R003 One side (Matki)" data-price="₹360.00" data-image="{{ asset('images/products/p001.jpg') }}" data-url="{{ route('catalog') }}" aria-label="Add R003 to wishlist">
+                    <button type="button" class="featured-collections__wishlist-btn wishlist-toggle" data-id="fc-r003" data-title="R003 One side (Matki)" data-price="₹360.00" data-image="{{ asset('images/products/p001.jpg') }}" data-url="{{ route('products') }}" aria-label="Add R003 to wishlist">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                         </svg>
@@ -238,7 +238,7 @@
             <div class="featured-collections__card">
                 <div class="featured-collections__card-image-wrap">
                     <img src="{{ asset('images/products/r005.jpg') }}" alt="R005 Cross(Matki)" class="featured-collections__card-img" loading="lazy">
-                    <button type="button" class="featured-collections__wishlist-btn wishlist-toggle" data-id="fc-r005" data-title="R005 Cross(Matki)" data-price="₹360.00" data-image="{{ asset('images/products/r005.jpg') }}" data-url="{{ route('catalog') }}" aria-label="Add R005 to wishlist">
+                    <button type="button" class="featured-collections__wishlist-btn wishlist-toggle" data-id="fc-r005" data-title="R005 Cross(Matki)" data-price="₹360.00" data-image="{{ asset('images/products/r005.jpg') }}" data-url="{{ route('products') }}" aria-label="Add R005 to wishlist">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                         </svg>
@@ -265,7 +265,7 @@
             <div class="featured-collections__card">
                 <div class="featured-collections__card-image-wrap">
                     <img src="{{ asset('images/products/r004.jpg') }}" alt="R004 Uneven(Matki)" class="featured-collections__card-img" loading="lazy">
-                    <button type="button" class="featured-collections__wishlist-btn wishlist-toggle" data-id="fc-r004" data-title="R004 Uneven(Matki)" data-price="₹360.00" data-image="{{ asset('images/products/r004.jpg') }}" data-url="{{ route('catalog') }}" aria-label="Add R004 to wishlist">
+                    <button type="button" class="featured-collections__wishlist-btn wishlist-toggle" data-id="fc-r004" data-title="R004 Uneven(Matki)" data-price="₹360.00" data-image="{{ asset('images/products/r004.jpg') }}" data-url="{{ route('products') }}" aria-label="Add R004 to wishlist">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                         </svg>
@@ -291,7 +291,7 @@
 
         <!-- Centered Bottom CTA Button: Explore All Products -->
         <div class="featured-collections__cta-wrapper">
-            <a href="{{ route('catalog') }}" class="featured-collections__cta-btn" id="exploreAllProductsBtn">
+            <a href="{{ route('products') }}" class="featured-collections__cta-btn" id="exploreAllProductsBtn">
                 <span>Explore All Products</span>
             </a>
         </div>

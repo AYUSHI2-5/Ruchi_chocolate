@@ -1,6 +1,18 @@
 @extends('layouts.app')
 
-@section('title', 'Products | New Arrivals — Ruchi Chocolates')
+@php
+    $isNewArrivals = request()->routeIs('new-arrivals');
+    $currentCatalogRoute = $isNewArrivals ? 'new-arrivals' : 'products';
+    $catalogTitle = $isNewArrivals
+        ? 'New Arrivals — Handcrafted Chocolates & Hampers | Ruchi Chocolates'
+        : 'Our Products — Handcrafted Chocolates, Bouquets & Gift Hampers | Ruchi Chocolates';
+    $catalogDescription = $isNewArrivals
+        ? 'Discover the newest handcrafted chocolate creations and fresh gift hampers from Ruchi Chocolates. Perfect for celebrations and sweet surprises.'
+        : 'Explore our complete collection of handmade chocolates, gift boxes, chocolate bouquets, and celebration hampers made with love at Ruchi Chocolates.';
+@endphp
+
+@section('title', $catalogTitle)
+@section('meta_description', $catalogDescription)
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/new-arrivals.css') }}">
@@ -69,6 +81,8 @@
                         alt="Handcrafted Chocolate Gift Hamper with Assorted Truffles and Gold Ribbon — Ruchi Chocolates" 
                         class="products-hero__image"
                         loading="eager"
+                        width="1200"
+                        height="896"
                     >
                     <div class="products-hero__badge">
                         <span class="products-hero__badge-icon">✨</span>
@@ -112,7 +126,7 @@
                     <div class="na-sidebar__main-header">
                         <span class="na-sidebar__title">Categories</span>
                         @if($activeSubcategory)
-                            <a href="{{ route('new-arrivals', array_merge(request()->except(['category', 'occasion']), ['page' => 1])) }}#productsCatalog" class="na-sidebar__clear-link" title="Clear category filter">Clear</a>
+                            <a href="{{ route($currentCatalogRoute, array_merge(request()->except(['category', 'occasion']), ['page' => 1])) }}#productsCatalog" class="na-sidebar__clear-link" title="Clear category filter">Clear</a>
                         @endif
                     </div>
                     
@@ -152,15 +166,15 @@
                                          style="{{ $groupHasActive ? '' : 'display: none;' }}">
                                         <ul class="na-subcategory-list">
                                             @foreach($sec['subcategories'] as $sub)
-                                                @php
-                                                    $isSubActive = ($activeSubcategory === $sub['slug']) || 
-                                                                   ($sub['slug'] === 'rakhi' && $activeSubcategory === 'raksha-bandhan') ||
-                                                                   ($sub['slug'] === 'ring-ceremony' && $activeSubcategory === 'engagement') ||
-                                                                   ($sub['slug'] === 'valentine' && in_array($activeSubcategory, ['valentine', 'valentines-day']));
-                                                    $targetUrl = $isSubActive
-                                                        ? route('new-arrivals', array_merge(request()->except(['category', 'occasion']), ['page' => 1]))
-                                                        : route('new-arrivals', array_merge(request()->except(['category', 'occasion']), ['category' => $sub['slug'], 'page' => 1]));
-                                                @endphp
+                                                 @php
+                                                     $isSubActive = ($activeSubcategory === $sub['slug']) || 
+                                                                    ($sub['slug'] === 'rakhi' && $activeSubcategory === 'raksha-bandhan') ||
+                                                                    ($sub['slug'] === 'ring-ceremony' && $activeSubcategory === 'engagement') ||
+                                                                    ($sub['slug'] === 'valentine' && in_array($activeSubcategory, ['valentine', 'valentines-day']));
+                                                     $targetUrl = $isSubActive
+                                                         ? route($currentCatalogRoute, array_merge(request()->except(['category', 'occasion']), ['page' => 1]))
+                                                         : route($currentCatalogRoute, array_merge(request()->except(['category', 'occasion']), ['category' => $sub['slug'], 'page' => 1]));
+                                                 @endphp
                                                 <li class="na-subcategory-item">
                                                     <a href="{{ $targetUrl }}#productsCatalog" 
                                                        class="na-subcategory-link {{ $isSubActive ? 'active' : '' }} @if(!empty($sub['coming_soon'])) na-subcategory-link--soon @endif"
@@ -183,8 +197,8 @@
                                 @php
                                     $isGiftingActive = $activeSubcategory === $sec['slug'];
                                     $giftingUrl = $isGiftingActive
-                                        ? route('new-arrivals', array_merge(request()->except(['category', 'occasion']), ['page' => 1]))
-                                        : route('new-arrivals', array_merge(request()->except(['category', 'occasion']), ['category' => $sec['slug'], 'page' => 1]));
+                                        ? route($currentCatalogRoute, array_merge(request()->except(['category', 'occasion']), ['page' => 1]))
+                                        : route($currentCatalogRoute, array_merge(request()->except(['category', 'occasion']), ['category' => $sec['slug'], 'page' => 1]));
                                 @endphp
                                 <div class="na-category-group na-category-group--direct {{ $isGiftingActive ? 'active' : '' }}" data-group="{{ $sec['slug'] }}">
                                     <a href="{{ $giftingUrl }}#productsCatalog" 
@@ -206,7 +220,7 @@
 
                 <!-- Clear Filters Action Button -->
                 @if($activeSubcategory)
-                    <a href="{{ route('new-arrivals') }}#productsCatalog" class="na-clear-btn" id="naClearFiltersBtn">
+                    <a href="{{ route($currentCatalogRoute) }}#productsCatalog" class="na-clear-btn" id="naClearFiltersBtn">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                             <polyline points="1 4 1 10 7 10"></polyline>
                             <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
@@ -246,11 +260,11 @@
                         <div class="na-sort-wrap">
                             <label for="naSortSelect">Sort by:</label>
                             <select id="naSortSelect" class="na-sort-select" onchange="window.location.href = this.value">
-                                <option value="{{ route('new-arrivals', array_merge(request()->query(), ['sort' => 'featured', 'page' => 1])) }}" {{ $sort === 'featured' ? 'selected' : '' }}>Featured</option>
-                                <option value="{{ route('new-arrivals', array_merge(request()->query(), ['sort' => 'price_low_high', 'page' => 1])) }}" {{ $sort === 'price_low_high' ? 'selected' : '' }}>Price: Low to High</option>
-                                <option value="{{ route('new-arrivals', array_merge(request()->query(), ['sort' => 'price_high_low', 'page' => 1])) }}" {{ $sort === 'price_high_low' ? 'selected' : '' }}>Price: High to Low</option>
-                                <option value="{{ route('new-arrivals', array_merge(request()->query(), ['sort' => 'rating', 'page' => 1])) }}" {{ $sort === 'rating' ? 'selected' : '' }}>Customer Rating</option>
-                                <option value="{{ route('new-arrivals', array_merge(request()->query(), ['sort' => 'newest', 'page' => 1])) }}" {{ $sort === 'newest' ? 'selected' : '' }}>Newest</option>
+                                <option value="{{ route($currentCatalogRoute, array_merge(request()->query(), ['sort' => 'featured', 'page' => 1])) }}" {{ $sort === 'featured' ? 'selected' : '' }}>Featured</option>
+                                <option value="{{ route($currentCatalogRoute, array_merge(request()->query(), ['sort' => 'price_low_high', 'page' => 1])) }}" {{ $sort === 'price_low_high' ? 'selected' : '' }}>Price: Low to High</option>
+                                <option value="{{ route($currentCatalogRoute, array_merge(request()->query(), ['sort' => 'price_high_low', 'page' => 1])) }}" {{ $sort === 'price_high_low' ? 'selected' : '' }}>Price: High to Low</option>
+                                <option value="{{ route($currentCatalogRoute, array_merge(request()->query(), ['sort' => 'rating', 'page' => 1])) }}" {{ $sort === 'rating' ? 'selected' : '' }}>Customer Rating</option>
+                                <option value="{{ route($currentCatalogRoute, array_merge(request()->query(), ['sort' => 'newest', 'page' => 1])) }}" {{ $sort === 'newest' ? 'selected' : '' }}>Newest</option>
                             </select>
                         </div>
                         <div class="na-view-toggle" role="group" aria-label="Product display view">
@@ -274,6 +288,7 @@
                 </div>
 
                 <!-- 4-Column Product Grid -->
+                <h2 class="visually-hidden">{{ $isNewArrivals ? 'New Arrivals Chocolate Collection' : 'Our Chocolate Products Collection' }}</h2>
                 <div class="na-product-grid" id="naProductGrid">
                     @forelse($products as $product)
                         <article class="na-card" data-id="{{ $product['id'] }}" data-category="{{ $product['category'] }}" data-price="{{ $product['price'] }}" data-rating="{{ $product['rating'] }}">
@@ -291,7 +306,7 @@
                                         data-title="{{ $product['title'] }}" 
                                         data-price="₹{{ number_format($product['price'], 2) }}" 
                                         data-image="{{ asset($product['image']) }}" 
-                                        data-url="{{ route('new-arrivals') }}" 
+                                        data-url="{{ route($currentCatalogRoute) }}" 
                                         aria-label="Add {{ $product['title'] }} to wishlist">
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                         <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
@@ -325,7 +340,7 @@
                             <div class="na-empty-state">
                                 <h3>No Products Found</h3>
                                 <p>No products match your selected filters. Try clearing some filters to see more chocolates.</p>
-                                <a href="{{ route('new-arrivals') }}" class="na-clear-btn" style="max-width: 200px; margin: 0 auto;">Reset All Filters</a>
+                                <a href="{{ route($currentCatalogRoute) }}" class="na-clear-btn" style="max-width: 200px; margin: 0 auto;">Reset All Filters</a>
                             </div>
                         @endif
                     @endforelse
@@ -342,7 +357,7 @@
                     <nav class="na-pagination" id="naPagination" aria-label="Products pagination">
                         {{-- Previous Page Button --}}
                         @if($currentPage > 1)
-                            <a href="{{ route('new-arrivals', array_merge(request()->query(), ['page' => $currentPage - 1])) }}" 
+                            <a href="{{ route($currentCatalogRoute, array_merge(request()->query(), ['page' => $currentPage - 1])) }}" 
                                class="na-page-link na-page-link--prev" 
                                aria-label="Previous Page">
                                 <span aria-hidden="true">&larr;</span>
@@ -359,7 +374,7 @@
 
                         {{-- Page Number Links --}}
                         @for($p = 1; $p <= $totalPages; $p++)
-                            <a href="{{ route('new-arrivals', array_merge(request()->query(), ['page' => $p])) }}" 
+                            <a href="{{ route($currentCatalogRoute, array_merge(request()->query(), ['page' => $p])) }}" 
                                class="na-page-link na-page-number {{ $currentPage == $p ? 'active' : '' }}" 
                                aria-label="Page {{ $p }}"
                                {{ $currentPage == $p ? 'aria-current="page"' : '' }}>
@@ -369,7 +384,7 @@
 
                         {{-- Next Page Button --}}
                         @if($currentPage < $totalPages)
-                            <a href="{{ route('new-arrivals', array_merge(request()->query(), ['page' => $currentPage + 1])) }}" 
+                            <a href="{{ route($currentCatalogRoute, array_merge(request()->query(), ['page' => $currentPage + 1])) }}" 
                                class="na-page-link na-page-link--next" 
                                aria-label="Next Page">
                                 <span>Next</span>
@@ -515,3 +530,66 @@
     });
 </script>
 @endpush
+
+@push('schema')
+@php
+    $catalogCanonical = rtrim(config('ruchi.canonical_base_url'), '/') . ($isNewArrivals ? '/new-arrivals' : '/products');
+    $catalogName = $isNewArrivals ? 'New Arrivals' : 'Products';
+    $schemaItemList = [];
+    foreach ($products as $index => $prod) {
+        $schemaItemList[] = [
+            '@type' => 'ListItem',
+            'position' => $index + 1,
+            'item' => [
+                '@type' => 'Product',
+                'name' => $prod['title'] ?? 'Product',
+                'image' => asset($prod['image'] ?? 'images/hero-banner.png'),
+                'description' => $prod['description'] ?? '',
+                'sku' => $prod['id'] ?? '',
+                'offers' => [
+                    '@type' => 'Offer',
+                    'price' => number_format((float) ($prod['price'] ?? 0), 2, '.', ''),
+                    'priceCurrency' => 'INR',
+                    'availability' => !empty($prod['in_stock']) ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+                    'url' => route($currentCatalogRoute, ['product' => $prod['id'] ?? '']),
+                ],
+            ],
+        ];
+    }
+
+    $breadcrumbSchema = [
+        '@context' => 'https://schema.org',
+        '@type' => 'BreadcrumbList',
+        'itemListElement' => [
+            [
+                '@type' => 'ListItem',
+                'position' => 1,
+                'name' => 'Home',
+                'item' => rtrim(config('ruchi.canonical_base_url'), '/') . '/',
+            ],
+            [
+                '@type' => 'ListItem',
+                'position' => 2,
+                'name' => $catalogName,
+                'item' => $catalogCanonical,
+            ],
+        ],
+    ];
+
+    $itemListSchema = [
+        '@context' => 'https://schema.org',
+        '@type' => 'ItemList',
+        'name' => $catalogName . ' — Ruchi Chocolates',
+        'url' => $catalogCanonical,
+        'numberOfItems' => count($products),
+        'itemListElement' => $schemaItemList,
+    ];
+@endphp
+<script type="application/ld+json">
+{!! json_encode($breadcrumbSchema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+<script type="application/ld+json">
+{!! json_encode($itemListSchema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+@endpush
+

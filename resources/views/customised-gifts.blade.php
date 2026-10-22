@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Customised Gifts — Ruchi Chocolates | Handcrafted with Love')
+@section('title', 'Customised Gifts — Personalized Chocolate Hampers | Ruchi Chocolates')
+@section('meta_description', 'Create personalized chocolate gifts and bespoke hampers tailored for weddings, birthdays, corporate gifting, and special celebrations with Ruchi Chocolates.')
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/customised-gifts.css') }}">
@@ -89,6 +90,8 @@
                         alt="Customised festive gift hamper with dry fruits, branded chocolates and decorative florals" 
                         class="rc-custom-hero-media-img"
                         loading="eager"
+                        width="766"
+                        height="1024"
                     >
                     <div class="rc-custom-hero-media-blend" aria-hidden="true"></div>
                 </div>
@@ -261,3 +264,30 @@
 
 </script>
 @endpush
+
+@push('schema')
+<script type="application/ld+json">
+@php
+    $customGiftsBreadcrumb = [
+        '@context' => 'https://schema.org',
+        '@type' => 'BreadcrumbList',
+        'itemListElement' => [
+            [
+                '@type' => 'ListItem',
+                'position' => 1,
+                'name' => 'Home',
+                'item' => rtrim(config('ruchi.canonical_base_url'), '/') . '/',
+            ],
+            [
+                '@type' => 'ListItem',
+                'position' => 2,
+                'name' => 'Customised Gifts',
+                'item' => rtrim(config('ruchi.canonical_base_url'), '/') . '/customised-gifts',
+            ],
+        ],
+    ];
+@endphp
+{!! json_encode($customGiftsBreadcrumb, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+@endpush
+

@@ -25,6 +25,8 @@ class HeaderTest extends TestCase
         $response->assertSee('rc-main-nav-bar');
         $response->assertSee('Home');
         $response->assertSee('Our Products');
+        $response->assertSee('New Arrivals');
+        $response->assertSee('Trending');
         $response->assertSee('Customised Gifts');
         $response->assertSee('About Us');
         $response->assertSee('Contact Us');

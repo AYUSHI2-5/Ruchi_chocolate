@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Privacy Policy — Ruchi Chocolates | Handcrafted with Love')
+@section('meta_description', 'Read the Privacy Policy for Ruchi Chocolates to understand how we collect, protect, and handle your personal information when using our website and services.')
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/privacy-policy.css') }}">
@@ -46,6 +47,8 @@
                         alt="Ruchi Chocolates luxury artisan gift box with satin ribbon" 
                         class="rc-policy-hero-img"
                         loading="eager"
+                        width="1376"
+                        height="768"
                     >
                     <div class="rc-policy-hero-blend" aria-hidden="true"></div>
                 </div>
@@ -314,3 +317,30 @@
 
 </div>
 @endsection
+
+@push('schema')
+<script type="application/ld+json">
+@php
+    $privacyBreadcrumb = [
+        '@context' => 'https://schema.org',
+        '@type' => 'BreadcrumbList',
+        'itemListElement' => [
+            [
+                '@type' => 'ListItem',
+                'position' => 1,
+                'name' => 'Home',
+                'item' => rtrim(config('ruchi.canonical_base_url'), '/') . '/',
+            ],
+            [
+                '@type' => 'ListItem',
+                'position' => 2,
+                'name' => 'Privacy Policy',
+                'item' => rtrim(config('ruchi.canonical_base_url'), '/') . '/privacy-policy',
+            ],
+        ],
+    ];
+@endphp
+{!! json_encode($privacyBreadcrumb, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+@endpush
+

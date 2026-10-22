@@ -31,13 +31,13 @@
                 <!-- Back Polaroid: Truffle Box (Tilted Left) -->
                 <div class="about-card__polaroid about-card__polaroid--back-left">
                     <div class="about-card__polaroid-frame">
-                        <img src="{{ asset('images/about-card/truffle-box.jpg') }}" alt="Elegant box of assorted handmade chocolates with a gold ribbon" class="about-card__polaroid-img" loading="lazy">
+                        <img src="{{ asset('images/about-card/truffle-box.jpg') }}" alt="Elegant box of assorted handmade chocolates with a gold ribbon" class="about-card__polaroid-img" loading="lazy" width="1024" height="1024">
                     </div>
                 </div>
                 <!-- Front Polaroid: Chocolate Bouquet (Tilted Right) -->
                 <div class="about-card__polaroid about-card__polaroid--front-left">
                     <div class="about-card__polaroid-frame">
-                        <img src="{{ asset('images/about-card/chocolate-bouquet.jpg') }}" alt="Handcrafted chocolate bouquet wrapped in luxury black paper with gold bow" class="about-card__polaroid-img" loading="lazy">
+                        <img src="{{ asset('images/about-card/chocolate-bouquet.jpg') }}" alt="Handcrafted chocolate bouquet wrapped in luxury black paper with gold bow" class="about-card__polaroid-img" loading="lazy" width="1024" height="1024">
                     </div>
                 </div>
             </div>
@@ -79,13 +79,13 @@
                 <!-- Front Polaroid: Hamper with Ribbon (Tilted Left) -->
                 <div class="about-card__polaroid about-card__polaroid--front-right">
                     <div class="about-card__polaroid-frame">
-                        <img src="{{ asset('images/about-card/gift-hamper.jpg') }}" alt="Luxurious chocolate gift hamper with gold ribbon and Ruchi branding" class="about-card__polaroid-img" loading="lazy">
+                        <img src="{{ asset('images/about-card/gift-hamper.jpg') }}" alt="Luxurious chocolate gift hamper with gold ribbon and Ruchi branding" class="about-card__polaroid-img" loading="lazy" width="1024" height="1024">
                     </div>
                 </div>
                 <!-- Back Polaroid: Artisan Decorated Chocolate Box (Tilted Right) -->
                 <div class="about-card__polaroid about-card__polaroid--back-right">
                     <div class="about-card__polaroid-frame">
-                        <img src="{{ asset('images/about-card/artisan-box.jpg') }}" alt="Open box of assorted decorated artisan chocolates" class="about-card__polaroid-img" loading="lazy">
+                        <img src="{{ asset('images/about-card/artisan-box.jpg') }}" alt="Open box of assorted decorated artisan chocolates" class="about-card__polaroid-img" loading="lazy" width="1024" height="1024">
                     </div>
                 </div>
             </div>

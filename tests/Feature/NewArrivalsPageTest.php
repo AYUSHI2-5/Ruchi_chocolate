@@ -463,4 +463,56 @@ class NewArrivalsPageTest extends TestCase
         $this->assertStringContainsString('.products-hero__image-wrapper', $css);
         $this->assertStringContainsString('@media screen and (max-width: 768px)', $css);
     }
+
+    /**
+     * Test that navigating to /products preserves the /products route across pagination, sort, and filters.
+     */
+    public function test_products_route_preserves_products_links_on_pagination_and_filters(): void
+    {
+        $response = $this->get('/products');
+
+        $response->assertStatus(200);
+
+        // Pagination links must point to /products, not /new-arrivals
+        $response->assertSee(route('products', ['page' => 2]), false);
+        $response->assertDontSee(route('new-arrivals', ['page' => 2]), false);
+
+        // Sort options must point to /products
+        $response->assertSee(route('products', ['sort' => 'featured', 'page' => 1]), false);
+        $response->assertDontSee(route('new-arrivals', ['sort' => 'featured', 'page' => 1]), false);
+
+        // Category filter links must point to /products
+        $response->assertSee(route('products', ['category' => 'diwali', 'page' => 1]), false);
+        $response->assertDontSee(route('new-arrivals', ['category' => 'diwali', 'page' => 1]), false);
+
+        // When a filter is active, clear links must return to /products
+        $responseFiltered = $this->get('/products?category=chocolates');
+        $responseFiltered->assertStatus(200);
+        $responseFiltered->assertSee(route('products') . '#productsCatalog', false);
+        $responseFiltered->assertDontSee(route('new-arrivals') . '#productsCatalog', false);
+    }
+
+    /**
+     * Test that navigating to /new-arrivals preserves the /new-arrivals route across pagination, sort, and filters.
+     */
+    public function test_new_arrivals_route_preserves_new_arrivals_links_on_pagination_and_filters(): void
+    {
+        $response = $this->get('/new-arrivals');
+
+        $response->assertStatus(200);
+
+        // Pagination links must point to /new-arrivals
+        $response->assertSee(route('new-arrivals', ['page' => 2]), false);
+
+        // Sort options must point to /new-arrivals
+        $response->assertSee(route('new-arrivals', ['sort' => 'featured', 'page' => 1]), false);
+
+        // Category filter links must point to /new-arrivals
+        $response->assertSee(route('new-arrivals', ['category' => 'diwali', 'page' => 1]), false);
+
+        // When a filter is active, clear links must return to /new-arrivals
+        $responseFiltered = $this->get('/new-arrivals?category=chocolates');
+        $responseFiltered->assertStatus(200);
+        $responseFiltered->assertSee(route('new-arrivals') . '#productsCatalog', false);
+    }
 }

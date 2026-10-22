@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Trending | Most Popular Chocolates — Ruchi Chocolates')
+@section('title', 'Trending Chocolates & Popular Gift Hampers | Ruchi Chocolates')
+@section('meta_description', 'Explore the most popular and trending homemade chocolates, festive hampers, and gifting favorites loved by our customers at Ruchi Chocolates.')
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/new-arrivals.css') }}">
@@ -197,6 +198,7 @@
                 </div>
 
                 <!-- 4-Column Product Grid -->
+                <h2 class="visually-hidden">Trending Chocolates &amp; Gifts Collection</h2>
                 <div class="na-product-grid" id="naProductGrid">
                     @forelse($products as $product)
                         <article class="na-card" data-id="{{ $product['id'] }}" data-category="{{ $product['category'] }}" data-price="{{ $product['price'] }}" data-rating="{{ $product['rating'] }}">
@@ -395,3 +397,65 @@
     });
 </script>
 @endpush
+
+@push('schema')
+@php
+    $trendingCanonical = rtrim(config('ruchi.canonical_base_url'), '/') . '/trending';
+    $schemaItemList = [];
+    foreach ($products as $index => $prod) {
+        $schemaItemList[] = [
+            '@type' => 'ListItem',
+            'position' => $index + 1,
+            'item' => [
+                '@type' => 'Product',
+                'name' => $prod['title'] ?? 'Product',
+                'image' => asset($prod['image'] ?? 'images/hero-banner.png'),
+                'description' => $prod['description'] ?? '',
+                'sku' => $prod['id'] ?? '',
+                'offers' => [
+                    '@type' => 'Offer',
+                    'price' => number_format((float) ($prod['price'] ?? 0), 2, '.', ''),
+                    'priceCurrency' => 'INR',
+                    'availability' => !empty($prod['in_stock']) ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+                    'url' => route('trending', ['product' => $prod['id'] ?? '']),
+                ],
+            ],
+        ];
+    }
+
+    $breadcrumbSchema = [
+        '@context' => 'https://schema.org',
+        '@type' => 'BreadcrumbList',
+        'itemListElement' => [
+            [
+                '@type' => 'ListItem',
+                'position' => 1,
+                'name' => 'Home',
+                'item' => rtrim(config('ruchi.canonical_base_url'), '/') . '/',
+            ],
+            [
+                '@type' => 'ListItem',
+                'position' => 2,
+                'name' => 'Trending',
+                'item' => $trendingCanonical,
+            ],
+        ],
+    ];
+
+    $itemListSchema = [
+        '@context' => 'https://schema.org',
+        '@type' => 'ItemList',
+        'name' => 'Trending Chocolates & Popular Gift Hampers',
+        'url' => $trendingCanonical,
+        'numberOfItems' => count($products),
+        'itemListElement' => $schemaItemList,
+    ];
+@endphp
+<script type="application/ld+json">
+{!! json_encode($breadcrumbSchema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+<script type="application/ld+json">
+{!! json_encode($itemListSchema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+</script>
+@endpush
+

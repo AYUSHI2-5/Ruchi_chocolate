@@ -44,6 +44,8 @@ class BestSellersSectionTest extends TestCase
         // Assert View All Products CTA button
         $response->assertSee('View All Products', false);
         $response->assertSee('viewAllProductsBtn', false);
+        $response->assertSee(route('products'), false);
+        $response->assertDontSee(route('catalog'), false);
     }
 
     public function test_best_sellers_mobile_carousel_css_aligns_track_to_start(): void

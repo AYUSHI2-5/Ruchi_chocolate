@@ -68,7 +68,7 @@
                 <div class="best-collections__card">
                     <div class="best-collections__card-image-wrap">
                         <img src="{{ asset('images/products/p001.jpg') }}" alt="P001 Small Heart Tin Box" class="best-collections__card-img" loading="lazy">
-                        <button type="button" class="best-collections__wishlist-btn wishlist-toggle" data-id="p001" data-title="P001 Small Heart Tin Box" data-price="Rs. 170.00" data-image="{{ asset('images/products/p001.jpg') }}" data-url="{{ route('catalog') }}" aria-label="Add P001 to wishlist">
+                        <button type="button" class="best-collections__wishlist-btn wishlist-toggle" data-id="p001" data-title="P001 Small Heart Tin Box" data-price="Rs. 170.00" data-image="{{ asset('images/products/p001.jpg') }}" data-url="{{ route('products') }}" aria-label="Add P001 to wishlist">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                             </svg>
@@ -94,7 +94,7 @@
                 <div class="best-collections__card">
                     <div class="best-collections__card-image-wrap">
                         <img src="{{ asset('images/products/p002.jpg') }}" alt="P002 Big Heart Tin Box" class="best-collections__card-img" loading="lazy">
-                        <button type="button" class="best-collections__wishlist-btn wishlist-toggle" data-id="p002" data-title="P002 Big Heart Tin Box" data-price="Rs. 225.00" data-image="{{ asset('images/products/p002.jpg') }}" data-url="{{ route('catalog') }}" aria-label="Add P002 to wishlist">
+                        <button type="button" class="best-collections__wishlist-btn wishlist-toggle" data-id="p002" data-title="P002 Big Heart Tin Box" data-price="Rs. 225.00" data-image="{{ asset('images/products/p002.jpg') }}" data-url="{{ route('products') }}" aria-label="Add P002 to wishlist">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                             </svg>
@@ -120,7 +120,7 @@
                 <div class="best-collections__card">
                     <div class="best-collections__card-image-wrap">
                         <img src="{{ asset('images/products/p003.jpg') }}" alt="P003 Rectangle Tin Box" class="best-collections__card-img" loading="lazy">
-                        <button type="button" class="best-collections__wishlist-btn wishlist-toggle" data-id="p003" data-title="P003 Rectangle Tin Box" data-price="Rs. 410.00" data-image="{{ asset('images/products/p003.jpg') }}" data-url="{{ route('catalog') }}" aria-label="Add P003 to wishlist">
+                        <button type="button" class="best-collections__wishlist-btn wishlist-toggle" data-id="p003" data-title="P003 Rectangle Tin Box" data-price="Rs. 410.00" data-image="{{ asset('images/products/p003.jpg') }}" data-url="{{ route('products') }}" aria-label="Add P003 to wishlist">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                             </svg>
@@ -146,7 +146,7 @@
                 <div class="best-collections__card">
                     <div class="best-collections__card-image-wrap">
                         <img src="{{ asset('images/products/p004.jpg') }}" alt="P004 Small Square Tin Box" class="best-collections__card-img" loading="lazy">
-                        <button type="button" class="best-collections__wishlist-btn wishlist-toggle" data-id="p004" data-title="P004 Small Square Tin Box" data-price="Rs. 290.00" data-image="{{ asset('images/products/p004.jpg') }}" data-url="{{ route('catalog') }}" aria-label="Add P004 to wishlist">
+                        <button type="button" class="best-collections__wishlist-btn wishlist-toggle" data-id="p004" data-title="P004 Small Square Tin Box" data-price="Rs. 290.00" data-image="{{ asset('images/products/p004.jpg') }}" data-url="{{ route('products') }}" aria-label="Add P004 to wishlist">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                             </svg>
@@ -172,7 +172,7 @@
                 <div class="best-collections__card">
                     <div class="best-collections__card-image-wrap">
                         <img src="{{ asset('images/products/p005.jpg') }}" alt="P005 Big Square Tin Box" class="best-collections__card-img" loading="lazy">
-                        <button type="button" class="best-collections__wishlist-btn wishlist-toggle" data-id="p005" data-title="P005 Big Square Tin Box" data-price="Rs. 730.00" data-image="{{ asset('images/products/p005.jpg') }}" data-url="{{ route('catalog') }}" aria-label="Add P005 to wishlist">
+                        <button type="button" class="best-collections__wishlist-btn wishlist-toggle" data-id="p005" data-title="P005 Big Square Tin Box" data-price="Rs. 730.00" data-image="{{ asset('images/products/p005.jpg') }}" data-url="{{ route('products') }}" aria-label="Add P005 to wishlist">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                             </svg>
@@ -206,7 +206,7 @@
 
         <!-- Centered Bottom CTA Button: View All Collections -->
         <div class="best-collections__cta-wrapper">
-            <a href="{{ route('catalog') }}" class="best-collections__cta-btn">
+            <a href="{{ route('products') }}" class="best-collections__cta-btn">
                 <svg class="best-collections__cta-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="20 12 20 22 4 22 4 12"></polyline>
                     <rect x="2" y="7" width="20" height="5"></rect>

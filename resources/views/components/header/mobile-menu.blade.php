@@ -5,7 +5,7 @@
         <div class="rc-mobile-drawer-header">
             <div class="rc-mobile-drawer-logo">
                 @if(file_exists(public_path('images/logo.png')))
-                    <img src="{{ asset('images/logo.png') }}" alt="Ruchi Chocolates" class="rc-drawer-logo-img">
+                    <img src="{{ asset('images/logo.png') }}" alt="Ruchi Chocolates" class="rc-drawer-logo-img" width="487" height="598">
                 @else
                     <span class="rc-drawer-logo-title">Ruchi Chocolates</span>
                 @endif
@@ -43,10 +43,10 @@
                     <a href="{{ route('home') }}" class="rc-mobile-nav-link {{ request()->routeIs('home') ? 'active' : '' }}" onclick="toggleRcMobileDrawer()">Home</a>
                 </li>
                 <li class="rc-mobile-nav-item">
-                    <a href="{{ route('products') }}" class="rc-mobile-nav-link {{ request()->routeIs('products') || request()->routeIs('new-arrivals') ? 'active' : '' }}" onclick="toggleRcMobileDrawer()">Our Products</a>
+                    <a href="{{ route('products') }}" class="rc-mobile-nav-link {{ request()->routeIs('products') ? 'active' : '' }}" onclick="toggleRcMobileDrawer()">Our Products</a>
                 </li>
                 <li class="rc-mobile-nav-item">
-                    <a href="{{ route('customised-gifts') }}" class="rc-mobile-nav-link {{ request()->routeIs('customised-gifts') || request()->routeIs('trending') ? 'active' : '' }}" onclick="toggleRcMobileDrawer()">Customised Gifts</a>
+                    <a href="{{ route('customised-gifts') }}" class="rc-mobile-nav-link {{ request()->routeIs('customised-gifts') ? 'active' : '' }}" onclick="toggleRcMobileDrawer()">Customised Gifts</a>
                 </li>
                 <li class="rc-mobile-nav-item">
                     <a href="{{ route('about') }}" class="rc-mobile-nav-link {{ request()->routeIs('about') ? 'active' : '' }}" onclick="toggleRcMobileDrawer()">About Us</a>
